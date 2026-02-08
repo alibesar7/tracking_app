@@ -194,7 +194,8 @@
   "all_notifications_cleared": "تم مسح جميع الإشعارات",
   "notification_deleted_successfully": "تم حذف الإشعار بنجاح",
   "clear_all": "مسح الكل",
-  "no_notifications_yet": "لا توجد اشعارات حاليا"
+  "no_notifications_yet": "لا توجد اشعارات حاليا",
+  "orders": "الطلبات"
 
 
 }

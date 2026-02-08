@@ -197,5 +197,6 @@
   "all_notifications_cleared": "All notifications cleared",
   "notification_deleted_successfully": "Notification deleted successfully",
   "clear_all": "Clear all",
-  "no_notifications_yet": "No Notifications Yet"
+  "no_notifications_yet": "No Notifications Yet",
+  "orders" : "Orders"
 }

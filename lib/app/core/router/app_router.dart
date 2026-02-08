@@ -1,5 +1,14 @@
 import 'package:go_router/go_router.dart';
+import 'package:tracking_app/app/core/router/route_names.dart';
+import 'package:tracking_app/features/app_sections/presentation/pages/app_sections.dart';
 
-import '../../config/di/di.dart';
+final GoRouter appRouter = GoRouter(
+  initialLocation: RouteNames.appStart,
 
-final GoRouter appRouter = GoRouter(routes: []);
+  routes: [
+    GoRoute(
+      path: RouteNames.appStart,
+      builder: (context, state) => AppSections(),
+    ),
+  ],
+);
