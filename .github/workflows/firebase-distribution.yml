@@ -1,0 +1,76 @@
+name: Build & Upload to Firebase App Distribution
+
+on:
+  pull_request:
+    types: [labeled]
+
+jobs:
+  build-and-distribute:
+    if: github.event.label.name == 'ReadyForTesting'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Clean Generated Code
+        run: flutter pub run build_runner clean
+
+      - name: Generate Code (build_runner)
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      - name: Generate Localization Keys
+        run: flutter pub run easy_localization:generate -S assets/translations -f keys -o locale_keys.g.dart
+
+      - name: Build APK
+        run: flutter build apk --release
+
+      - name: Run tests
+        run: flutter test
+
+      - name: Extract release notes and testers from PR
+        uses: actions/github-script@v6
+        id: pr_data
+        with:
+          script: |
+            const title = context.payload.pull_request.title;
+            const body = context.payload.pull_request.body || '';
+
+            const testersMatch = body.match(/Testers:\n([\s\S]*)/);
+            let testers = 'testers';
+
+            if (testersMatch) {
+              testers = testersMatch[1]
+                .split('\n')
+                .map(e => e.trim())
+                .filter(e => e)
+                .join(',');
+            }
+
+            const releaseNotes = `PR Title:\n${title}\n\nDescription:\n${body}`;
+
+            core.setOutput('testers', testers);
+            core.setOutput('releaseNotes', releaseNotes);
+
+      - name: Upload APK to Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{ secrets.FIREBASE_APP_ID }}
+          serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          testers: ${{ steps.pr_data.outputs.testers }}
+          releaseNotes: ${{ steps.pr_data.outputs.releaseNotes }}
+          file: build/app/outputs/flutter-apk/app-release.apk
