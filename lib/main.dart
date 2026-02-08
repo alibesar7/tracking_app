@@ -4,6 +4,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:tracking_app/app/config/di/di.dart';
 import 'package:tracking_app/app/core/firebase/cloud_messaging.dart';
+import 'package:tracking_app/app/core/router/app_router.dart';
+import 'package:tracking_app/app/core/ui_helper/theme/app_theme.dart';
 import 'package:tracking_app/firebase_options.dart';
 
 Future<void> main() async {
@@ -26,11 +28,33 @@ Future<void> main() async {
   );
 }
 
-class TrackingApp extends StatelessWidget {
+class TrackingApp extends StatefulWidget {
   const TrackingApp({super.key});
+  @override
+  State<TrackingApp> createState() => _TrackingAppState();
+}
+
+class _TrackingAppState extends State<TrackingApp> {
+  @override
+  initState() {
+    super.initState();
+    FirebaseMessaging.instance.requestPermission(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+    FirebaseMessaging.onMessage.listen(CloudMessaging.showFlutterNotification);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
+      theme: AppTheme.lightTheme,
+      routerConfig: appRouter,
+    );
   }
 }
