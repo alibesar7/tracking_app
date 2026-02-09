@@ -32,6 +32,10 @@ migrate_working_dir/
 .pub/
 /build/
 /coverage/
+# Generated Dart files
+*.g.dart
+*.mocks.dart
+
 
 # Symbolication related
 app.*.symbols
