@@ -5,7 +5,7 @@ class Resource<T> {
   T? data;
   String? error;
 
-  var message;
+  String? message;
   Resource({required this.status, this.data, this.error});
 
   factory Resource.success(T? data) {

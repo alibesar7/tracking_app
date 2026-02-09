@@ -19,7 +19,7 @@ class AppConstants {
       'You need to register or login to access your profile';
   static const String termsAndConditions = 'Terms and Conditions';
   static const String aboutUs = 'About Us';
-  static const String Language = 'Language';
+  static const String language = 'Language';
   static const String notifications = 'Notifications';
   static const String savedaddresses = 'Saved Addresses';
   static const String myOrders = 'My Orders';

@@ -69,10 +69,10 @@ class AppTheme {
       surfaceTintColor: AppColors.white,
       labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
       elevation: 0,
-      iconTheme: MaterialStateProperty.resolveWith<IconThemeData>((
-        Set<MaterialState> states,
+      iconTheme: WidgetStateProperty.resolveWith<IconThemeData>((
+        Set<WidgetState> states,
       ) {
-        if (states.contains(MaterialState.selected)) {
+        if (states.contains(WidgetState.selected)) {
           return IconThemeData(color: AppColors.white, size: 24);
         }
         return IconThemeData(color: AppColors.pink, size: 24);
