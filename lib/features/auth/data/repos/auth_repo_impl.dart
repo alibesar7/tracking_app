@@ -1,1 +1,25 @@
+import 'package:injectable/injectable.dart';
+import 'package:tracking_app/app/core/network/api_result.dart';
+import 'package:tracking_app/features/auth/data/datasource/auth_remote_datasource.dart';
+import 'package:tracking_app/features/auth/data/model/request/LoginRequest.dart';
+import 'package:tracking_app/features/auth/data/model/response/LoginResponse.dart';
+import 'package:tracking_app/features/auth/domain/repos/auth_repo.dart';
 
+@Injectable(as: AuthRepo)
+class AuthRepoImp implements AuthRepo {
+  final AuthRemoteDataSource authDatasource;
+  AuthRepoImp(this.authDatasource);
+
+  @override
+  Future<ApiResult<LoginResponse>> login(String email, String password) async {
+    final loginRequest = LoginRequest(email: email, password: password);
+    final result = await authDatasource.login(loginRequest);
+    if (result is SuccessApiResult<LoginResponse>) {
+      return SuccessApiResult<LoginResponse>(data: result.data);
+    }
+    if (result is ErrorApiResult<LoginResponse>) {
+      return ErrorApiResult<LoginResponse>(error: result.error);
+    }
+    return ErrorApiResult<LoginResponse>(error: 'Unknown error');
+  }
+}
