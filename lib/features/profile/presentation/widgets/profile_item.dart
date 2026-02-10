@@ -3,7 +3,8 @@ import 'package:tracking_app/app/core/ui_helper/color/colors.dart';
 import 'package:tracking_app/app/core/ui_helper/style/font_style.dart';
 
 class ProfileItem extends StatelessWidget {
-  const ProfileItem({super.key,
+  const ProfileItem({
+    super.key,
     required this.itemName,
     required this.icon,
     this.onTap,
@@ -17,16 +18,11 @@ class ProfileItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return ListTile(
       leading: Icon(icon, color: AppColors.grey),
-      title: Text(
-        itemName,
-        style: AppStyles.font12Black
-      ),
-      trailing: trailing ,
+      title: Text(itemName, style: AppStyles.font12Black),
+      trailing: trailing,
       onTap: onTap,
     );
   }
 }
-

@@ -46,7 +46,7 @@ class ProfilePageBody extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(height: 16,),
+          SizedBox(height: 16),
           InfoCard(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -69,7 +69,7 @@ class ProfilePageBody extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(height: 16,),
+          SizedBox(height: 16),
           ProfileItem(
             itemName: LocaleKeys.language.tr(),
             icon: Icons.language,
@@ -95,7 +95,6 @@ class ProfilePageBody extends StatelessWidget {
               icon: Icon(Icons.logout, color: AppColors.pink),
             ),
           ),
-
         ],
       ),
     );

@@ -9,7 +9,8 @@ class LanguageTile extends StatelessWidget {
   final Locale groupValue;
   final ValueChanged<Locale> onChanged;
 
-  const LanguageTile({super.key,
+  const LanguageTile({
+    super.key,
     required this.title,
     required this.value,
     required this.groupValue,

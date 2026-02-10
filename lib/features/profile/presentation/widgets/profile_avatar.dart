@@ -4,11 +4,7 @@ class ProfileAvatar extends StatelessWidget {
   final String? imageUrl;
   final String userName;
 
-  const ProfileAvatar({
-    super.key,
-    this.imageUrl,
-    required this.userName,
-  });
+  const ProfileAvatar({super.key, this.imageUrl, required this.userName});
 
   String getInitials(String name) {
     if (name.isEmpty) return '';
@@ -35,19 +31,19 @@ class ProfileAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     return CircleAvatar(
       radius: 30,
-      backgroundColor:
-      imageUrl == null ? getRandomBackgroundColor(userName) : null,
-      backgroundImage:
-      imageUrl != null ? NetworkImage(imageUrl!) : null,
+      backgroundColor: imageUrl == null
+          ? getRandomBackgroundColor(userName)
+          : null,
+      backgroundImage: imageUrl != null ? NetworkImage(imageUrl!) : null,
       child: imageUrl == null
           ? Text(
-        getInitials(userName).toUpperCase(),
-        style: TextStyle(
-          fontSize: 50 / 2,
-          fontWeight: FontWeight.bold,
-          color: Colors.white,
-        ),
-      )
+              getInitials(userName).toUpperCase(),
+              style: TextStyle(
+                fontSize: 50 / 2,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            )
           : null,
     );
   }
