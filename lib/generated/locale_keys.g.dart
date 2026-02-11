@@ -2,7 +2,7 @@
 
 // ignore_for_file: constant_identifier_names
 
-abstract class LocaleKeys {
+abstract class  LocaleKeys {
   static const firstName = 'firstName';
   static const lastName = 'lastName';
   static const email = 'email';
@@ -65,8 +65,7 @@ abstract class LocaleKeys {
   static const resend = 'resend';
   static const resetPassword = 'resetPassword';
   static const yourEmailVerified = 'yourEmailVerified';
-  static const check_email_for_verification_code =
-      'check_email_for_verification_code';
+  static const check_email_for_verification_code = 'check_email_for_verification_code';
   static const passwordValidation = 'passwordValidation';
   static const connectionTimeout = 'connectionTimeout';
   static const noInternet = 'noInternet';
@@ -112,10 +111,12 @@ abstract class LocaleKeys {
   static const confirmNewPassword = 'confirmNewPassword';
   static const update = 'update';
   static const changePassword = 'changePassword';
+  static const profileUpdatedSuccessfully = 'profileUpdatedSuccessfully';
+  static const tokenNotFound = 'tokenNotFound';
+  static const editProfile = 'editProfile';
   static const no_products_found = 'no_products_found';
   static const change_language = 'change_language';
   static const arabic = 'arabic';
-  static const english = 'english';
   static const initialSearchMsg = 'initialSearchMsg';
   static const welcomeMessage = 'welcomeMessage';
   static const home = 'home';
@@ -134,7 +135,6 @@ abstract class LocaleKeys {
   static const myOrders = 'myOrders';
   static const noName = 'noName';
   static const noEmail = 'noEmail';
-  static const editProfile = 'editProfile';
   static const logout = 'logout';
   static const logoutFailed = 'logoutFailed';
   static const order_success = 'order_success';
@@ -152,8 +152,7 @@ abstract class LocaleKeys {
   static const cash_on_delivery = 'cash_on_delivery';
   static const credit_card = 'credit_card';
   static const it_is_a_gift = 'it_is_a_gift';
-  static const recipient_name = 'recipient_name';
-  static const recipient_phone = 'recipient_phone';
+  static const Recipient_phone = 'Recipient_phone';
   static const place_order = 'place_order';
   static const instant = 'instant';
   static const arrive_by_datetime = 'arrive_by_datetime';
@@ -168,16 +167,15 @@ abstract class LocaleKeys {
   static const enter_address = 'enter_address';
   static const phone_number = 'phone_number';
   static const enter_phone_number = 'enter_phone_number';
+  static const recipient_name = 'recipient_name';
   static const enter_recipient_name = 'enter_recipient_name';
   static const save_address = 'save_address';
   static const area = 'area';
   static const city = 'city';
   static const location_permission = 'location_permission';
   static const location_service_off_message = 'location_service_off_message';
-  static const location_permission_denied_forever_message =
-      'location_permission_denied_forever_message';
-  static const location_permission_denied_message =
-      'location_permission_denied_message';
+  static const location_permission_denied_forever_message = 'location_permission_denied_forever_message';
+  static const location_permission_denied_message = 'location_permission_denied_message';
   static const open_settings = 'open_settings';
   static const open_location_settings = 'open_location_settings';
   static const allow_location = 'allow_location';
@@ -186,12 +184,14 @@ abstract class LocaleKeys {
   static const failed_to_save_address = 'failed_to_save_address';
   static const addNewAddress = 'addNewAddress';
   static const savedAddress = 'savedAddress';
-  static const discount = 'discount';
+  static const recipient_phone = 'recipient_phone';
+  static const english = 'english';
   static const sortBy = 'sortBy';
   static const lowestPrice = 'lowestPrice';
   static const highestPrice = 'highestPrice';
   static const newest = 'newest';
   static const oldest = 'oldest';
+  static const discount = 'discount';
   static const filter = 'filter';
   static const active = 'active';
   static const completed = 'completed';
@@ -199,8 +199,8 @@ abstract class LocaleKeys {
   static const track_order = 'track_order';
   static const order_number = 'order_number';
   static const all_notifications_cleared = 'all_notifications_cleared';
-  static const notification_deleted_successfully =
-      'notification_deleted_successfully';
+  static const notification_deleted_successfully = 'notification_deleted_successfully';
   static const clear_all = 'clear_all';
   static const no_notifications_yet = 'no_notifications_yet';
+
 }
