@@ -16,6 +16,8 @@ import '../../../features/profile/api/profile_remote_datasource_imp.dart'
     as _i899;
 import '../../../features/profile/data/datasorce/profile_remote_datasource.dart'
     as _i943;
+import '../../../features/profile/data/repo/profile_repo_imp.dart' as _i1048;
+import '../../../features/profile/domain/repo/profile_repo.dart' as _i863;
 import '../../../features/profile/domain/usecases/edit_profile_usecase.dart'
     as _i221;
 import '../../../features/profile/domain/usecases/upload_profile_photo_usecase.dart'
@@ -35,13 +37,6 @@ extension GetItInjectableX on _i174.GetIt {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final networkModule = _$NetworkModule();
     gh.lazySingleton<_i603.AuthStorage>(() => _i603.AuthStorage());
-    gh.factory<_i603.ProfileCubit>(
-      () => _i603.ProfileCubit(
-        gh<_i221.EditProfileUseCase>(),
-        gh<_i884.UploadProfilePhotoUseCase>(),
-        gh<_i603.AuthStorage>(),
-      ),
-    );
     gh.lazySingleton<_i361.Dio>(
       () => networkModule.dio(gh<_i603.AuthStorage>()),
     );
@@ -50,6 +45,22 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i943.ProfileRemoteDatasource>(
       () => _i899.ProfileRemoteDatasourceImp(gh<_i890.ApiClient>()),
+    );
+    gh.factory<_i863.ProfileRepo>(
+      () => _i1048.ProfileRepoImpl(gh<_i943.ProfileRemoteDatasource>()),
+    );
+    gh.factory<_i221.EditProfileUseCase>(
+      () => _i221.EditProfileUseCase(gh<_i863.ProfileRepo>()),
+    );
+    gh.factory<_i884.UploadProfilePhotoUseCase>(
+      () => _i884.UploadProfilePhotoUseCase(gh<_i863.ProfileRepo>()),
+    );
+    gh.factory<_i603.ProfileCubit>(
+      () => _i603.ProfileCubit(
+        gh<_i221.EditProfileUseCase>(),
+        gh<_i884.UploadProfilePhotoUseCase>(),
+        gh<_i603.AuthStorage>(),
+      ),
     );
     return this;
   }

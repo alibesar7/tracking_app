@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:tracking_app/app/core/router/route_names.dart';
+import 'package:tracking_app/features/profile/presentation/pages/edit_driver_profile_page.dart';
 import 'package:tracking_app/features/profile/presentation/pages/profile_page.dart';
 
 final GoRouter appRouter = GoRouter(
@@ -9,6 +10,11 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: RouteNames.profile,
       builder: (context, state) => const ProfilePage(),
+    ),
+
+    GoRoute(
+      path: RouteNames.editDriverProfile,
+      builder: (context, state) => const EditDriverProfilePage(),
     ),
   ],
 );

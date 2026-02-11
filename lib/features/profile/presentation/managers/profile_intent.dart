@@ -3,7 +3,6 @@ import 'dart:io';
 sealed class ProfileIntent {}
 
 class PerformEditProfile extends ProfileIntent {
-  final String token;
   final String? firstName;
   final String? lastName;
   final String? email;
@@ -13,7 +12,6 @@ class PerformEditProfile extends ProfileIntent {
   final String? vehicleLicense;
 
   PerformEditProfile({
-    required this.token,
     this.firstName,
     this.lastName,
     this.email,

@@ -1,10 +1,12 @@
 import 'dart:io';
+import 'package:injectable/injectable.dart';
 import 'package:tracking_app/app/core/network/api_result.dart';
 import 'package:tracking_app/features/profile/data/datasorce/profile_remote_datasource.dart';
 import 'package:tracking_app/features/profile/data/models/requests/edit_profile_request.dart';
 import 'package:tracking_app/features/profile/data/models/responses/edit_profile_response.dart';
 import 'package:tracking_app/features/profile/domain/repo/profile_repo.dart';
 
+@Injectable(as: ProfileRepo)
 class ProfileRepoImpl implements ProfileRepo {
   final ProfileRemoteDatasource profileDatasource;
 

@@ -31,7 +31,7 @@ class ProfileCubit extends Cubit<ProfileState> {
         _selectPhoto(intent as SelectPhotoIntent);
         break;
       case UploadSelectedPhotoIntent:
-        _uploadPhoto(intent as UploadSelectedPhotoIntent);
+        _uploadPhoto();
         break;
     }
   }
@@ -39,8 +39,17 @@ class ProfileCubit extends Cubit<ProfileState> {
   Future<void> _editProfile(PerformEditProfile intent) async {
     emit(state.copyWith(editProfileResource: Resource.loading()));
 
+    final token = await _authStorage.getToken();
+
+    if (token == null || token.isEmpty) {
+      emit(
+        state.copyWith(editProfileResource: Resource.error("Token not found")),
+      );
+      return;
+    }
+
     final result = await _editProfileUseCase.call(
-      token: intent.token,
+      token: 'Bearer $token',
       firstName: intent.firstName,
       lastName: intent.lastName,
       email: intent.email,
@@ -52,17 +61,23 @@ class ProfileCubit extends Cubit<ProfileState> {
 
     if (isClosed) return;
 
-    if (result is SuccessApiResult<EditProfileResponse>) {
-      final updatedUser = result.data.driver;
-      if (updatedUser != null) {
-        await _authStorage.saveUser(
-          DriverModel.fromEditProfileUser(updatedUser),
-        );
-      }
+    switch (result) {
+      case SuccessApiResult<EditProfileResponse>():
+        final updatedUser = result.data.driver;
+        if (updatedUser != null) {
+          await _authStorage.saveUser(
+            DriverModel.fromEditProfileUser(updatedUser),
+          );
+        }
 
-      emit(state.copyWith(editProfileResource: Resource.success(result.data)));
-    } else if (result is ErrorApiResult<EditProfileResponse>) {
-      emit(state.copyWith(editProfileResource: Resource.error(result.error)));
+        emit(
+          state.copyWith(editProfileResource: Resource.success(result.data)),
+        );
+        break;
+
+      case ErrorApiResult<EditProfileResponse>():
+        emit(state.copyWith(editProfileResource: Resource.error(result.error)));
+        break;
     }
   }
 
@@ -70,34 +85,47 @@ class ProfileCubit extends Cubit<ProfileState> {
     emit(state.copyWith(selectedPhoto: intent.photo));
   }
 
-  Future<void> _uploadPhoto(UploadSelectedPhotoIntent intent) async {
+  Future<void> _uploadPhoto() async {
     if (state.selectedPhoto == null) return;
 
     emit(state.copyWith(uploadPhotoResource: Resource.loading()));
 
+    final token = await _authStorage.getToken();
+
+    if (token == null || token.isEmpty) {
+      emit(
+        state.copyWith(uploadPhotoResource: Resource.error("Token not found")),
+      );
+      return;
+    }
+
     final result = await _uploadPhotoUseCase.call(
-      token: intent.token,
+      token: 'Bearer $token',
       photo: state.selectedPhoto!,
     );
 
     if (isClosed) return;
 
-    if (result is SuccessApiResult<EditProfileResponse>) {
-      final updatedUser = result.data.driver;
-      if (updatedUser != null) {
-        await _authStorage.saveUser(
-          DriverModel.fromEditProfileUser(updatedUser),
-        );
-      }
+    switch (result) {
+      case SuccessApiResult<EditProfileResponse>():
+        final updatedUser = result.data.driver;
+        if (updatedUser != null) {
+          await _authStorage.saveUser(
+            DriverModel.fromEditProfileUser(updatedUser),
+          );
+        }
 
-      emit(
-        state.copyWith(
-          selectedPhoto: null,
-          uploadPhotoResource: Resource.success(result.data),
-        ),
-      );
-    } else if (result is ErrorApiResult<EditProfileResponse>) {
-      emit(state.copyWith(uploadPhotoResource: Resource.error(result.error)));
+        emit(
+          state.copyWith(
+            selectedPhoto: null,
+            uploadPhotoResource: Resource.success(result.data),
+          ),
+        );
+        break;
+
+      case ErrorApiResult<EditProfileResponse>():
+        emit(state.copyWith(uploadPhotoResource: Resource.error(result.error)));
+        break;
     }
   }
 }
