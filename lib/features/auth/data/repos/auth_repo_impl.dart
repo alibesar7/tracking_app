@@ -5,11 +5,26 @@ import 'package:tracking_app/features/auth/data/mappers/change_password_dto_mapp
 import 'package:tracking_app/features/auth/data/models/change_password_dto.dart';
 import 'package:tracking_app/features/auth/domain/models/change_password_model.dart';
 import 'package:tracking_app/features/auth/domain/repos/auth_repo.dart';
+import 'package:tracking_app/features/auth/data/model/request/LoginRequest.dart';
+import 'package:tracking_app/features/auth/data/model/response/LoginResponse.dart';
 
 @Injectable(as: AuthRepo)
-class AuthRepoImpl implements AuthRepo {
-  AuthRemoteDatasource authDatasource;
-  AuthRepoImpl(this.authDatasource);
+class AuthRepoImp implements AuthRepo {
+  final AuthRemoteDataSource authDatasource;
+  AuthRepoImp(this.authDatasource);
+
+  @override
+  Future<ApiResult<LoginResponse>> login(String email, String password) async {
+    final loginRequest = LoginRequest(email: email, password: password);
+    final result = await authDatasource.login(loginRequest);
+    if (result is SuccessApiResult<LoginResponse>) {
+      return SuccessApiResult<LoginResponse>(data: result.data);
+    }
+    if (result is ErrorApiResult<LoginResponse>) {
+      return ErrorApiResult<LoginResponse>(error: result.error);
+    }
+    return ErrorApiResult<LoginResponse>(error: 'Unknown error');
+  }
 
   @override
   Future<ApiResult<ChangePasswordModel>> changePassword({
