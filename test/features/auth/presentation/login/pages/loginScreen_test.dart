@@ -1,16 +1,11 @@
-import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
 import 'package:tracking_app/app/config/auth_storage/auth_storage.dart';
-import 'package:tracking_app/app/config/base_state/base_state.dart';
 import 'package:tracking_app/features/auth/domain/repos/auth_repo.dart';
 import 'package:tracking_app/features/auth/domain/usecase/login_usecase.dart';
 import 'package:tracking_app/features/auth/presentation/login/manager/login_cubit.dart';
-import 'package:tracking_app/features/auth/presentation/login/manager/login_states.dart';
 import 'package:tracking_app/features/auth/presentation/login/pages/loginScreen.dart';
 
 import 'loginScreen_test.mocks.dart';
