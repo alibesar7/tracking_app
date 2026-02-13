@@ -2,7 +2,7 @@
 
 // ignore_for_file: constant_identifier_names
 
-abstract class LocaleKeys {
+abstract class  LocaleKeys {
   static const firstName = 'firstName';
   static const lastName = 'lastName';
   static const email = 'email';
@@ -65,8 +65,7 @@ abstract class LocaleKeys {
   static const resend = 'resend';
   static const resetPassword = 'resetPassword';
   static const yourEmailVerified = 'yourEmailVerified';
-  static const check_email_for_verification_code =
-      'check_email_for_verification_code';
+  static const check_email_for_verification_code = 'check_email_for_verification_code';
   static const passwordValidation = 'passwordValidation';
   static const connectionTimeout = 'connectionTimeout';
   static const noInternet = 'noInternet';
@@ -174,10 +173,8 @@ abstract class LocaleKeys {
   static const city = 'city';
   static const location_permission = 'location_permission';
   static const location_service_off_message = 'location_service_off_message';
-  static const location_permission_denied_forever_message =
-      'location_permission_denied_forever_message';
-  static const location_permission_denied_message =
-      'location_permission_denied_message';
+  static const location_permission_denied_forever_message = 'location_permission_denied_forever_message';
+  static const location_permission_denied_message = 'location_permission_denied_message';
   static const open_settings = 'open_settings';
   static const open_location_settings = 'open_location_settings';
   static const allow_location = 'allow_location';
@@ -199,8 +196,8 @@ abstract class LocaleKeys {
   static const track_order = 'track_order';
   static const order_number = 'order_number';
   static const all_notifications_cleared = 'all_notifications_cleared';
-  static const notification_deleted_successfully =
-      'notification_deleted_successfully';
+  static const notification_deleted_successfully = 'notification_deleted_successfully';
   static const clear_all = 'clear_all';
   static const no_notifications_yet = 'no_notifications_yet';
+
 }

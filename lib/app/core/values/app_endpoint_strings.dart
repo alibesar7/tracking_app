@@ -1,9 +1,9 @@
 class AppEndpointString {
   static const String baseUrl = 'https://flower.elevateegy.com/api/v1/';
   static const String loginEndpoint = 'auth/signin';
-  static const String sendEmail = 'auth/forgotPassword';
-  static const String verifyResetCode = 'auth/verifyResetCode';
-  static const String resetPassword = 'auth/resetPassword';
+  static const String sendEmail = 'drivers/forgotPassword';
+  static const String verifyResetCode = 'drivers/verifyResetCode';
+  static const String resetPassword = 'drivers/resetPassword';
 
   static const String profileData = 'auth/profile-data';
   static const String uploadPhoto = 'auth/upload-photo';
