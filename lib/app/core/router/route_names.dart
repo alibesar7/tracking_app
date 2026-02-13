@@ -5,6 +5,8 @@ abstract class RouteNames {
   static const changePassword = '/changePassword';
   static const profile = '/profile';
   static const applyScreen = '/applyScreen';
+  static const onboarding = '/onboarding';
+
 
 
 }

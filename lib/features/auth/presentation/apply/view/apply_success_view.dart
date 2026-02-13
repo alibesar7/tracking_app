@@ -1,7 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../../../app/core/router/route_names.dart';
 import '../../../../../generated/locale_keys.g.dart';
 
 class ApplySuccessScreen extends StatelessWidget {
@@ -74,7 +76,7 @@ class ApplySuccessScreen extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).popUntil((route) => route.isFirst);
+                    context.go(RouteNames.login);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFFD01C68),

@@ -6,9 +6,14 @@ import 'package:tracking_app/features/auth/domain/entities/country_entity.dart';
 import 'package:tracking_app/features/auth/data/models/request/apply_request_model.dart';
 import 'package:tracking_app/features/auth/data/models/response/apply_response_model.dart';
 
+import '../../domain/models/change_password_model.dart';
 import '../../domain/repos/auth_repo.dart';
 import '../datasource/auth_remote_datasource.dart';
 import '../mapper/vehicles_mapper.dart';
+import '../mappers/change_password_dto_mapper.dart';
+import '../model/request/LoginRequest.dart';
+import '../model/response/LoginResponse.dart';
+import '../model/response/change_password_dto.dart';
 import '../models/response/vehicle_model.dart';
 
 @Injectable(as: AuthRepo)

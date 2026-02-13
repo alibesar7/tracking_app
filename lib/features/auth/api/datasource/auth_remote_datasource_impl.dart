@@ -11,6 +11,9 @@ import 'package:tracking_app/features/auth/data/models/response/apply_response_m
 import '../../../../app/core/api_manger/api_client.dart';
 import '../../../../app/core/network/safe_api_call.dart';
 import '../../data/datasource/auth_remote_datasource.dart';
+import '../../data/model/request/LoginRequest.dart';
+import '../../data/model/response/LoginResponse.dart';
+import '../../data/model/response/change_password_dto.dart';
 
 @Injectable(as: AuthRemoteDataSource)
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {

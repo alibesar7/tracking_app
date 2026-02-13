@@ -425,7 +425,6 @@ class _ApplyScreenState extends State<ApplyScreen> {
     );
   }
 
-  /// ✅ Upload field that stores a File (not String path)
   Widget _buildUploadField(
     String label,
     String hint, {
