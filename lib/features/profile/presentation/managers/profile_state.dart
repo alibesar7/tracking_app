@@ -7,12 +7,14 @@ class ProfileState {
   final Resource<EditProfileResponse> editProfileResource;
   final Resource<EditProfileResponse> uploadPhotoResource;
   final File? selectedPhoto;
+  final File? selectedVehicleLicense;
   final DriverModel? driver;
 
   ProfileState({
     Resource<EditProfileResponse>? editProfileResource,
     Resource<EditProfileResponse>? uploadPhotoResource,
     this.selectedPhoto,
+    this.selectedVehicleLicense,
     this.driver,
   }) : editProfileResource = editProfileResource ?? Resource.initial(),
        uploadPhotoResource = uploadPhotoResource ?? Resource.initial();
@@ -21,8 +23,10 @@ class ProfileState {
     Resource<EditProfileResponse>? editProfileResource,
     Resource<EditProfileResponse>? uploadPhotoResource,
     File? selectedPhoto,
+    File? selectedVehicleLicense,
     bool clearSelectedPhoto = false,
-    DriverModel? user,
+    bool clearVehicleLicense = false,
+    DriverModel? driver,
   }) {
     return ProfileState(
       editProfileResource: editProfileResource ?? this.editProfileResource,
@@ -30,7 +34,10 @@ class ProfileState {
       selectedPhoto: clearSelectedPhoto
           ? null
           : (selectedPhoto ?? this.selectedPhoto),
-      driver: user ?? this.driver,
+      selectedVehicleLicense: clearVehicleLicense
+          ? null
+          : (selectedVehicleLicense ?? this.selectedVehicleLicense),
+      driver: driver ?? this.driver,
     );
   }
 }

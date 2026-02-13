@@ -7,21 +7,12 @@ import 'package:tracking_app/features/profile/presentation/managers/profile_stat
 import 'edit_driver_profile_form.dart';
 
 class EditDriverProfilePageBody extends StatelessWidget {
-  final Map<String, dynamic>? userData;
-  const EditDriverProfilePageBody({
-    super.key,
-    this.userData,
-    DriverModel? user,
-  });
+  final DriverModel? user;
+
+  const EditDriverProfilePageBody({super.key, this.user});
 
   @override
   Widget build(BuildContext context) {
-    final firstName = userData?["firstName"] ?? '';
-    final lastName = userData?["lastName"] ?? '';
-    final email = userData?["email"] ?? '';
-    final phone = userData?["phone"] ?? '';
-    final photo = userData?["photo"];
-
     return BlocListener<ProfileCubit, ProfileState>(
       listenWhen: (prev, curr) =>
           prev.editProfileResource != curr.editProfileResource ||
@@ -46,11 +37,11 @@ class EditDriverProfilePageBody extends StatelessWidget {
         }
       },
       child: EditDriverProfileForm(
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        phone: phone,
-        photo: photo,
+        firstName: user?.firstName ?? '',
+        lastName: user?.lastName ?? '',
+        email: user?.email ?? '',
+        phone: user?.phone ?? '',
+        photo: user?.photo,
       ),
     );
   }

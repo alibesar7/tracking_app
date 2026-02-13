@@ -74,22 +74,27 @@ class ProfilePageBody extends StatelessWidget {
             child: Row(
               children: [
                 Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("Vehicle Info", style: AppStyles.black14bold),
-                      const SizedBox(height: 5),
-                      Text(
-                        user?.vehicleType ?? "N/A",
-                        style: AppStyles.black14Medium,
-                      ),
-                      const SizedBox(height: 5),
-                      Text(
-                        user?.vehicleNumber ?? "N/A",
-                        style: AppStyles.black14Medium,
-                      ),
-                    ],
+                  child: InkWell(
+                    onTap: () {
+                      context.push(RouteNames.editVehicle, extra: user);
+                    },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Vehicle Info", style: AppStyles.black14bold),
+                        const SizedBox(height: 5),
+                        Text(
+                          user?.vehicleType ?? "N/A",
+                          style: AppStyles.black14Medium,
+                        ),
+                        const SizedBox(height: 5),
+                        Text(
+                          user?.vehicleNumber ?? "N/A",
+                          style: AppStyles.black14Medium,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 const Icon(Icons.arrow_forward_ios),

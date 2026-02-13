@@ -31,3 +31,10 @@ class UploadSelectedPhotoIntent extends ProfileIntent {
   final String token;
   UploadSelectedPhotoIntent(this.token);
 }
+
+class SelectVehicleLicenseIntent extends ProfileIntent {
+  final File file;
+  SelectVehicleLicenseIntent(this.file);
+}
+
+class UploadVehicleLicenseIntent extends ProfileIntent {}
