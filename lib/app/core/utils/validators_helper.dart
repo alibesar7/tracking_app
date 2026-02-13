@@ -11,27 +11,32 @@ class Validators {
   }
 
   static String? validatePassword(String? value) {
-    if (value == null || value.isEmpty)
+    if (value == null || value.isEmpty) {
       return UserErrorMessages.passwordRequired;
+    }
     if (value.length < 6) return UserErrorMessages.least6Characters;
-    if (!RegExp(r'[A-Z]').hasMatch(value))
+    if (!RegExp(r'[A-Z]').hasMatch(value)) {
       return UserErrorMessages.passwordWithCapital;
-    if (!RegExp(r'[0-9]').hasMatch(value))
+    }
+    if (!RegExp(r'[0-9]').hasMatch(value)) {
       return UserErrorMessages.passwordWithNumber;
+    }
     return null;
   }
 
   static String? validateRePassword(String? value, String password) {
-    if (value == null || value.isEmpty)
+    if (value == null || value.isEmpty) {
       return UserErrorMessages.confirmPassword;
+    }
     if (value != password) return UserErrorMessages.passwordDontMatch;
     return null;
   }
 
   static String? validatePhone(String? value) {
     if (value == null || value.isEmpty) return UserErrorMessages.phoneRequired;
-    if (!RegExp(r'^01[0-9]{9}$').hasMatch(value))
+    if (!RegExp(r'^01[0-9]{9}$').hasMatch(value)) {
       return UserErrorMessages.invalidNumber;
+    }
     return null;
   }
 

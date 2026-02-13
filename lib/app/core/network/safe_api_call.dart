@@ -8,7 +8,6 @@ Future<ApiResult<T>> safeApiCall<T>({
   required Future<HttpResponse<T>> Function() call,
   bool isBaseResponse = false,
 }) async {
-  print('safeApiCall: Starting API call, isBaseResponse=$isBaseResponse');
   try {
     final response = await call();
     if (response.response.statusCode! >= 200 &&

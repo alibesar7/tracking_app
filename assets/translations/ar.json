@@ -195,7 +195,9 @@
   "notification_deleted_successfully": "تم حذف الإشعار بنجاح",
   "clear_all": "مسح الكل",
   "no_notifications_yet": "لا توجد اشعارات حاليا",
-  "orders": "الطلبات"
-
-
+  "orders": "الطلبات",
+  "onboardingTitle": "مرحبًا بك ",
+  "onboardingDescription": "في تطبيق سائق Flowery",
+  "applyNow": "قدّم الآن",
+  "wrongEmailOrPassword": "البريد الإلكتروني أو كلمة المرور غير صحيحة"
 }
