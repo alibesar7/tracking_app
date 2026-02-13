@@ -137,7 +137,6 @@ class _ApplyScreenState extends State<ApplyScreen> {
                       decoration: InputDecoration(
                         labelText: LocaleKeys.country.tr(),
                         border: const OutlineInputBorder(),
-                        prefixIcon: const Icon(Icons.flag),
                       ),
                       value: _selectedCountry,
                       items: state.countries.map((country) {
