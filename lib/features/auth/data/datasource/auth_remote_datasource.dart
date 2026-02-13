@@ -1,4 +1,3 @@
-import 'package:injectable/injectable.dart';
 import 'package:tracking_app/app/core/network/api_result.dart';
 import 'package:tracking_app/features/auth/data/models/request/forget_password_request.dart';
 import 'package:tracking_app/features/auth/data/models/request/resetpassword_request.dart';
