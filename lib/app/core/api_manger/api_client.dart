@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
 import 'package:tracking_app/features/auth/data/model/request/LoginRequest.dart';
 import 'package:tracking_app/features/auth/data/model/response/LoginResponse.dart';
