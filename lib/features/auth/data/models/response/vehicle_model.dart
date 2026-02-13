@@ -5,6 +5,7 @@ part 'vehicle_model.g.dart';
 
 @JsonSerializable()
 class VehicleModel {
+  @JsonKey(name:'_id')
   final String? id;
   final String ?type;
   final String? image;

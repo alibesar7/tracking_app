@@ -20,6 +20,7 @@ import '../../../features/auth/data/datasource/country_local_datasource.dart'
     as _i783;
 import '../../../features/auth/data/repos/auth_repo_impl.dart' as _i566;
 import '../../../features/auth/domain/repos/auth_repo.dart' as _i712;
+import '../../../features/auth/domain/usecase/apply_usecase.dart' as _i412;
 import '../../../features/auth/domain/usecase/get_all_vehicles_usecase.dart'
     as _i1015;
 import '../../../features/auth/domain/usecase/get_countries_usecase.dart'
@@ -55,11 +56,14 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i566.AuthRepoImp(gh<_i708.AuthRemoteDataSource>()));
     gh.lazySingleton<_i1015.GetAllVehiclesUseCase>(
         () => _i1015.GetAllVehiclesUseCase(gh<_i712.AuthRepo>()));
+    gh.lazySingleton<_i412.ApplyUseCase>(
+        () => _i412.ApplyUseCase(gh<_i712.AuthRepo>()));
     gh.factory<_i940.GetCountriesUseCase>(
         () => _i940.GetCountriesUseCase(gh<_i712.AuthRepo>()));
     gh.factory<_i377.ApplyCubit>(() => _i377.ApplyCubit(
           gh<_i940.GetCountriesUseCase>(),
           gh<_i1015.GetAllVehiclesUseCase>(),
+          gh<_i412.ApplyUseCase>(),
         ));
     return this;
   }

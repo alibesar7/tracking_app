@@ -1,9 +1,10 @@
-
 import 'package:injectable/injectable.dart';
 import 'package:tracking_app/app/core/network/api_result.dart';
 import 'package:tracking_app/features/auth/data/models/response/vechicles_entity.dart';
 import 'package:tracking_app/features/auth/data/models/response/vehicles_response_model.dart';
 import 'package:tracking_app/features/auth/domain/entities/country_entity.dart';
+import 'package:tracking_app/features/auth/data/models/request/apply_request_model.dart';
+import 'package:tracking_app/features/auth/data/models/response/apply_response_model.dart';
 
 import '../../domain/repos/auth_repo.dart';
 import '../datasource/auth_remote_datasource.dart';
@@ -18,15 +19,15 @@ class AuthRepoImp implements AuthRepo {
   @override
   Future<ApiResult<List<VehicleModel>>> getAllVehicles() async {
     final result = await authDatasource.getAllVehicle();
-    switch(result){
-
+    switch (result) {
       case SuccessApiResult<VehiclesResponse>():
-        return SuccessApiResult(data: result.data.vehicles.map(
-                (v){
-                  return v.toVehicleType();
-                }).toList(),);
+        return SuccessApiResult(
+          data: result.data.vehicles.map((v) {
+            return v.toVehicleType();
+          }).toList(),
+        );
       case ErrorApiResult<VehiclesResponse>():
-       return ErrorApiResult(error: result.error);
+        return ErrorApiResult(error: result.error);
     }
   }
 
@@ -40,6 +41,18 @@ class AuthRepoImp implements AuthRepo {
     }
   }
 
+  @override
+  Future<ApiResult<ApplyResponseModel>> apply(
+    ApplyRequestModel applyRequestModel,
+  ) async {
+    final result = await authDatasource.apply(applyRequestModel);
+    switch (result) {
+      case SuccessApiResult<ApplyResponseModel>():
+        return SuccessApiResult(data: result.data);
+      case ErrorApiResult<ApplyResponseModel>():
+        return ErrorApiResult(error: result.error);
+    }
+  }
 
   // @override
   // Future<ApiResult<SignupModel>> signup({
@@ -71,7 +84,4 @@ class AuthRepoImp implements AuthRepo {
   //       );
   //   }
   // }
-
-
 }
-

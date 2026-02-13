@@ -47,18 +47,17 @@ class _ApiClient implements ApiClient {
   }
 
   @override
-  Future<HttpResponse<ApplyResponseModel>> apply(
-      ApplyRequestModel applyRequest) async {
+  Future<HttpResponse<ApplyResponseModel>> apply(FormData formData) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    _data.addAll(applyRequest.toJson());
+    final _data = formData;
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<HttpResponse<ApplyResponseModel>>(Options(
-      method: 'GET',
+      method: 'POST',
       headers: _headers,
       extra: _extra,
+      contentType: 'multipart/form-data',
     )
             .compose(
               _dio.options,

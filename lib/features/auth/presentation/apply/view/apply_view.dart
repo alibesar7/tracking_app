@@ -1,13 +1,20 @@
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import '../../../../../generated/locale_keys.g.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'apply_success_view.dart';
+import '../../../../../generated/locale_keys.g.dart';
 import '../../../../../app/config/di/di.dart';
 import '../manager/apply_cubit.dart';
 import '../manager/apply_state.dart';
 import '../manager/apply_intent.dart';
 import '../../../../../app/core/widgets/custom_text_form_field.dart';
 import '../../../../../app/core/utils/validators_helper.dart';
+import 'package:tracking_app/features/auth/domain/entities/country_entity.dart';
+import 'package:tracking_app/features/auth/data/models/request/apply_request_model.dart';
 
 class ApplyScreen extends StatefulWidget {
   const ApplyScreen({super.key});
@@ -18,11 +25,11 @@ class ApplyScreen extends StatefulWidget {
 
 class _ApplyScreenState extends State<ApplyScreen> {
   final _formKey = GlobalKey<FormState>();
+  final ImagePicker _picker = ImagePicker();
 
   // Controllers
   final _firstNameController = TextEditingController();
-  final _secondNameController =
-      TextEditingController(); // Design says "Second legal name", could be last name
+  final _secondNameController = TextEditingController();
   final _vehicleNumberController = TextEditingController();
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
@@ -32,7 +39,11 @@ class _ApplyScreenState extends State<ApplyScreen> {
 
   String? _selectedCountry;
   String? _selectedVehicleType;
-  String _selectedGender = 'female'; // Default based on design or none
+  String _selectedGender = 'female';
+
+  // ✅ Store picked files (NOT paths)
+  File? _vehicleLicenseFile;
+  File? _nidImgFile;
 
   @override
   void dispose() {
@@ -47,6 +58,30 @@ class _ApplyScreenState extends State<ApplyScreen> {
     super.dispose();
   }
 
+  Future<void> _pickImage(Function(File) onPicked) async {
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      final file = File(image.path);
+
+      final int sizeInBytes = await file.length();
+      final double sizeInMb = sizeInBytes / (1024 * 1024);
+
+      // ✅ allow up to 3MB (change if you want)
+      if (sizeInMb <= 3) {
+        onPicked(file);
+      } else {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("File size must be less than 3MB"),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,9 +90,9 @@ class _ApplyScreenState extends State<ApplyScreen> {
           icon: const Icon(Icons.arrow_back_ios),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
-          "Apply",
-          style: TextStyle(fontWeight: FontWeight.bold),
+        title: Text(
+          LocaleKeys.apply.tr(),
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         centerTitle: false,
       ),
@@ -72,14 +107,17 @@ class _ApplyScreenState extends State<ApplyScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const Text(
-                  "Welcome!!",
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                Text(
+                  LocaleKeys.welcomeApply.tr(),
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const SizedBox(height: 8),
-                const Text(
-                  "You want to be a delivery man?\nJoin our team",
-                  style: TextStyle(fontSize: 16, color: Colors.grey),
+                Text(
+                  LocaleKeys.joinTeamMessage.tr(),
+                  style: const TextStyle(fontSize: 16, color: Colors.grey),
                 ),
                 const SizedBox(height: 24),
 
@@ -90,15 +128,16 @@ class _ApplyScreenState extends State<ApplyScreen> {
                       return const Center(child: CircularProgressIndicator());
                     } else if (state.status == ApplyStatus.failure) {
                       return Text(
-                        state.errorMessage ?? "Failed to load countries",
+                        state.errorMessage ??
+                            LocaleKeys.failedToLoadCountries.tr(),
                         style: const TextStyle(color: Colors.red),
                       );
                     }
                     return DropdownButtonFormField<String>(
-                      decoration: const InputDecoration(
-                        labelText: "Country",
-                        border: OutlineInputBorder(),
-                        prefixIcon: Icon(Icons.flag),
+                      decoration: InputDecoration(
+                        labelText: LocaleKeys.country.tr(),
+                        border: const OutlineInputBorder(),
+                        prefixIcon: const Icon(Icons.flag),
                       ),
                       value: _selectedCountry,
                       items: state.countries.map((country) {
@@ -111,7 +150,8 @@ class _ApplyScreenState extends State<ApplyScreen> {
                         );
                       }).toList(),
                       onChanged: (v) => setState(() => _selectedCountry = v),
-                      validator: (v) => v == null ? "Required" : null,
+                      validator: (v) =>
+                          v == null ? LocaleKeys.requiredField.tr() : null,
                     );
                   },
                 ),
@@ -120,8 +160,8 @@ class _ApplyScreenState extends State<ApplyScreen> {
                 // First Name
                 CustomTextFormField(
                   controller: _firstNameController,
-                  label: "First legal name",
-                  hint: "Enter first legal name",
+                  label: LocaleKeys.firstLegalName.tr(),
+                  hint: LocaleKeys.enterFirstLegalName.tr(),
                   validator: Validators.validateName,
                 ),
                 const SizedBox(height: 16),
@@ -129,8 +169,8 @@ class _ApplyScreenState extends State<ApplyScreen> {
                 // Second Name
                 CustomTextFormField(
                   controller: _secondNameController,
-                  label: "Second legal name",
-                  hint: "Enter second legal name",
+                  label: LocaleKeys.secondLegalName.tr(),
+                  hint: LocaleKeys.enterSecondLegalName.tr(),
                   validator: Validators.validateName,
                 ),
                 const SizedBox(height: 16),
@@ -142,27 +182,30 @@ class _ApplyScreenState extends State<ApplyScreen> {
                       return const Center(child: CircularProgressIndicator());
                     } else if (state.vehiclesStatus == ApplyStatus.failure) {
                       return Text(
-                        state.vehiclesErrorMessage ?? "Failed to load vehicles",
+                        state.vehiclesErrorMessage ??
+                            LocaleKeys.failedToLoadVehicles.tr(),
                         style: const TextStyle(color: Colors.red),
                       );
                     }
                     return DropdownButtonFormField<String>(
-                      decoration: const InputDecoration(
-                        labelText: "Vehicle type",
-                        border: OutlineInputBorder(),
+                      decoration: InputDecoration(
+                        labelText: LocaleKeys.vehicleType.tr(),
+                        border: const OutlineInputBorder(),
                       ),
                       value: _selectedVehicleType,
                       items: state.vehicles
+                          .where((element) => element.id != null)
                           .map(
                             (e) => DropdownMenuItem(
-                              value: e.type,
+                              value: e.id,
                               child: Text(e.type ?? "Unknown"),
                             ),
                           )
                           .toList(),
                       onChanged: (v) =>
                           setState(() => _selectedVehicleType = v),
-                      validator: (v) => v == null ? "Required" : null,
+                      validator: (v) =>
+                          v == null ? LocaleKeys.requiredField.tr() : null,
                     );
                   },
                 ),
@@ -171,20 +214,20 @@ class _ApplyScreenState extends State<ApplyScreen> {
                 // Vehicle Number
                 CustomTextFormField(
                   controller: _vehicleNumberController,
-                  label: "Vehicle number",
-                  hint: "Enter vehicle number",
-                  validator: (v) => v?.isEmpty ?? true ? "Required" : null,
+                  label: LocaleKeys.vehicleNumber.tr(),
+                  hint: LocaleKeys.enterVehicleNumber.tr(),
+                  validator: (v) =>
+                      v?.isEmpty ?? true ? LocaleKeys.requiredField.tr() : null,
                 ),
                 const SizedBox(height: 16),
 
-                // Vehicle License Upload (Mock)
+                // Vehicle License Upload (File)
                 _buildUploadField(
-                  "Vehicle license",
-                  "Upload license photo",
-                  onSaved: (v) {},
-                  validator: (v) => v == null || v.isEmpty
-                      ? "License photo is required"
-                      : null,
+                  LocaleKeys.vehicleLicense.tr(),
+                  LocaleKeys.uploadLicensePhoto.tr(),
+                  onSaved: (f) => _vehicleLicenseFile = f,
+                  validator: (f) =>
+                      f == null ? LocaleKeys.licensePhotoRequired.tr() : null,
                 ),
                 const SizedBox(height: 16),
 
@@ -211,20 +254,21 @@ class _ApplyScreenState extends State<ApplyScreen> {
                 // ID Number
                 CustomTextFormField(
                   controller: _idNumberController,
-                  label: "ID number",
-                  hint: "Enter national ID number",
-                  validator: (v) => v?.isEmpty ?? true ? "Required" : null,
+                  label: LocaleKeys.idNumber.tr(),
+                  hint: LocaleKeys.enterNationalId.tr(),
+                  validator: (v) =>
+                      v?.isEmpty ?? true ? LocaleKeys.requiredField.tr() : null,
                   keyboardType: TextInputType.number,
                 ),
                 const SizedBox(height: 16),
 
-                // ID Image Upload (Mock)
+                // ID Image Upload (File)
                 _buildUploadField(
-                  "ID image",
-                  "Upload ID image",
-                  onSaved: (v) {},
-                  validator: (v) =>
-                      v == null || v.isEmpty ? "ID image is required" : null,
+                  LocaleKeys.idImage.tr(),
+                  LocaleKeys.uploadIdImage.tr(),
+                  onSaved: (f) => _nidImgFile = f,
+                  validator: (f) =>
+                      f == null ? LocaleKeys.idImageRequired.tr() : null,
                 ),
                 const SizedBox(height: 16),
 
@@ -258,9 +302,9 @@ class _ApplyScreenState extends State<ApplyScreen> {
                 // Gender
                 Row(
                   children: [
-                    const Text(
-                      "Gender",
-                      style: TextStyle(
+                    Text(
+                      LocaleKeys.gender.tr(),
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
@@ -268,7 +312,7 @@ class _ApplyScreenState extends State<ApplyScreen> {
                     const SizedBox(width: 16),
                     Expanded(
                       child: RadioListTile<String>(
-                        title: const Text("Female"),
+                        title: Text(LocaleKeys.femaleGender.tr()),
                         value: 'female',
                         groupValue: _selectedGender,
                         contentPadding: EdgeInsets.zero,
@@ -277,7 +321,7 @@ class _ApplyScreenState extends State<ApplyScreen> {
                     ),
                     Expanded(
                       child: RadioListTile<String>(
-                        title: const Text("Male"),
+                        title: Text(LocaleKeys.maleGender.tr()),
                         value: 'male',
                         groupValue: _selectedGender,
                         contentPadding: EdgeInsets.zero,
@@ -289,29 +333,89 @@ class _ApplyScreenState extends State<ApplyScreen> {
                 const SizedBox(height: 32),
 
                 // Continue Button
-                ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      // Process data
+                BlocConsumer<ApplyCubit, ApplyState>(
+                  listener: (context, state) {
+                    if (state.applyStatus == ApplyStatus.success) {
+                      // Navigate to success screen
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                          builder: (context) => const ApplySuccessScreen(),
+                        ),
+                      );
+                    } else if (state.applyStatus == ApplyStatus.failure) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            state.applyErrorMessage ??
+                                LocaleKeys.submissionFailed.tr(),
+                          ),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
                     }
                   },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(
-                      0xFFD01C68,
-                    ), // Pink color from design
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                  ),
-                  child: const Text(
-                    "Continue",
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  builder: (context, state) {
+                    return ElevatedButton(
+                      onPressed: state.applyStatus == ApplyStatus.loading
+                          ? null
+                          : () {
+                              if (_formKey.currentState!.validate()) {
+                                _formKey.currentState!.save();
+
+                                final countryEntity = state.countries
+                                    .cast<CountryEntity>()
+                                    .firstWhere(
+                                      (element) =>
+                                          element.isoCode == _selectedCountry,
+                                      orElse: () => state.countries.first,
+                                    );
+                                final phoneCode = countryEntity.phoneCode ?? "";
+                                final rawPhone = _phoneController.text.trim();
+
+                                final normalizedPhone = rawPhone.startsWith("0")
+                                    ? rawPhone.substring(1)
+                                    : rawPhone;
+                                final request = ApplyRequestModel(
+                                  country: _selectedCountry,
+                                  firstName: _firstNameController.text,
+                                  lastName: _secondNameController.text,
+                                  vehicleType: _selectedVehicleType,
+                                  vehicleNumber: _vehicleNumberController.text,
+                                  email: _emailController.text,
+                                  phone: "+$phoneCode$normalizedPhone",
+                                  NID: _idNumberController.text,
+                                  password: _passwordController.text,
+                                  rePassword: _confirmPasswordController.text,
+                                  gender: _selectedGender,
+
+                                  vehicleLicense: _vehicleLicenseFile,
+                                  NIDimg: _nidImgFile,
+                                );
+
+                                context.read<ApplyCubit>().onIntent(
+                                  SubmitApplyIntent(request),
+                                );
+                              }
+                            },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFFD01C68),
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                      ),
+                      child: state.applyStatus == ApplyStatus.loading
+                          ? const CircularProgressIndicator(color: Colors.white)
+                          : Text(
+                              LocaleKeys.continueTxt.tr(),
+                              style: const TextStyle(
+                                fontSize: 18,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                    );
+                  },
                 ),
                 const SizedBox(height: 24),
               ],
@@ -322,16 +426,17 @@ class _ApplyScreenState extends State<ApplyScreen> {
     );
   }
 
+  /// ✅ Upload field that stores a File (not String path)
   Widget _buildUploadField(
     String label,
     String hint, {
-    required Function(String?) onSaved,
-    required String? Function(String?) validator,
+    required Function(File?) onSaved,
+    required String? Function(File?) validator,
   }) {
-    return FormField<String>(
+    return FormField<File>(
       validator: validator,
       onSaved: onSaved,
-      builder: (FormFieldState<String> state) {
+      builder: (FormFieldState<File> state) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -339,19 +444,19 @@ class _ApplyScreenState extends State<ApplyScreen> {
               decoration: InputDecoration(
                 labelText: label,
                 border: const OutlineInputBorder(),
-                suffixIcon: const Icon(Icons.upload_file),
+                suffixIcon: const Icon(Icons.file_upload_outlined),
                 errorText: state.errorText,
               ),
               child: GestureDetector(
-                onTap: () async {
-                  // Mock file picking
-                  // In a real app, use ImagePicker here
-                  // await Future.delayed(Duration(seconds: 1));
-                  state.didChange("mock_file_path.jpg");
-                  onSaved("mock_file_path.jpg");
+                onTap: () {
+                  _pickImage((file) {
+                    state.didChange(file);
+                  });
                 },
                 child: Text(
-                  state.value ?? hint,
+                  state.value != null
+                      ? state.value!.path.split('/').last
+                      : hint,
                   style: TextStyle(
                     color: state.value != null
                         ? Colors.black

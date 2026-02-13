@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'apply_request_model.g.dart';
@@ -9,17 +10,31 @@ class ApplyRequestModel {
   final String? lastName;
   final String? vehicleType;
   final String? vehicleNumber;
-  final String? vehicleLicense; // file path or url
-  final String? nid;
-  final String? nidImg;         // file path or url
+  final String? NID;
   final String? email;
   final String? password;
   final String? rePassword;
   final String? gender;
   final String? phone;
-   ApplyRequestModel({
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  final File? vehicleLicense;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  final File? NIDimg;
 
-     this.country, this.firstName, this.lastName, this.vehicleType, this.vehicleNumber, this.vehicleLicense, this.nid, this.nidImg, this.email, this.password, this.rePassword, this.gender, this.phone,
+  const ApplyRequestModel({
+    this.country,
+    this.firstName,
+    this.lastName,
+    this.vehicleType,
+    this.vehicleNumber,
+    this.vehicleLicense,
+    this.NID,
+    this.NIDimg,
+    this.email,
+    this.password,
+    this.rePassword,
+    this.gender,
+    this.phone,
   });
 
   factory ApplyRequestModel.fromJson(Map<String, dynamic> json) =>

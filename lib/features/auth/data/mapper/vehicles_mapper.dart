@@ -5,6 +5,7 @@ extension VehiclesResponseExtention on VehicleModel {
   VehicleModel toVehicleType() {
     return VehicleModel(
       type: type ?? "",
+      id: id
     );
   }
 }

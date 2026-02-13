@@ -13,6 +13,9 @@ class ApplyState extends Equatable {
   final List<VehicleModel> vehicles;
   final String? vehiclesErrorMessage;
 
+  final ApplyStatus applyStatus;
+  final String? applyErrorMessage;
+
   const ApplyState({
     this.status = ApplyStatus.initial,
     this.countries = const [],
@@ -20,6 +23,8 @@ class ApplyState extends Equatable {
     this.vehiclesStatus = ApplyStatus.initial,
     this.vehicles = const [],
     this.vehiclesErrorMessage,
+    this.applyStatus = ApplyStatus.initial,
+    this.applyErrorMessage,
   });
 
   ApplyState copyWith({
@@ -29,6 +34,8 @@ class ApplyState extends Equatable {
     ApplyStatus? vehiclesStatus,
     List<VehicleModel>? vehicles,
     String? vehiclesErrorMessage,
+    ApplyStatus? applyStatus,
+    String? applyErrorMessage,
   }) {
     return ApplyState(
       status: status ?? this.status,
@@ -37,6 +44,8 @@ class ApplyState extends Equatable {
       vehiclesStatus: vehiclesStatus ?? this.vehiclesStatus,
       vehicles: vehicles ?? this.vehicles,
       vehiclesErrorMessage: vehiclesErrorMessage ?? this.vehiclesErrorMessage,
+      applyStatus: applyStatus ?? this.applyStatus,
+      applyErrorMessage: applyErrorMessage ?? this.applyErrorMessage,
     );
   }
 
@@ -48,5 +57,7 @@ class ApplyState extends Equatable {
     vehiclesStatus,
     vehicles,
     vehiclesErrorMessage,
+    applyStatus,
+    applyErrorMessage,
   ];
 }

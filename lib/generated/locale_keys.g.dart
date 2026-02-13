@@ -202,5 +202,35 @@ abstract class  LocaleKeys {
   static const notification_deleted_successfully = 'notification_deleted_successfully';
   static const clear_all = 'clear_all';
   static const no_notifications_yet = 'no_notifications_yet';
+  static const apply = 'apply';
+  static const welcomeApply = 'welcomeApply';
+  static const joinTeamMessage = 'joinTeamMessage';
+  static const country = 'country';
+  static const firstLegalName = 'firstLegalName';
+  static const enterFirstLegalName = 'enterFirstLegalName';
+  static const secondLegalName = 'secondLegalName';
+  static const enterSecondLegalName = 'enterSecondLegalName';
+  static const vehicleType = 'vehicleType';
+  static const vehicleNumber = 'vehicleNumber';
+  static const enterVehicleNumber = 'enterVehicleNumber';
+  static const vehicleLicense = 'vehicleLicense';
+  static const uploadLicensePhoto = 'uploadLicensePhoto';
+  static const idNumber = 'idNumber';
+  static const enterNationalId = 'enterNationalId';
+  static const idImage = 'idImage';
+  static const uploadIdImage = 'uploadIdImage';
+  static const continue_key = 'continue';
+  static const requiredField = 'requiredField';
+  static const licensePhotoRequired = 'licensePhotoRequired';
+  static const idImageRequired = 'idImageRequired';
+  static const failedToLoadCountries = 'failedToLoadCountries';
+  static const failedToLoadVehicles = 'failedToLoadVehicles';
+  static const applicationSubmittedSuccessfully = 'applicationSubmittedSuccessfully';
+  static const submissionFailed = 'submissionFailed';
+  static const applicationSubmitted = 'applicationSubmitted';
+  static const congratulationsMessage = 'congratulationsMessage';
+  static const reviewMessage = 'reviewMessage';
+  static const backToLogin = 'backToLogin';
+  static const checkEmailMessage = 'checkEmailMessage';
 
 }
