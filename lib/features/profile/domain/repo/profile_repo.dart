@@ -19,4 +19,6 @@ abstract class ProfileRepo {
     required String token,
     required File photo,
   });
+
+  Future<ApiResult<EditProfileResponse>> getProfile({required String token});
 }

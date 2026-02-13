@@ -4,23 +4,34 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tracking_app/app/core/network/api_result.dart';
+import 'package:tracking_app/features/profile/data/datasorce/profile_lacal_datasource.dart';
 import 'package:tracking_app/features/profile/data/datasorce/profile_remote_datasource.dart';
 import 'package:tracking_app/features/profile/data/models/responses/edit_profile_response.dart';
 import 'package:tracking_app/features/profile/data/repo/profile_repo_imp.dart';
 
 import 'profile_repo_imp_test.mocks.dart';
 
-@GenerateMocks([ProfileRemoteDatasource])
+@GenerateMocks([ProfileRemoteDatasource, ProfileLocalDataSource])
 void main() {
-  late MockProfileRemoteDatasource mockDataSource;
+  provideDummy<SuccessApiResult<EditProfileResponse>>(
+    SuccessApiResult(data: EditProfileResponse()),
+  );
+  provideDummy<ErrorApiResult<EditProfileResponse>>(
+    ErrorApiResult(error: 'dummy error'),
+  );
+  provideDummy<ApiResult<EditProfileResponse>>(
+    SuccessApiResult(data: EditProfileResponse()),
+  );
+  provideDummy<File>(File('dummy_path'));
+
+  late MockProfileRemoteDatasource mockRemote;
+  late MockProfileLocalDataSource mockLocal;
   late ProfileRepoImpl repo;
 
   setUp(() {
-    mockDataSource = MockProfileRemoteDatasource();
-    repo = ProfileRepoImpl(mockDataSource);
-    provideDummy<ApiResult<EditProfileResponse>>(
-      SuccessApiResult(data: EditProfileResponse()),
-    );
+    mockRemote = MockProfileRemoteDatasource();
+    mockLocal = MockProfileLocalDataSource();
+    repo = ProfileRepoImpl(mockRemote, mockLocal);
   });
 
   group('ProfileRepoImpl.editProfile()', () {
@@ -31,61 +42,52 @@ void main() {
     test(
       'returns SuccessApiResult when datasource returns SuccessApiResult',
       () async {
-        // ARRANGE
         final fakeResponse = EditProfileResponse(message: "Success");
         when(
-          mockDataSource.editProfile(
+          mockRemote.editProfile(
             token: anyNamed('token'),
             request: anyNamed('request'),
           ),
         ).thenAnswer((_) async => SuccessApiResult(data: fakeResponse));
 
-        // ACT
         final result = await repo.editProfile(
           token: token,
           firstName: firstName,
           lastName: lastName,
         );
 
-        // ASSERT
         expect(result, isA<SuccessApiResult<EditProfileResponse>>());
         final data = (result as SuccessApiResult).data;
         expect(data.message, "Success");
+
         verify(
-          mockDataSource.editProfile(
-            token: token,
-            request: anyNamed('request'),
-          ),
+          mockRemote.editProfile(token: token, request: anyNamed('request')),
         ).called(1);
+        verify(mockLocal.saveUser(any)).called(1);
       },
     );
 
     test(
       'returns ErrorApiResult when datasource returns ErrorApiResult',
       () async {
-        // ARRANGE
         when(
-          mockDataSource.editProfile(
+          mockRemote.editProfile(
             token: anyNamed('token'),
             request: anyNamed('request'),
           ),
         ).thenAnswer((_) async => ErrorApiResult(error: "Network Error"));
 
-        // ACT
         final result = await repo.editProfile(
           token: token,
           firstName: firstName,
           lastName: lastName,
         );
 
-        // ASSERT
         expect(result, isA<ErrorApiResult<EditProfileResponse>>());
         expect((result as ErrorApiResult).error, "Network Error");
+
         verify(
-          mockDataSource.editProfile(
-            token: token,
-            request: anyNamed('request'),
-          ),
+          mockRemote.editProfile(token: token, request: anyNamed('request')),
         ).called(1);
       },
     );
@@ -98,44 +100,41 @@ void main() {
     test(
       'returns SuccessApiResult when datasource returns SuccessApiResult',
       () async {
-        // ARRANGE
         final fakeResponse = EditProfileResponse(message: "Photo Uploaded");
         when(
-          mockDataSource.uploadPhoto(
+          mockRemote.uploadPhoto(
             token: anyNamed('token'),
             photo: anyNamed('photo'),
           ),
         ).thenAnswer((_) async => SuccessApiResult(data: fakeResponse));
 
-        // ACT
         final result = await repo.uploadPhoto(token: token, photo: file);
 
-        // ASSERT
         expect(result, isA<SuccessApiResult<EditProfileResponse>>());
         final data = (result as SuccessApiResult).data;
         expect(data.message, "Photo Uploaded");
-        verify(mockDataSource.uploadPhoto(token: token, photo: file)).called(1);
+
+        verify(mockRemote.uploadPhoto(token: token, photo: file)).called(1);
+        verify(mockLocal.saveUser(any)).called(1);
       },
     );
 
     test(
       'returns ErrorApiResult when datasource returns ErrorApiResult',
       () async {
-        // ARRANGE
         when(
-          mockDataSource.uploadPhoto(
+          mockRemote.uploadPhoto(
             token: anyNamed('token'),
             photo: anyNamed('photo'),
           ),
         ).thenAnswer((_) async => ErrorApiResult(error: "Upload Failed"));
 
-        // ACT
         final result = await repo.uploadPhoto(token: token, photo: file);
 
-        // ASSERT
         expect(result, isA<ErrorApiResult<EditProfileResponse>>());
         expect((result as ErrorApiResult).error, "Upload Failed");
-        verify(mockDataSource.uploadPhoto(token: token, photo: file)).called(1);
+
+        verify(mockRemote.uploadPhoto(token: token, photo: file)).called(1);
       },
     );
   });

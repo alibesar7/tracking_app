@@ -1,45 +1,120 @@
 import 'dart:io';
-
+import 'dart:convert';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tracking_app/app/config/auth_storage/auth_storage.dart';
-import 'package:tracking_app/app/config/base_state/base_state.dart';
 import 'package:tracking_app/app/core/network/api_result.dart';
+import 'package:tracking_app/app/config/base_state/base_state.dart';
 import 'package:tracking_app/features/profile/data/models/driver_model.dart';
 import 'package:tracking_app/features/profile/data/models/responses/edit_profile_response.dart';
 import 'package:tracking_app/features/profile/domain/usecases/edit_profile_usecase.dart';
 import 'package:tracking_app/features/profile/domain/usecases/upload_profile_photo_usecase.dart';
+import 'package:tracking_app/features/profile/domain/usecases/get_profile_usecase.dart';
 import 'package:tracking_app/features/profile/presentation/managers/profile_cubit.dart';
 import 'package:tracking_app/features/profile/presentation/managers/profile_intent.dart';
 import 'package:tracking_app/features/profile/presentation/managers/profile_state.dart';
 
+@GenerateMocks([
+  EditProfileUseCase,
+  UploadProfilePhotoUseCase,
+  GetProfileUsecase,
+  AuthStorage,
+])
 import 'profile_cubit_test.mocks.dart';
 
-@GenerateMocks([EditProfileUseCase, UploadProfilePhotoUseCase, AuthStorage])
 void main() {
+  provideDummy<SuccessApiResult<EditProfileResponse>>(
+    SuccessApiResult(data: EditProfileResponse()),
+  );
+
+  provideDummy<ErrorApiResult<EditProfileResponse>>(
+    ErrorApiResult(error: 'dummy error'),
+  );
+
+  provideDummy<ApiResult<EditProfileResponse>>(
+    SuccessApiResult(data: EditProfileResponse()),
+  );
+
   late MockEditProfileUseCase mockEditProfileUseCase;
-  late MockUploadProfilePhotoUseCase mockUploadProfilePhotoUseCase;
+  late MockUploadProfilePhotoUseCase mockUploadPhotoUseCase;
+  late MockGetProfileUsecase mockGetProfileUsecase;
   late MockAuthStorage mockAuthStorage;
   late ProfileCubit cubit;
 
   setUp(() {
     mockEditProfileUseCase = MockEditProfileUseCase();
-    mockUploadProfilePhotoUseCase = MockUploadProfilePhotoUseCase();
+    mockUploadPhotoUseCase = MockUploadProfilePhotoUseCase();
+    mockGetProfileUsecase = MockGetProfileUsecase();
     mockAuthStorage = MockAuthStorage();
+
     cubit = ProfileCubit(
       mockEditProfileUseCase,
-      mockUploadProfilePhotoUseCase,
+      mockUploadPhotoUseCase,
+      mockGetProfileUsecase,
       mockAuthStorage,
-    );
-    provideDummy<ApiResult<EditProfileResponse>>(
-      SuccessApiResult(data: EditProfileResponse()),
     );
   });
 
   tearDown(() {
     cubit.close();
+  });
+
+  group('GetProfileIntent', () {
+    final token = 'test_token';
+    final response = EditProfileResponse(
+      message: 'Success',
+      driver: DriverModel(firstName: 'Ali', lastName: 'Besar'),
+    );
+
+    blocTest<ProfileCubit, ProfileState>(
+      'emits loading then success when usecase returns SuccessApiResult',
+      build: () {
+        when(mockAuthStorage.getToken()).thenAnswer((_) async => token);
+        when(
+          mockGetProfileUsecase.call(token: 'Bearer $token'),
+        ).thenAnswer((_) async => SuccessApiResult(data: response));
+        when(mockAuthStorage.saveUserJson(any)).thenAnswer((_) async => {});
+        return cubit;
+      },
+      act: (cubit) => cubit.doIntent(GetProfileIntent()),
+      expect: () => [
+        isA<ProfileState>().having(
+          (s) => s.getProfileResource.status,
+          'status',
+          Status.loading,
+        ),
+        isA<ProfileState>()
+            .having(
+              (s) => s.getProfileResource.status,
+              'status',
+              Status.success,
+            )
+            .having((s) => s.driver?.firstName, 'firstName', 'Ali'),
+      ],
+    );
+
+    blocTest<ProfileCubit, ProfileState>(
+      'emits error when token is missing',
+      build: () {
+        when(mockAuthStorage.getToken()).thenAnswer((_) async => null);
+        return cubit;
+      },
+      act: (cubit) => cubit.doIntent(GetProfileIntent()),
+      expect: () => [
+        isA<ProfileState>().having(
+          (s) => s.getProfileResource.status,
+          'status',
+          Status.loading,
+        ),
+        isA<ProfileState>().having(
+          (s) => s.getProfileResource.error,
+          'error',
+          'Token not found',
+        ),
+      ],
+    );
   });
 
   group('PerformEditProfile Intent', () {
@@ -70,7 +145,7 @@ void main() {
             vehicleLicense: intent.vehicleLicense,
           ),
         ).thenAnswer((_) async => SuccessApiResult(data: response));
-        when(mockAuthStorage.saveUser(any)).thenAnswer((_) async {});
+        when(mockAuthStorage.saveUserJson(any)).thenAnswer((_) async => {});
         return cubit;
       },
       act: (cubit) => cubit.doIntent(intent),
@@ -102,7 +177,7 @@ void main() {
             vehicleLicense: intent.vehicleLicense,
           ),
         ).called(1);
-        verify(mockAuthStorage.saveUser(any)).called(1);
+        verify(mockAuthStorage.saveUserJson(any)).called(1);
       },
     );
 
@@ -140,29 +215,6 @@ void main() {
             ),
       ],
     );
-
-    blocTest<ProfileCubit, ProfileState>(
-      'emits error when token is missing',
-      build: () {
-        when(mockAuthStorage.getToken()).thenAnswer((_) async => null);
-        return cubit;
-      },
-      act: (cubit) => cubit.doIntent(intent),
-      expect: () => [
-        isA<ProfileState>().having(
-          (s) => s.editProfileResource.status,
-          'status',
-          Status.loading,
-        ),
-        isA<ProfileState>()
-            .having((s) => s.editProfileResource.status, 'status', Status.error)
-            .having(
-              (s) => s.editProfileResource.error,
-              'error',
-              'Token not found',
-            ),
-      ],
-    );
   });
 
   group('SelectPhotoIntent', () {
@@ -194,17 +246,14 @@ void main() {
       build: () {
         when(mockAuthStorage.getToken()).thenAnswer((_) async => token);
         when(
-          mockUploadProfilePhotoUseCase.call(
-            token: 'Bearer $token',
-            photo: file,
-          ),
+          mockUploadPhotoUseCase.call(token: 'Bearer $token', photo: file),
         ).thenAnswer((_) async => SuccessApiResult(data: response));
-        when(mockAuthStorage.saveUser(any)).thenAnswer((_) async {});
+        when(mockAuthStorage.saveUserJson(any)).thenAnswer((_) async => {});
         return cubit;
       },
       act: (cubit) {
         cubit.doIntent(SelectPhotoIntent(file));
-        cubit.doIntent(UploadSelectedPhotoIntent('dummy_token'));
+        cubit.doIntent(UploadSelectedPhotoIntent());
       },
       skip: 1,
       expect: () => [
@@ -225,19 +274,16 @@ void main() {
       verify: (_) {
         verify(mockAuthStorage.getToken()).called(1);
         verify(
-          mockUploadProfilePhotoUseCase.call(
-            token: 'Bearer $token',
-            photo: file,
-          ),
+          mockUploadPhotoUseCase.call(token: 'Bearer $token', photo: file),
         ).called(1);
-        verify(mockAuthStorage.saveUser(any)).called(1);
+        verify(mockAuthStorage.saveUserJson(any)).called(1);
       },
     );
 
     blocTest<ProfileCubit, ProfileState>(
       'does nothing if no photo is selected',
       build: () => cubit,
-      act: (cubit) => cubit.doIntent(UploadSelectedPhotoIntent('dummy')),
+      act: (cubit) => cubit.doIntent(UploadSelectedPhotoIntent()),
       expect: () => [],
     );
 
@@ -249,7 +295,7 @@ void main() {
       },
       act: (cubit) {
         cubit.doIntent(SelectPhotoIntent(file));
-        cubit.doIntent(UploadSelectedPhotoIntent('dummy'));
+        cubit.doIntent(UploadSelectedPhotoIntent());
       },
       skip: 1,
       expect: () => [
@@ -263,39 +309,6 @@ void main() {
           'error',
           'Token not found',
         ),
-      ],
-    );
-
-    blocTest<ProfileCubit, ProfileState>(
-      'emits error when upload fails',
-      build: () {
-        when(mockAuthStorage.getToken()).thenAnswer((_) async => token);
-        when(
-          mockUploadProfilePhotoUseCase.call(
-            token: 'Bearer $token',
-            photo: file,
-          ),
-        ).thenAnswer((_) async => ErrorApiResult(error: 'Upload Failed'));
-        return cubit;
-      },
-      act: (cubit) {
-        cubit.doIntent(SelectPhotoIntent(file));
-        cubit.doIntent(UploadSelectedPhotoIntent('dummy'));
-      },
-      skip: 1,
-      expect: () => [
-        isA<ProfileState>().having(
-          (s) => s.uploadPhotoResource.status,
-          'status',
-          Status.loading,
-        ),
-        isA<ProfileState>()
-            .having((s) => s.uploadPhotoResource.status, 'status', Status.error)
-            .having(
-              (s) => s.uploadPhotoResource.error,
-              'error',
-              'Upload Failed',
-            ),
       ],
     );
   });

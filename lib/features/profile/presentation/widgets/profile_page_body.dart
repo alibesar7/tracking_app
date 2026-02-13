@@ -23,6 +23,9 @@ class ProfilePageBody extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12.0),
       child: Column(
         children: [
+          const SizedBox(height: 16),
+
+          /// 🔹 Profile Info Card
           InkWell(
             borderRadius: BorderRadius.circular(16),
             onTap: () {
@@ -43,7 +46,7 @@ class ProfilePageBody extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "${user?.firstName ?? 'admin'} ${user?.lastName ?? 'admin'}",
+                          "${user?.firstName ?? 'Admin'} ${user?.lastName ?? 'User'}",
                           style: AppStyles.black14bold,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -125,6 +128,8 @@ class ProfilePageBody extends StatelessWidget {
             onTap: () {},
             trailing: const Icon(Icons.logout, color: AppColors.pink),
           ),
+
+          const SizedBox(height: 30),
         ],
       ),
     );

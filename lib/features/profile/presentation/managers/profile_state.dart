@@ -4,6 +4,7 @@ import 'package:tracking_app/features/profile/data/models/driver_model.dart';
 import 'package:tracking_app/features/profile/data/models/responses/edit_profile_response.dart';
 
 class ProfileState {
+  final Resource<EditProfileResponse> getProfileResource;
   final Resource<EditProfileResponse> editProfileResource;
   final Resource<EditProfileResponse> uploadPhotoResource;
   final File? selectedPhoto;
@@ -11,15 +12,18 @@ class ProfileState {
   final DriverModel? driver;
 
   ProfileState({
+    Resource<EditProfileResponse>? getProfileResource,
     Resource<EditProfileResponse>? editProfileResource,
     Resource<EditProfileResponse>? uploadPhotoResource,
     this.selectedPhoto,
     this.selectedVehicleLicense,
     this.driver,
-  }) : editProfileResource = editProfileResource ?? Resource.initial(),
+  }) : getProfileResource = getProfileResource ?? Resource.initial(),
+       editProfileResource = editProfileResource ?? Resource.initial(),
        uploadPhotoResource = uploadPhotoResource ?? Resource.initial();
 
   ProfileState copyWith({
+    Resource<EditProfileResponse>? getProfileResource,
     Resource<EditProfileResponse>? editProfileResource,
     Resource<EditProfileResponse>? uploadPhotoResource,
     File? selectedPhoto,
@@ -29,6 +33,7 @@ class ProfileState {
     DriverModel? driver,
   }) {
     return ProfileState(
+      getProfileResource: getProfileResource ?? this.getProfileResource,
       editProfileResource: editProfileResource ?? this.editProfileResource,
       uploadPhotoResource: uploadPhotoResource ?? this.uploadPhotoResource,
       selectedPhoto: clearSelectedPhoto

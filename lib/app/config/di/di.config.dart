@@ -12,14 +12,20 @@ import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
+import '../../../features/profile/api/profile_lacal_datasource_imp.dart'
+    as _i495;
 import '../../../features/profile/api/profile_remote_datasource_imp.dart'
     as _i899;
+import '../../../features/profile/data/datasorce/profile_lacal_datasource.dart'
+    as _i697;
 import '../../../features/profile/data/datasorce/profile_remote_datasource.dart'
     as _i943;
 import '../../../features/profile/data/repo/profile_repo_imp.dart' as _i1048;
 import '../../../features/profile/domain/repo/profile_repo.dart' as _i863;
 import '../../../features/profile/domain/usecases/edit_profile_usecase.dart'
     as _i221;
+import '../../../features/profile/domain/usecases/get_profile_usecase.dart'
+    as _i248;
 import '../../../features/profile/domain/usecases/upload_profile_photo_usecase.dart'
     as _i884;
 import '../../../features/profile/presentation/managers/profile_cubit.dart'
@@ -40,6 +46,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i361.Dio>(
       () => networkModule.dio(gh<_i603.AuthStorage>()),
     );
+    gh.lazySingleton<_i697.ProfileLocalDataSource>(
+      () => _i495.ProfileLocalDataSourceImpl(gh<_i603.AuthStorage>()),
+    );
     gh.lazySingleton<_i890.ApiClient>(
       () => networkModule.authApiClient(gh<_i361.Dio>()),
     );
@@ -47,7 +56,10 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i899.ProfileRemoteDatasourceImp(gh<_i890.ApiClient>()),
     );
     gh.factory<_i863.ProfileRepo>(
-      () => _i1048.ProfileRepoImpl(gh<_i943.ProfileRemoteDatasource>()),
+      () => _i1048.ProfileRepoImpl(
+        gh<_i943.ProfileRemoteDatasource>(),
+        gh<_i697.ProfileLocalDataSource>(),
+      ),
     );
     gh.factory<_i221.EditProfileUseCase>(
       () => _i221.EditProfileUseCase(gh<_i863.ProfileRepo>()),
@@ -55,10 +67,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i884.UploadProfilePhotoUseCase>(
       () => _i884.UploadProfilePhotoUseCase(gh<_i863.ProfileRepo>()),
     );
+    gh.factory<_i248.GetProfileUsecase>(
+      () => _i248.GetProfileUsecase(gh<_i863.ProfileRepo>()),
+    );
     gh.factory<_i603.ProfileCubit>(
       () => _i603.ProfileCubit(
         gh<_i221.EditProfileUseCase>(),
         gh<_i884.UploadProfilePhotoUseCase>(),
+        gh<_i248.GetProfileUsecase>(),
         gh<_i603.AuthStorage>(),
       ),
     );

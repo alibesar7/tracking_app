@@ -31,4 +31,11 @@ class ProfileRemoteDatasourceImp extends ProfileRemoteDatasource {
       call: () => apiClient.uploadPhoto(token: token, photo: photo),
     );
   }
+
+  @override
+  Future<ApiResult<EditProfileResponse>> getProfile({required String token}) {
+    return safeApiCall<EditProfileResponse>(
+      call: () => apiClient.getProfile(token: token),
+    );
+  }
 }

@@ -2,6 +2,8 @@ import 'dart:io';
 
 sealed class ProfileIntent {}
 
+class GetProfileIntent extends ProfileIntent {}
+
 class PerformEditProfile extends ProfileIntent {
   final String? firstName;
   final String? lastName;
@@ -27,10 +29,7 @@ class SelectPhotoIntent extends ProfileIntent {
   SelectPhotoIntent(this.photo);
 }
 
-class UploadSelectedPhotoIntent extends ProfileIntent {
-  final String token;
-  UploadSelectedPhotoIntent(this.token);
-}
+class UploadSelectedPhotoIntent extends ProfileIntent {}
 
 class SelectVehicleLicenseIntent extends ProfileIntent {
   final File file;

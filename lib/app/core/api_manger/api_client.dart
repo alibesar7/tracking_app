@@ -25,4 +25,9 @@ abstract class ApiClient {
     @Header(ApiConstants.authorization) required String token,
     @Part(name: ApiConstants.photo) required File photo,
   });
+
+  @GET(AppEndpointString.getProfile)
+  Future<HttpResponse<EditProfileResponse>> getProfile({
+    @Header(ApiConstants.authorization) required String token,
+  });
 }

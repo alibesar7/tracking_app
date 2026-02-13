@@ -1,7 +1,5 @@
-import 'dart:convert';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tracking_app/features/profile/data/models/driver_model.dart';
 
 @lazySingleton
 class AuthStorage {
@@ -27,26 +25,18 @@ class AuthStorage {
     await prefs.remove(_tokenKey);
   }
 
-  Future<void> saveUser(DriverModel user) async {
-    final prefs = await _prefs;
-    final userJson = jsonEncode(user.toJson());
-    await prefs.setString(_userKey, userJson);
+  Future<void> saveUserJson(String json) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_userKey, json);
   }
 
-  Future<DriverModel?> getUser() async {
-    final prefs = await _prefs;
-    final userString = prefs.getString(_userKey);
-    if (userString == null) return null;
-    try {
-      final userMap = jsonDecode(userString);
-      return DriverModel.fromJson(userMap);
-    } catch (e) {
-      return null;
-    }
+  Future<String?> getUserJson() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_userKey);
   }
 
   Future<void> clearUser() async {
-    final prefs = await _prefs;
+    final prefs = await SharedPreferences.getInstance();
     await prefs.remove(_userKey);
   }
 

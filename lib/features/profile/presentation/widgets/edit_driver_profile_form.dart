@@ -138,9 +138,7 @@ class _EditDriverProfileFormState extends State<EditDriverProfileForm> {
                         if (token == null) return;
 
                         if (state.selectedPhoto != null) {
-                          cubit.doIntent(
-                            UploadSelectedPhotoIntent('Bearer $token'),
-                          );
+                          cubit.doIntent(UploadSelectedPhotoIntent());
                         }
 
                         cubit.doIntent(

@@ -9,6 +9,8 @@ abstract class ProfileRemoteDatasource {
     EditProfileRequest? request,
   });
 
+  Future<ApiResult<EditProfileResponse>> getProfile({required String token});
+
   Future<ApiResult<EditProfileResponse>> uploadPhoto({
     required String token,
     required File photo,
