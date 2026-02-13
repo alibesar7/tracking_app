@@ -7,6 +7,8 @@ import 'package:tracking_app/features/auth/presentation/login/pages/loginScreen.
 import 'package:tracking_app/app/config/auth_storage/auth_storage.dart';
 import 'package:tracking_app/app/config/di/di.dart';
 import 'package:tracking_app/features/profile/presentation/pages/profile_page.dart';
+import 'package:tracking_app/app/core/router/route_names.dart';
+import 'package:tracking_app/features/auth/presentation/apply/view/apply_view.dart';
 
 final GoRouter appRouter = GoRouter(
   initialLocation: RouteNames.onboarding,
@@ -32,6 +34,10 @@ final GoRouter appRouter = GoRouter(
       path: RouteNames.appStart,
       builder: (context, state) => AppSections(),
     ),
+    GoRoute(
+      path: RouteNames.applyScreen,
+      builder: (context, state) => const ApplyScreen(),
+    ),
   ],
   redirect: (context, state) async {
     final token = await getIt<AuthStorage>().getToken();
@@ -47,3 +53,5 @@ final GoRouter appRouter = GoRouter(
     return null;
   },
 );
+
+

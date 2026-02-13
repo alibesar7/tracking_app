@@ -14,7 +14,6 @@ class AppEndpointString {
   static const String orders = 'orders';
   static const String checkout = '$orders/checkout';
   static const String addresses = 'addresses';
-
   static const String signup = '/auth/signup';
   static const String allCategories = 'categories';
   static const String getProduct = '/products';
@@ -26,9 +25,12 @@ class AppEndpointString {
   static const String editProfile = 'auth/editProfile';
   static const String changepassword = 'auth/change-password';
   static const String addAddress = 'addresses';
-
   static const String getaddresses = 'addresses';
   static const String getNotifications = "notifications/user";
   static const String deleteSpecificNotification = "notifications/{id}";
   static const String deleteAllNotifications = "notifications/clear-all";
+  static const String getVehicles = "vehicles";
+  static const String apply = "drivers/apply";
+
+
 }
