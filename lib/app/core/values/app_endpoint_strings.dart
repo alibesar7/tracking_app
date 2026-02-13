@@ -21,7 +21,7 @@ class AppEndpointString {
   static const String home = '/home';
   static const String productDetails = 'products/{id}';
   static const String cartPage = 'cart';
-  static const String changePassword = "auth/change-password";
+  static const String changePassword = "drivers/change-password";
   static const String tokenKey = 'token';
   static const String editProfile = 'auth/editProfile';
   static const String changepassword = 'auth/change-password';

@@ -1,8 +1,10 @@
-import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:tracking_app/app/core/api_manger/api_client.dart';
 import 'package:tracking_app/app/core/network/api_result.dart';
+import 'package:tracking_app/app/core/network/safe_api_call.dart';
 import 'package:tracking_app/features/auth/data/datasource/auth_remote_datasource.dart';
+import 'package:tracking_app/features/auth/data/model/response/change_password_dto.dart';
+import 'package:dio/dio.dart';
 import 'package:tracking_app/features/auth/data/model/request/LoginRequest.dart';
 import 'package:tracking_app/features/auth/data/model/response/LoginResponse.dart';
 
@@ -34,5 +36,18 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     } catch (e) {
       return ErrorApiResult<LoginResponse>(error: e.toString());
     }
+  }
+
+  @override
+  Future<ApiResult<ChangePasswordDto>> changePassword({
+    String? password,
+    String? newPassword,
+  }) {
+    return safeApiCall<ChangePasswordDto>(
+      call: () => apiClient.changePassword({
+        "password": password,
+        "newPassword": newPassword,
+      }),
+    );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:tracking_app/app/core/router/route_names.dart';
+import 'package:tracking_app/features/auth/presentation/reset_password/pages/change_password_page.dart';
 import 'package:tracking_app/features/Onboarding/presentation/pages/onboardingScreen.dart';
 import 'package:tracking_app/features/app_sections/presentation/pages/app_sections.dart';
 import 'package:tracking_app/features/auth/presentation/login/pages/loginScreen.dart';
@@ -10,6 +11,11 @@ import 'package:tracking_app/features/profile/presentation/pages/profile_page.da
 final GoRouter appRouter = GoRouter(
   initialLocation: RouteNames.onboarding,
   routes: [
+    GoRoute(
+      path: RouteNames.changePassword,
+      builder: (context, state) => const ChangePasswordPage(),
+    ),
+
     GoRoute(
       path: RouteNames.onboarding,
       builder: (context, state) => const Onboardingscreen(),
