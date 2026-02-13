@@ -117,7 +117,7 @@ class ProfileCubit extends Cubit<ProfileState> {
 
         emit(
           state.copyWith(
-            selectedPhoto: null,
+            clearSelectedPhoto: true,
             uploadPhotoResource: Resource.success(result.data),
           ),
         );

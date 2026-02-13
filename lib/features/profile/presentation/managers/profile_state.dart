@@ -21,12 +21,15 @@ class ProfileState {
     Resource<EditProfileResponse>? editProfileResource,
     Resource<EditProfileResponse>? uploadPhotoResource,
     File? selectedPhoto,
+    bool clearSelectedPhoto = false,
     DriverModel? user,
   }) {
     return ProfileState(
       editProfileResource: editProfileResource ?? this.editProfileResource,
       uploadPhotoResource: uploadPhotoResource ?? this.uploadPhotoResource,
-      selectedPhoto: selectedPhoto ?? this.selectedPhoto,
+      selectedPhoto: clearSelectedPhoto
+          ? null
+          : (selectedPhoto ?? this.selectedPhoto),
       driver: user ?? this.driver,
     );
   }
