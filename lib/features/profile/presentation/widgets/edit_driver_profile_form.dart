@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tracking_app/app/config/auth_storage/auth_storage.dart';
 import 'package:tracking_app/app/config/di/di.dart';
 import 'package:tracking_app/features/profile/presentation/managers/profile_cubit.dart';
 import 'package:tracking_app/features/profile/presentation/managers/profile_intent.dart';
+import 'package:tracking_app/generated/locale_keys.g.dart';
 import 'profile_image_section.dart';
 
 class EditDriverProfileForm extends StatefulWidget {
@@ -71,14 +73,18 @@ class _EditDriverProfileFormState extends State<EditDriverProfileForm> {
                 Expanded(
                   child: TextFormField(
                     controller: firstNameController,
-                    decoration: const InputDecoration(labelText: 'First name'),
+                    decoration: InputDecoration(
+                      labelText: LocaleKeys.firstName.tr(),
+                    ),
                   ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: TextFormField(
                     controller: lastNameController,
-                    decoration: const InputDecoration(labelText: 'Last name'),
+                    decoration: InputDecoration(
+                      labelText: LocaleKeys.lastName.tr(),
+                    ),
                   ),
                 ),
               ],
@@ -88,26 +94,27 @@ class _EditDriverProfileFormState extends State<EditDriverProfileForm> {
 
             TextFormField(
               controller: emailController,
-              decoration: const InputDecoration(labelText: 'Email'),
+              decoration: InputDecoration(labelText: LocaleKeys.email.tr()),
             ),
 
             const SizedBox(height: 16),
 
             TextFormField(
               controller: phoneController,
-              decoration: const InputDecoration(labelText: 'Phone'),
+              decoration: InputDecoration(labelText: LocaleKeys.phone.tr()),
             ),
 
             const SizedBox(height: 16),
 
             TextFormField(
+              readOnly: true,
               decoration: InputDecoration(
-                labelText: 'Password',
+                labelText: LocaleKeys.password.tr(),
                 hintText: '.......................',
                 suffix: GestureDetector(
                   onTap: () {},
                   child: Text(
-                    "Change",
+                    LocaleKeys.change.tr(),
                     style: TextStyle(
                       color: Theme.of(context).primaryColor,
                       fontWeight: FontWeight.w600,
@@ -147,8 +154,8 @@ class _EditDriverProfileFormState extends State<EditDriverProfileForm> {
                       },
                 child: Text(
                   state.editProfileResource.isLoading == true
-                      ? "Loading..."
-                      : "Update",
+                      ? LocaleKeys.loading.tr()
+                      : LocaleKeys.update.tr(),
                 ),
               ),
             ),

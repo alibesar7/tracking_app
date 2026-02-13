@@ -203,4 +203,10 @@ abstract class LocaleKeys {
       'notification_deleted_successfully';
   static const clear_all = 'clear_all';
   static const no_notifications_yet = 'no_notifications_yet';
+  static const change = 'change';
+  static const vehicle_type = 'vehicle_type';
+  static const vehicle_number = 'vehicle_number';
+  static const vehicle_license = 'vehicle_license';
+  static const editDriverProfile = 'editDriverProfile';
+  static const editVehicle = 'editVehicle';
 }

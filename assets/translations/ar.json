@@ -194,7 +194,14 @@
   "all_notifications_cleared": "تم مسح جميع الإشعارات",
   "notification_deleted_successfully": "تم حذف الإشعار بنجاح",
   "clear_all": "مسح الكل",
-  "no_notifications_yet": "لا توجد اشعارات حاليا"
+  "no_notifications_yet": "لا توجد اشعارات حاليا",
 
+
+  "change": "تغيير",
+  "vehicle_type": "نوع المركبة",
+  "vehicle_number": "رقم المركبة",
+  "vehicle_license": "رخصة المركبة",
+  "editDriverProfile": "تعديل الملف الشخصي",
+  "editVehicle": "تعديل المركبة"
 
 }

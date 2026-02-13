@@ -1,10 +1,12 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tracking_app/features/profile/presentation/managers/profile_cubit.dart';
 import 'package:tracking_app/features/profile/presentation/managers/profile_intent.dart';
+import 'package:tracking_app/generated/locale_keys.g.dart';
 
 class EditVehicleForm extends StatefulWidget {
   final String vehicleType;
@@ -60,14 +62,18 @@ class _EditVehicleFormState extends State<EditVehicleForm> {
           children: [
             TextFormField(
               controller: vehicleTypeController,
-              decoration: const InputDecoration(labelText: 'Vehicle Type'),
+              decoration: InputDecoration(
+                labelText: LocaleKeys.vehicle_type.tr(),
+              ),
             ),
 
             const SizedBox(height: 16),
 
             TextFormField(
               controller: vehicleNumberController,
-              decoration: const InputDecoration(labelText: 'Vehicle Number'),
+              decoration: InputDecoration(
+                labelText: LocaleKeys.vehicle_number.tr(),
+              ),
             ),
 
             const SizedBox(height: 16),
@@ -90,8 +96,8 @@ class _EditVehicleFormState extends State<EditVehicleForm> {
                   cubit.doIntent(UploadVehicleLicenseIntent());
                 }
               },
-              decoration: const InputDecoration(
-                labelText: 'Vehicle License',
+              decoration: InputDecoration(
+                labelText: LocaleKeys.vehicle_license.tr(),
                 suffixIcon: Icon(Icons.upload),
               ),
             ),
@@ -115,8 +121,8 @@ class _EditVehicleFormState extends State<EditVehicleForm> {
                       },
                 child: Text(
                   state.editProfileResource.isLoading == true
-                      ? "Loading..."
-                      : "Update",
+                      ? LocaleKeys.loading.tr()
+                      : LocaleKeys.update.tr(),
                 ),
               ),
             ),
