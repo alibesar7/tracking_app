@@ -24,11 +24,11 @@ abstract class ApiClient {
   );
   @POST(AppEndpointString.resetPassword)
   Future<HttpResponse<ResetpasswordResponse>> resetPassword(
-   @Body() ResetPasswordRequest request
+    @Body() ResetPasswordRequest request,
   );
 
-    @POST(AppEndpointString.verifyResetCode)
+  @POST(AppEndpointString.verifyResetCode)
   Future<HttpResponse<VerifyresetResponse>> verifyResetCode(
-   @Body() VerifyResetRequest request
+    @Body() VerifyResetRequest request,
   );
 }
