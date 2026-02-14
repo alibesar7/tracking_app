@@ -6,4 +6,8 @@ abstract class RouteNames {
   static const resetPassword = '/reset-password';
   static const home = '/home';
   static const profile = '/profile';
+  static const appStart = '/appStart';
+  static const changePassword = '/changePassword';
+  static const applyScreen = '/applyScreen';
+  static const onboarding = '/onboarding';
 }
