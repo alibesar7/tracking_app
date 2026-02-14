@@ -1,4 +1,4 @@
- class ApiResult<T> {}
+sealed class ApiResult<T> {}
 
 class SuccessApiResult<T> extends ApiResult<T> {
   final T data;
