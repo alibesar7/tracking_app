@@ -113,9 +113,10 @@ class _EditVehicleFormState extends State<EditVehicleForm> {
                     : () {
                         cubit.doIntent(
                           PerformEditProfile(
-                            vehicleType: vehicleTypeController.text,
-                            vehicleNumber: vehicleNumberController.text,
-                            vehicleLicense: vehicleLicenseController.text,
+                            vehicleType: vehicleTypeController.text.trim(),
+                            vehicleNumber: vehicleNumberController.text.trim(),
+                            vehicleLicense: vehicleLicenseController.text
+                                .trim(),
                           ),
                         );
                       },

@@ -24,7 +24,23 @@ class ProfileCubit extends Cubit<ProfileState> {
     this._uploadPhotoUseCase,
     this._getProfileUsecase,
     this._authStorage,
-  ) : super(ProfileState());
+  ) : super(ProfileState()) {
+    _initialize();
+  }
+
+  Future<void> _initialize() async {
+    await _loadUserFromLocal();
+    await _getProfile();
+  }
+
+  Future<void> _loadUserFromLocal() async {
+    final userJson = await _authStorage.getUserJson();
+
+    if (userJson != null) {
+      final driver = DriverModel.fromJson(jsonDecode(userJson));
+      emit(state.copyWith(driver: driver));
+    }
+  }
 
   void doIntent(ProfileIntent intent) {
     switch (intent.runtimeType) {

@@ -143,10 +143,10 @@ class _EditDriverProfileFormState extends State<EditDriverProfileForm> {
 
                         cubit.doIntent(
                           PerformEditProfile(
-                            firstName: firstNameController.text,
-                            lastName: lastNameController.text,
-                            email: emailController.text,
-                            phone: phoneController.text,
+                            firstName: firstNameController.text.trim(),
+                            lastName: lastNameController.text.trim(),
+                            email: emailController.text.trim(),
+                            phone: phoneController.text.trim(),
                           ),
                         );
                       },

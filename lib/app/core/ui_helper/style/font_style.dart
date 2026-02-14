@@ -154,4 +154,12 @@ class AppStyles {
     fontWeight: FontWeight.w600,
     color: AppColors.green,
   );
+  static const TextStyle medium20 = TextStyle(
+    fontFamily: 'Inter',
+    fontWeight: FontWeight.w500,
+    fontSize: 20,
+    height: 1.0,
+    letterSpacing: 0,
+    color: Color(0xFF0C1015),
+  );
 }

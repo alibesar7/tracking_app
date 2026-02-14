@@ -16,9 +16,6 @@ class EditProfileRequest {
   @JsonKey(name: "phone")
   final String? phone;
 
-  @JsonKey(name: "password")
-  final String? password;
-
   @JsonKey(name: "vehicleType")
   final String? vehicleType;
 
@@ -33,7 +30,6 @@ class EditProfileRequest {
     this.lastName,
     this.email,
     this.phone,
-    this.password,
     this.vehicleType,
     this.vehicleNumber,
     this.vehicleLicense,

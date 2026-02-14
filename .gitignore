@@ -36,6 +36,10 @@ build/
 
 # Coverage
 coverage/
+# Generated Dart files
+*.g.dart
+*.mocks.dart
+
 
 # Symbolication & Obfuscation
 app.*.symbols

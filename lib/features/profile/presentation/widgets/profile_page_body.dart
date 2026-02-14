@@ -24,8 +24,6 @@ class ProfilePageBody extends StatelessWidget {
       child: Column(
         children: [
           const SizedBox(height: 16),
-
-          /// 🔹 Profile Info Card
           InkWell(
             borderRadius: BorderRadius.circular(16),
             onTap: () {
