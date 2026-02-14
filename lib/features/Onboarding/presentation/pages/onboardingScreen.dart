@@ -71,7 +71,9 @@ class Onboardingscreen extends StatelessWidget {
                       isLoading: false,
                       isOutlined: true,
                       text: 'applyNow'.tr(),
-                      onPressed: () {},
+                      onPressed: () {
+                        context.push(RouteNames.applyScreen);
+                      },
                     ),
                   ),
                   SizedBox(height: height * 0.25),
