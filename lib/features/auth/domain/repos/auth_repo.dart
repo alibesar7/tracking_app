@@ -5,7 +5,9 @@ import 'package:tracking_app/features/auth/domain/models/resetpassword_entity.da
 import 'package:tracking_app/features/auth/domain/models/verifyreset_entity.dart';
 
 abstract class AuthRepo {
-  Future<ApiResult<ForgetpasswordEntitiy>> forgetPassword(String email);
+  Future<ApiResult<ForgetPasswordEntitiy>> forgetPassword(String email);
   Future<ApiResult<VerifyResetCodeEntity>> verifyResetCode(String code);
-  Future<ApiResult<ResetPasswordEntity>> resetPassword(ResetPasswordRequest request);
-} 
+  Future<ApiResult<ResetPasswordEntity>> resetPassword(
+    ResetPasswordRequest request,
+  );
+}

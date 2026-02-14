@@ -4,11 +4,10 @@ import 'package:tracking_app/features/auth/domain/models/forgetpassword_entitiy.
 import 'package:tracking_app/features/auth/domain/repos/auth_repo.dart';
 
 @injectable
-class ForgetpasswordUsecase {
+class ForgetPasswordUsecase {
   AuthRepo authRepo;
-  ForgetpasswordUsecase(this.authRepo);
-  Future<ApiResult<ForgetpasswordEntitiy>> call(String email){
-    return  authRepo.forgetPassword(email);
+  ForgetPasswordUsecase(this.authRepo);
+  Future<ApiResult<ForgetPasswordEntitiy>> call(String email) {
+    return authRepo.forgetPassword(email);
   }
-
 }

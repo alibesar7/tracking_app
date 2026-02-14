@@ -1,6 +1,6 @@
-class ForgetpasswordEntitiy {
+class ForgetPasswordEntitiy {
   final String? message;
   final String? info;
 
-  ForgetpasswordEntitiy({required this.message, required this.info});
+  ForgetPasswordEntitiy({required this.message, required this.info});
 }

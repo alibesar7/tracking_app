@@ -17,25 +17,24 @@ class AuthRepoImpl implements AuthRepo {
   AuthRemoteDatasource remoteDatasource;
   AuthRepoImpl(this.remoteDatasource);
 
-  Future<ApiResult<ForgetpasswordEntitiy>> forgetPassword(String email) async {
+  Future<ApiResult<ForgetPasswordEntitiy>> forgetPassword(String email) async {
     final result = await remoteDatasource.forgetPassword(
       ForgetPasswordRequest(email: email),
     );
     if (result is SuccessApiResult<ForgetpasswordResponse>) {
       return SuccessApiResult(
-        data: ForgetpasswordEntitiy(
+        data: ForgetPasswordEntitiy(
           message: result.data.message,
           info: result.data.info,
         ),
       );
     }
     if (result is ErrorApiResult<ForgetpasswordResponse>) {
-      return ErrorApiResult<ForgetpasswordEntitiy>(error: result.error);
+      return ErrorApiResult<ForgetPasswordEntitiy>(error: result.error);
     }
     ;
-    return ErrorApiResult<ForgetpasswordEntitiy>(error: 'Unexpected error');
+    return ErrorApiResult<ForgetPasswordEntitiy>(error: 'Unexpected error');
   }
-
 
   @override
   Future<ApiResult<VerifyResetCodeEntity>> verifyResetCode(String code) async {
@@ -55,7 +54,6 @@ class AuthRepoImpl implements AuthRepo {
 
     return ErrorApiResult<VerifyResetCodeEntity>(error: 'Unexpected error');
   }
-
 
   @override
   Future<ApiResult<ResetPasswordEntity>> resetPassword(

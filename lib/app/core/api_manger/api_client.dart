@@ -22,7 +22,7 @@ abstract class ApiClient {
   Future<HttpResponse<ForgetpasswordResponse>> forgetPassword(
     @Body() ForgetPasswordRequest request,
   );
-  @POST(AppEndpointString.resetPassword)
+  @PUT(AppEndpointString.resetPassword)
   Future<HttpResponse<ResetpasswordResponse>> resetPassword(
     @Body() ResetPasswordRequest request,
   );
