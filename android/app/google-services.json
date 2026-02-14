@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "725835190067",
+    "project_id": "elevate-flower-app",
+    "storage_bucket": "elevate-flower-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:725835190067:android:50a3f907dd986f7ce53846",
+        "android_client_info": {
+          "package_name": "com.example.flower_shop"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1-EtHvgb14c5UzVggOoJRa6j8oto53Jg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:725835190067:android:1a8871c3f15cdafae53846",
+        "android_client_info": {
+          "package_name": "com.example.tracking_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1-EtHvgb14c5UzVggOoJRa6j8oto53Jg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
