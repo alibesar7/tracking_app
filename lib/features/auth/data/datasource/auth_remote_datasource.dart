@@ -22,4 +22,3 @@ abstract class AuthRemoteDataSource {
     String? newPassword,
   });
 }
-

@@ -45,7 +45,7 @@ class _LoginscreenbodyState extends State<Loginscreenbody> {
           );
         } else if (state.loginResource.status == Status.success) {
           showAppSnackbar(context, 'success'.tr());
-          context.go(RouteNames.profile);
+          context.go(RouteNames.appStart);
         }
       },
       builder: (context, state) {

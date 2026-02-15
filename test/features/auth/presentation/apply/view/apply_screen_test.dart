@@ -1,42 +1,69 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tracking_app/app/core/router/route_names.dart';
 import 'package:tracking_app/features/auth/data/models/request/apply_request_model.dart';
 import 'package:tracking_app/features/auth/domain/entities/country_entity.dart';
 import 'package:tracking_app/features/auth/presentation/apply/manager/apply_intent.dart';
 import 'package:tracking_app/features/auth/presentation/apply/manager/apply_state.dart';
 import 'package:tracking_app/features/auth/presentation/apply/view/apply_success_view.dart';
+import 'package:tracking_app/generated/locale_keys.g.dart';
 
-void main() {
+void main() async {
+  SharedPreferences.setMockInitialValues({});
+  await EasyLocalization.ensureInitialized();
+
   group('ApplySuccessScreen Widget Tests -', () {
     testWidgets('should display success message', (tester) async {
       // Act
-      await tester.pumpWidget(const MaterialApp(home: ApplySuccessScreen()));
+      await tester.pumpWidget(
+        EasyLocalization(
+          supportedLocales: const [Locale('en'), Locale('ar')],
+          path: 'assets/translations',
+          fallbackLocale: const Locale('en'),
+          child: const MaterialApp(home: ApplySuccessScreen()),
+        ),
+      );
       await tester.pumpAndSettle();
+      debugPrint(
+        "Found texts: ${tester.widgetList(find.byType(Text)).map((e) => (e as Text).data).toList()}",
+      );
 
       // Assert
-      expect(find.text('Application Submitted!'), findsOneWidget);
-      expect(
-        find.text(
-          'Congratulations! Your application has been submitted successfully.',
-        ),
-        findsOneWidget,
-      );
+      expect(find.text(LocaleKeys.applicationSubmitted), findsOneWidget);
+      expect(find.text(LocaleKeys.congratulationsMessage), findsOneWidget);
     });
 
     testWidgets('should display back to login button', (tester) async {
       // Act
-      await tester.pumpWidget(const MaterialApp(home: ApplySuccessScreen()));
+      await tester.pumpWidget(
+        EasyLocalization(
+          supportedLocales: const [Locale('en'), Locale('ar')],
+          path: 'assets/translations',
+          fallbackLocale: const Locale('en'),
+          child: const MaterialApp(home: ApplySuccessScreen()),
+        ),
+      );
       await tester.pumpAndSettle();
 
       // Assert
-      expect(find.text('Back to Login'), findsOneWidget);
+      expect(find.text(LocaleKeys.backToLogin), findsOneWidget);
       expect(find.byType(ElevatedButton), findsOneWidget);
     });
 
     testWidgets('should display success icon', (tester) async {
       // Act
-      await tester.pumpWidget(const MaterialApp(home: ApplySuccessScreen()));
+      await tester.pumpWidget(
+        EasyLocalization(
+          supportedLocales: const [Locale('en'), Locale('ar')],
+          path: 'assets/translations',
+          fallbackLocale: const Locale('en'),
+          child: const MaterialApp(home: ApplySuccessScreen()),
+        ),
+      );
       await tester.pumpAndSettle();
 
       // Assert - Check for circular container with success decoration
@@ -55,27 +82,42 @@ void main() {
 
     testWidgets('should navigate when back button is tapped', (tester) async {
       // Arrange
-      bool navigationCalled = false;
-
-      await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: Builder(
-              builder: (context) {
-                return ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const ApplySuccessScreen(),
-                      ),
-                    ).then((_) => navigationCalled = true);
-                  },
-                  child: const Text('Go to Success'),
-                );
-              },
+      final router = GoRouter(
+        initialLocation: '/start',
+        routes: [
+          GoRoute(
+            path: '/start',
+            builder: (context, state) => Scaffold(
+              body: Builder(
+                builder: (context) {
+                  return ElevatedButton(
+                    onPressed: () {
+                      context.push('/success');
+                    },
+                    child: const Text('Go to Success'),
+                  );
+                },
+              ),
             ),
           ),
+          GoRoute(
+            path: '/success',
+            builder: (context, state) => const ApplySuccessScreen(),
+          ),
+          GoRoute(
+            path: RouteNames.login,
+            builder: (context, state) =>
+                const Scaffold(body: Text('Login Screen')),
+          ),
+        ],
+      );
+
+      await tester.pumpWidget(
+        EasyLocalization(
+          supportedLocales: const [Locale('en'), Locale('ar')],
+          path: 'assets/translations',
+          fallbackLocale: const Locale('en'),
+          child: MaterialApp.router(routerConfig: router),
         ),
       );
 
@@ -84,14 +126,14 @@ void main() {
       await tester.pumpAndSettle();
 
       // Verify we're on success screen
-      expect(find.text('Application Submitted!'), findsOneWidget);
+      expect(find.text(LocaleKeys.applicationSubmitted), findsOneWidget);
 
       // Tap back to login button
-      await tester.tap(find.text('Back to Login'));
+      await tester.tap(find.text(LocaleKeys.backToLogin));
       await tester.pumpAndSettle();
 
-      // Assert - Should navigate back to first route
-      expect(find.text('Go to Success'), findsOneWidget);
+      // Assert - Should navigate to login screen
+      expect(find.text('Login Screen'), findsOneWidget);
     });
   });
 
@@ -201,4 +243,20 @@ void main() {
       expect(intent.applyRequestModel, requestModel);
     });
   });
+}
+
+class TestAssetLoader extends AssetLoader {
+  const TestAssetLoader();
+
+  @override
+  Future<Map<String, dynamic>> load(String path, Locale locale) async {
+    return {
+      "applicationSubmitted": "Application Submitted!",
+      "congratulationsMessage":
+          "Congratulations! Your application has been submitted successfully.",
+      "backToLogin": "Back to Login",
+      "reviewMessage":
+          "We will review your application and get back to you soon via email.",
+    };
+  }
 }

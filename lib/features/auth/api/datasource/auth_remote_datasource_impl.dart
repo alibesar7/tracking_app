@@ -31,6 +31,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       }),
     );
   }
+
   @override
   Future<ApiResult<LoginResponse>?> login(LoginRequest loginRequest) async {
     try {
@@ -55,6 +56,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       return ErrorApiResult<LoginResponse>(error: e.toString());
     }
   }
+
   @override
   Future<ApiResult<VehiclesResponse>> getAllVehicle() {
     return safeApiCall<VehiclesResponse>(call: () => apiClient.getAllVehicle());

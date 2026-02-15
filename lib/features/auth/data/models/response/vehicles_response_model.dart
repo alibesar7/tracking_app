@@ -22,7 +22,4 @@ class VehiclesResponse {
       _$VehiclesResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$VehiclesResponseToJson(this);
-
-
-
 }

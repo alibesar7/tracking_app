@@ -5,10 +5,7 @@ part 'country_model.g.dart';
 
 @JsonSerializable()
 class CountryModel extends CountryEntity {
-  const CountryModel({super.name,
-    super.flag,
-    super.phoneCode,
-    super.isoCode});
+  const CountryModel({super.name, super.flag, super.phoneCode, super.isoCode});
 
   factory CountryModel.fromJson(Map<String, dynamic> json) =>
       _$CountryModelFromJson(json);

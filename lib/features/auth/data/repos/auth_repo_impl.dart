@@ -32,6 +32,7 @@ class AuthRepoImp implements AuthRepo {
     }
     return ErrorApiResult<LoginResponse>(error: 'Unknown error');
   }
+
   @override
   Future<ApiResult<ChangePasswordModel>> changePassword({
     String? password,
@@ -50,6 +51,7 @@ class AuthRepoImp implements AuthRepo {
         return ErrorApiResult<ChangePasswordModel>(error: response.error);
     }
   }
+
   @override
   Future<ApiResult<List<VehicleModel>>> getAllVehicles() async {
     final result = await authDatasource.getAllVehicle();

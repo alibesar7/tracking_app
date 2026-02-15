@@ -31,6 +31,4 @@ class AppEndpointString {
   static const String deleteAllNotifications = "notifications/clear-all";
   static const String getVehicles = "vehicles";
   static const String apply = "drivers/apply";
-
-
 }
