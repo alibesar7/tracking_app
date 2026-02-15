@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:tracking_app/app/core/router/route_names.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(body: Center(child: const Text("Welcome to Profile Page")));
   }
 }

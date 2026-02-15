@@ -13,6 +13,7 @@ import 'package:tracking_app/app/core/widgets/show_snak_bar.dart';
 import 'package:tracking_app/features/auth/presentation/login/manager/login_cubit.dart';
 import 'package:tracking_app/features/auth/presentation/login/manager/login_intent.dart';
 import 'package:tracking_app/features/auth/presentation/login/manager/login_states.dart';
+import 'package:tracking_app/generated/locale_keys.g.dart';
 
 class Loginscreenbody extends StatefulWidget {
   const Loginscreenbody({super.key});
@@ -61,7 +62,7 @@ class _LoginscreenbodyState extends State<Loginscreenbody> {
               ),
               onPressed: () => Navigator.of(context).pop(),
             ),
-            title: Text('login'.tr(), style: AppStyles.black24SemiBold),
+            title: Text(LocaleKeys.login.tr(), style: AppStyles.black24SemiBold),
             centerTitle: false,
           ),
           body: SafeArea(
@@ -77,12 +78,12 @@ class _LoginscreenbodyState extends State<Loginscreenbody> {
                   children: [
                     CustomTextFormField(
                       controller: _emailController,
-                      label: 'email'.tr(),
-                      hint: 'enterEmail'.tr(),
+                      label: LocaleKeys.email.tr(),
+                      hint: LocaleKeys.enterEmail.tr(),
                       keyboardType: TextInputType.emailAddress,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'emailRequired'.tr();
+                          return LocaleKeys.emailRequired.tr();
                         }
                         return null;
                       },
@@ -90,8 +91,8 @@ class _LoginscreenbodyState extends State<Loginscreenbody> {
                     const SizedBox(height: 20),
                     PasswordTextFormField(
                       controller: _passwordController,
-                      label: 'password'.tr(),
-                      hint: 'enterPassword'.tr(),
+                      label: LocaleKeys.password.tr(),
+                      hint: LocaleKeys.enterPassword.tr(),
                       isVisible: _isPasswordVisible,
                       onToggleVisibility: () {
                         setState(() {
@@ -100,10 +101,10 @@ class _LoginscreenbodyState extends State<Loginscreenbody> {
                       },
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'passwordRequired'.tr();
+                          return LocaleKeys.passwordRequired.tr();
                         }
                         if (value.length < 6) {
-                          return 'least6Characters'.tr();
+                          return LocaleKeys.least6Characters.tr();
                         }
                         return null;
                       },
@@ -124,17 +125,17 @@ class _LoginscreenbodyState extends State<Loginscreenbody> {
                               },
                             ),
                             Text(
-                              'rememberMe'.tr(),
+                              LocaleKeys.rememberMe.tr(),
                               style: AppStyles.font14Black,
                             ),
                           ],
                         ),
                         TextButton(
                           onPressed: () {
-                            // Navigate to Forget Password
+                            context.go(RouteNames.forgetPassword);
                           },
                           child: Text(
-                            'forgotPasswordTitle'.tr(),
+                            LocaleKeys.forgotPasswordTitle.tr(),
                             style: AppStyles.font14Black.copyWith(
                               decoration: TextDecoration.underline,
                             ),
@@ -148,7 +149,7 @@ class _LoginscreenbodyState extends State<Loginscreenbody> {
                       child: CustomButton(
                         isEnabled: true,
                         isLoading: state.loginResource.status == Status.loading,
-                        text: 'continueTxt'.tr(),
+                        text: LocaleKeys.login.tr(),
                         color: AppColors.pink,
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {

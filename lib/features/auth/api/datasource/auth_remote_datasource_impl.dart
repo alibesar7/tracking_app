@@ -1,39 +1,56 @@
 import 'dart:convert';
-import 'package:dio/dio.dart';
-import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:dio/dio.dart';
+import 'package:dio/src/form_data.dart';
+import 'package:tracking_app/app/core/api_manger/api_client.dart';
 import 'package:tracking_app/app/core/network/api_result.dart';
-import 'package:tracking_app/features/auth/data/models/response/country_model.dart';
-import 'package:tracking_app/features/auth/data/models/response/vehicles_response_model.dart';
+import 'package:tracking_app/app/core/network/safe_api_call.dart';
+import 'package:tracking_app/features/auth/data/datasource/auth_remote_datasource.dart';
+import 'package:tracking_app/features/auth/data/model/request/LoginRequest.dart';
+import 'package:tracking_app/features/auth/data/model/response/LoginResponse.dart';
+import 'package:tracking_app/features/auth/data/models/request/forget_password_request.dart';
+import 'package:tracking_app/features/auth/data/models/request/resetpassword_request.dart';
+import 'package:tracking_app/features/auth/data/models/request/verifyreset_request.dart';
 import 'package:tracking_app/features/auth/data/models/request/apply_request_model.dart';
+import 'package:tracking_app/features/auth/data/model/response/change_password_dto.dart';
+import 'package:tracking_app/features/auth/data/models/response/forgetpassword_response.dart';
+import 'package:tracking_app/features/auth/data/models/response/resetpassword_response.dart';
+import 'package:tracking_app/features/auth/data/models/response/verifyreset_response.dart';
 import 'package:tracking_app/features/auth/data/models/response/apply_response_model.dart';
-
-import '../../../../app/core/api_manger/api_client.dart';
-import '../../../../app/core/network/safe_api_call.dart';
-import '../../data/datasource/auth_remote_datasource.dart';
-import '../../data/model/request/LoginRequest.dart';
-import '../../data/model/response/LoginResponse.dart';
-import '../../data/model/response/change_password_dto.dart';
+import 'package:tracking_app/features/auth/data/models/response/vehicles_response_model.dart';
+import 'package:tracking_app/features/auth/data/models/response/country_model.dart';
 
 @Injectable(as: AuthRemoteDataSource)
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
-  ApiClient apiClient;
+  final ApiClient apiClient;
+
   AuthRemoteDataSourceImpl(this.apiClient);
-  @override
-  Future<ApiResult<ChangePasswordDto>> changePassword({
-    String? password,
-    String? newPassword,
-  }) {
-    return safeApiCall<ChangePasswordDto>(
-      call: () => apiClient.changePassword({
-        "password": password,
-        "newPassword": newPassword,
-      }),
-    );
-  }
+
 
   @override
-  Future<ApiResult<LoginResponse>?> login(LoginRequest loginRequest) async {
+  Future<ApiResult<ForgetpasswordResponse>> forgetPassword(
+      ForgetPasswordRequest request) {
+    return safeApiCall(call: () => apiClient.forgetPassword(request));
+  }
+
+
+  @override
+  Future<ApiResult<VerifyresetResponse>> verifyResetCode(
+      VerifyResetRequest request) {
+    return safeApiCall(call: () => apiClient.verifyResetCode(request));
+  }
+
+
+  @override
+  Future<ApiResult<ResetpasswordResponse>> resetPassword(
+      ResetPasswordRequest request) {
+    return safeApiCall(call: () => apiClient.resetPassword(request));
+  }
+
+
+  @override
+  Future<ApiResult<LoginResponse>> login(LoginRequest loginRequest) async {
     try {
       final response = await apiClient.login(loginRequest);
       return SuccessApiResult<LoginResponse>(data: response);
@@ -41,10 +58,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       String errorMessage = 'unknownError';
       if (e.response?.statusCode == 401) {
         errorMessage = 'wrongEmailOrPassword';
-      } else if (e.response != null && e.response?.data != null) {
+      } else if (e.response?.data != null) {
         if (e.response!.data is Map<String, dynamic>) {
-          errorMessage =
-              e.response!.data['message'] ?? e.message ?? 'unknownError';
+          errorMessage = e.response!.data['message'] ?? e.message ?? 'unknownError';
         } else {
           errorMessage = e.message ?? 'unknownError';
         }
@@ -58,14 +74,28 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<ApiResult<VehiclesResponse>> getAllVehicle() {
-    return safeApiCall<VehiclesResponse>(call: () => apiClient.getAllVehicle());
+  Future<ApiResult<ChangePasswordDto>> changePassword({
+    String? password,
+    String? newPassword,
+  }) {
+    return safeApiCall<ChangePasswordDto>(
+      call: () => apiClient.changePassword({
+        "password": password,
+        "newPassword": newPassword,
+      }),
+    );
   }
+
+
+  @override
+  Future<ApiResult<VehiclesResponse>> getAllVehicle() {
+    return safeApiCall(call: () => apiClient.getAllVehicle());
+  }
+
 
   @override
   Future<ApiResult<ApplyResponseModel>> apply(
-    ApplyRequestModel applyRequestModel,
-  ) {
+      ApplyRequestModel applyRequestModel) {
     return safeApiCall<ApplyResponseModel>(
       call: () async {
         final formData = FormData.fromMap({
@@ -88,9 +118,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
               "vehicleLicense",
               await MultipartFile.fromFile(
                 applyRequestModel.vehicleLicense!.path,
-                filename: applyRequestModel.vehicleLicense!.path
-                    .split('/')
-                    .last,
+                filename: applyRequestModel.vehicleLicense!.path.split('/').last,
               ),
             ),
           );
@@ -113,11 +141,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     );
   }
 
+
   @override
   Future<List<CountryModel>> getCountries() async {
-    final String response = await rootBundle.loadString(
-      'assets/data/country.json',
-    );
+    final String response = await rootBundle.loadString('assets/data/country.json');
     final List<dynamic> data = json.decode(response);
     return data.map((json) => CountryModel.fromJson(json)).toList();
   }
