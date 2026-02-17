@@ -7,19 +7,32 @@ class AuthStorage {
   static const _userKey = 'user_data';
   static const _rememberMeKey = 'remember_me';
 
+  Future<SharedPreferences> get _prefs async =>
+      await SharedPreferences.getInstance();
+
   Future<void> saveToken(String token) async {
-    final prefs = await SharedPreferences.getInstance();
+    final prefs = await _prefs;
     await prefs.setString(_tokenKey, token);
   }
 
   Future<String?> getToken() async {
-    final prefs = await SharedPreferences.getInstance();
+    final prefs = await _prefs;
     return prefs.getString(_tokenKey);
   }
 
   Future<void> clearToken() async {
-    final prefs = await SharedPreferences.getInstance();
+    final prefs = await _prefs;
     await prefs.remove(_tokenKey);
+  }
+
+  Future<void> saveUserJson(String json) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_userKey, json);
+  }
+
+  Future<String?> getUserJson() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_userKey);
   }
 
   Future<void> clearUser() async {
@@ -28,12 +41,12 @@ class AuthStorage {
   }
 
   Future<void> setRememberMe(bool value) async {
-    final prefs = await SharedPreferences.getInstance();
+    final prefs = await _prefs;
     await prefs.setBool(_rememberMeKey, value);
   }
 
   Future<bool> getRememberMe() async {
-    final prefs = await SharedPreferences.getInstance();
+    final prefs = await _prefs;
     return prefs.getBool(_rememberMeKey) ?? false;
   }
 

@@ -8,7 +8,7 @@ import 'package:tracking_app/features/auth/domain/repos/auth_repo.dart';
 class ResetPasswordUsecase {
   AuthRepo authRepo;
   ResetPasswordUsecase(this.authRepo);
-  Future<ApiResult<ResetPasswordEntity>> call(ResetPasswordRequest request){
+  Future<ApiResult<ResetPasswordEntity>> call(ResetPasswordRequest request) {
     return authRepo.resetPassword(request);
-  } 
+  }
 }

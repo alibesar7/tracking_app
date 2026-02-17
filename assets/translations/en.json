@@ -222,7 +222,7 @@
   "uploadIdImage": "Upload ID image",
   "female": "Female",
   "male": "Male",
-  "continue": "Continue",
+  "continueText": "Continue",
   "requiredField": "Required",
   "licensePhotoRequired": "License photo is required",
   "idImageRequired": "ID image is required",
@@ -234,5 +234,12 @@
   "congratulationsMessage": "Congratulations! Your application has been submitted successfully.",
   "reviewMessage": "We will review your application and get back to you soon via email.",
   "backToLogin": "Back to Login",
-  "checkEmailMessage": "Check your email regularly for updates on your application status."
+  "checkEmailMessage": "Check your email regularly for updates on your application status.",
+  "change": "Change",
+  "vehicle_type": "Vehicle Type",
+  "vehicle_number": "Vehicle Number",
+  "vehicle_license": "Vehicle License",
+  "editDriverProfile": "Edit Driver Profile",
+  "editVehicle": "Edit Vehicle",
+  "cannotBeSame": "New password cann't be same"
 }

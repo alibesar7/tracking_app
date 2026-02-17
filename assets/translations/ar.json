@@ -219,7 +219,7 @@
   "uploadIdImage": "تحميل صورة الهوية",
   "female": "أنثى",
   "male": "ذكر",
-  "continue": "متابعة",
+  "continueText": "متابعة",
   "requiredField": "مطلوب",
   "licensePhotoRequired": "صورة الرخصة مطلوبة",
   "idImageRequired": "صورة الهوية مطلوبة",
@@ -231,5 +231,13 @@
   "congratulationsMessage": "تهانينا! تم تقديم طلبك بنجاح.",
   "reviewMessage": "سنقوم بمراجعة طلبك والرد عليك قريباً عبر البريد الإلكتروني.",
   "backToLogin": "العودة إلى تسجيل الدخول",
-  "checkEmailMessage": "تحقق من بريدك الإلكتروني بانتظام للحصول على تحديثات حول حالة طلبك."
+  "checkEmailMessage": "تحقق من بريدك الإلكتروني بانتظام للحصول على تحديثات حول حالة طلبك.",
+  "change": "تغيير",
+  "vehicle_type": "نوع المركبة",
+  "vehicle_number": "رقم المركبة",
+  "vehicle_license": "رخصة المركبة",
+  "editDriverProfile": "تعديل الملف الشخصي",
+  "editVehicle": "تعديل المركبة",
+  "cannotBeSame": "كلمة المرور الجديدة لا يجب أن تطابق الحالية"
+
 }

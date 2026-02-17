@@ -6,17 +6,19 @@ import 'package:tracking_app/features/auth/data/mappers/change_password_dto_mapp
 import 'package:tracking_app/features/auth/data/model/request/LoginRequest.dart';
 import 'package:tracking_app/features/auth/data/model/response/LoginResponse.dart';
 import 'package:tracking_app/features/auth/data/model/response/change_password_dto.dart';
+
 import 'package:tracking_app/features/auth/data/models/request/apply_request_model.dart';
 import 'package:tracking_app/features/auth/data/models/request/forget_password_request.dart';
 import 'package:tracking_app/features/auth/data/models/request/resetpassword_request.dart';
+import 'package:tracking_app/features/auth/data/models/response/vehicles_response_model.dart';
+import 'package:tracking_app/features/auth/domain/entities/country_entity.dart';
 import 'package:tracking_app/features/auth/data/models/request/verifyreset_request.dart';
 import 'package:tracking_app/features/auth/data/models/response/apply_response_model.dart';
 import 'package:tracking_app/features/auth/data/models/response/forgetpassword_response.dart';
 import 'package:tracking_app/features/auth/data/models/response/resetpassword_response.dart';
 import 'package:tracking_app/features/auth/data/models/response/vehicle_model.dart';
-import 'package:tracking_app/features/auth/data/models/response/vehicles_response_model.dart';
 import 'package:tracking_app/features/auth/data/models/response/verifyreset_response.dart';
-import 'package:tracking_app/features/auth/domain/entities/country_entity.dart';
+
 import 'package:tracking_app/features/auth/domain/models/change_password_model.dart';
 import 'package:tracking_app/features/auth/domain/models/forgetpassword_entitiy.dart';
 import 'package:tracking_app/features/auth/domain/models/resetpassword_entity.dart';
@@ -70,10 +72,10 @@ class AuthRepoImpl implements AuthRepo {
     return ErrorApiResult(error: 'Unexpected error');
   }
 
-
   @override
   Future<ApiResult<ResetPasswordEntity>> resetPassword(
-      ResetPasswordRequest request) async {
+    ResetPasswordRequest request,
+  ) async {
     final result = await authDatasource.resetPassword(request);
 
     if (result is SuccessApiResult<ResetpasswordResponse>) {
@@ -91,7 +93,6 @@ class AuthRepoImpl implements AuthRepo {
 
     return ErrorApiResult(error: 'Unexpected error');
   }
-
 
   @override
   Future<ApiResult<LoginResponse>> login(String email, String password) async {
@@ -111,10 +112,12 @@ class AuthRepoImpl implements AuthRepo {
 
   @override
   Future<ApiResult<ChangePasswordModel>> changePassword({
+    required String token,
     String? password,
     String? newPassword,
   }) async {
     final response = await authDatasource.changePassword(
+      token: token,
       password: password,
       newPassword: newPassword,
     );
@@ -158,10 +161,8 @@ class AuthRepoImpl implements AuthRepo {
     }
   }
 
-
   @override
-  Future<ApiResult<ApplyResponseModel>> apply(
-      ApplyRequestModel request) async {
+  Future<ApiResult<ApplyResponseModel>> apply(ApplyRequestModel request) async {
     final result = await authDatasource.apply(request);
 
     if (result is SuccessApiResult<ApplyResponseModel>) {

@@ -71,7 +71,8 @@ class _ChangePasswordFormState extends State<ChangePasswordForm> {
               obscureText: _newPassHidden,
               label: LocaleKeys.newPassword.tr(),
               hint: LocaleKeys.newPassword.tr(),
-              validator: (val) => Validators.passwordValidator(val),
+              validator: (val) =>
+                  Validators.newPasswordValidator(val, bloc.currentPass),
               onChanged: (value) {
                 bloc.doIntent(NewPasswordIntent(newPass: value.toString()));
                 bloc.doIntent(FormValidIntent());
@@ -109,7 +110,9 @@ class _ChangePasswordFormState extends State<ChangePasswordForm> {
                   text: LocaleKeys.update.tr(),
                   isEnabled: state.isFormValid ?? false,
                   isLoading: state.data?.status == Status.loading,
-                  onPressed: () => bloc.doIntent(SubmitChangePasswordIntent()),
+                  onPressed: () {
+                    bloc.doIntent(SubmitChangePasswordIntent());
+                  },
                 );
               },
             ),

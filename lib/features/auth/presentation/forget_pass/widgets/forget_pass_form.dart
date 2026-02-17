@@ -72,7 +72,6 @@ class ForgetPasswordForm extends StatelessWidget {
                 ),
                 const SizedBox(height: 40),
                 CustomButton(
-                  
                   isEnabled: state.isFormValid,
                   isLoading: state.resource.status == Status.loading,
                   text: LocaleKeys.continueTxt.tr(),

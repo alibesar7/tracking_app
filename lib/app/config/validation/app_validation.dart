@@ -54,6 +54,17 @@ class Validators {
     return null;
   }
 
+  static String? newPasswordValidator(String? newPass, String? currentPass) {
+    String? validParams = passwordValidator(newPass);
+    if (validParams != null) {
+      return validParams;
+    }
+    if (newPass == currentPass) {
+      return LocaleKeys.cannotBeSame.tr();
+    }
+    return null;
+  }
+
   static String? confirmPasswordValidator(String? val, String? pass) {
     if (val == null || val.isEmpty) {
       return LocaleKeys.confirmPasswordRequired.tr();

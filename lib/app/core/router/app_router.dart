@@ -5,6 +5,10 @@ import 'package:tracking_app/app/config/di/di.dart';
 import 'package:tracking_app/app/core/router/route_names.dart';
 import 'package:tracking_app/features/Onboarding/presentation/pages/onboardingScreen.dart';
 import 'package:tracking_app/features/app_sections/presentation/pages/app_sections.dart';
+import 'package:tracking_app/features/profile/data/models/driver_model.dart';
+import 'package:tracking_app/features/profile/presentation/pages/edit_driver_profile_page.dart';
+import 'package:tracking_app/features/profile/presentation/pages/edit_vehicle_page.dart';
+import 'package:tracking_app/features/profile/presentation/pages/profile_page.dart';
 import 'package:tracking_app/features/auth/presentation/apply/view/apply_view.dart';
 import 'package:tracking_app/features/auth/presentation/forget_pass/manager/cubit/forget_pass_cubit.dart';
 import 'package:tracking_app/features/auth/presentation/forget_pass/pages/forget_pass_page.dart';
@@ -14,8 +18,6 @@ import 'package:tracking_app/features/auth/presentation/reset_password/pages/cha
 import 'package:tracking_app/features/auth/presentation/reset_password/pages/reset_password.dart';
 import 'package:tracking_app/features/auth/presentation/verify_reset/manger/cubit/verify_reset_cubit.dart';
 import 'package:tracking_app/features/auth/presentation/verify_reset/pages/verify_reset_page.dart';
-import 'package:tracking_app/features/profile/presentation/pages/profile_page.dart';
-
 
 final GoRouter appRouter = GoRouter(
   initialLocation: RouteNames.onboarding,
@@ -37,6 +39,7 @@ final GoRouter appRouter = GoRouter(
       path: RouteNames.profile,
       builder: (context, state) => const ProfilePage(),
     ),
+
     GoRoute(
       path: RouteNames.appStart,
       builder: (context, state) => AppSections(),
@@ -71,9 +74,21 @@ final GoRouter appRouter = GoRouter(
         child: const ResetPasswordPage(),
       ),
     ),
+
     GoRoute(
-      path: RouteNames.profile,
-      builder: (context, state) => const ProfilePage(),
+      path: RouteNames.editDriverProfile,
+      builder: (context, state) {
+        final driver = state.extra as DriverModel?;
+        return EditDriverProfilePage(driver: driver);
+      },
+    ),
+
+    GoRoute(
+      path: RouteNames.editVehicle,
+      builder: (context, state) {
+        final driver = state.extra as DriverModel;
+        return EditVehiclePage(driver: driver);
+      },
     ),
   ],
   redirect: (context, state) async {

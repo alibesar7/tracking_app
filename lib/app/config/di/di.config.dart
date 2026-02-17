@@ -48,82 +48,139 @@ import '../../../features/auth/presentation/reset_password/manager/reset_passwor
     as _i378;
 import '../../../features/auth/presentation/verify_reset/manger/cubit/verify_reset_cubit.dart'
     as _i466;
+import '../../../features/profile/api/profile_lacal_datasource_imp.dart'
+    as _i495;
+import '../../../features/profile/api/profile_remote_datasource_imp.dart'
+    as _i899;
+import '../../../features/profile/data/datasorce/profile_lacal_datasource.dart'
+    as _i697;
+import '../../../features/profile/data/datasorce/profile_remote_datasource.dart'
+    as _i943;
+import '../../../features/profile/data/repo/profile_repo_imp.dart' as _i1048;
+import '../../../features/profile/domain/repo/profile_repo.dart' as _i863;
+import '../../../features/profile/domain/usecases/edit_profile_usecase.dart'
+    as _i221;
+import '../../../features/profile/domain/usecases/get_profile_usecase.dart'
+    as _i248;
+import '../../../features/profile/domain/usecases/upload_profile_photo_usecase.dart'
+    as _i884;
+import '../../../features/profile/presentation/managers/profile_cubit.dart'
+    as _i603;
 import '../../core/api_manger/api_client.dart' as _i890;
 import '../auth_storage/auth_storage.dart' as _i603;
 import '../network/network_module.dart' as _i200;
 
 extension GetItInjectableX on _i174.GetIt {
-// initializes the registration of main-scope dependencies inside of GetIt
+  // initializes the registration of main-scope dependencies inside of GetIt
   _i174.GetIt init({
     String? environment,
     _i526.EnvironmentFilter? environmentFilter,
   }) {
-    final gh = _i526.GetItHelper(
-      this,
-      environment,
-      environmentFilter,
-    );
+    final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final networkModule = _$NetworkModule();
     gh.factory<_i959.AppSectionCubit>(() => _i959.AppSectionCubit());
     gh.lazySingleton<_i603.AuthStorage>(() => _i603.AuthStorage());
     gh.lazySingleton<_i783.CountryLocalDataSource>(
-        () => _i783.CountryLocalDataSourceImpl());
+      () => _i783.CountryLocalDataSourceImpl(),
+    );
     gh.lazySingleton<_i361.Dio>(
-        () => networkModule.dio(gh<_i603.AuthStorage>()));
+      () => networkModule.dio(gh<_i603.AuthStorage>()),
+    );
+    gh.lazySingleton<_i697.ProfileLocalDataSource>(
+      () => _i495.ProfileLocalDataSourceImpl(gh<_i603.AuthStorage>()),
+    );
     gh.lazySingleton<_i890.ApiClient>(
-        () => networkModule.authApiClient(gh<_i361.Dio>()));
+      () => networkModule.authApiClient(gh<_i361.Dio>()),
+    );
+    gh.factory<_i943.ProfileRemoteDatasource>(
+      () => _i899.ProfileRemoteDatasourceImp(gh<_i890.ApiClient>()),
+    );
     gh.factory<_i708.AuthRemoteDataSource>(
-        () => _i777.AuthRemoteDataSourceImpl(gh<_i890.ApiClient>()));
+      () => _i777.AuthRemoteDataSourceImpl(gh<_i890.ApiClient>()),
+    );
     gh.factory<_i712.AuthRepo>(
-        () => _i566.AuthRepoImpl(gh<_i708.AuthRemoteDataSource>()));
+      () => _i566.AuthRepoImpl(gh<_i708.AuthRemoteDataSource>()),
+    );
     gh.factory<_i991.ChangePasswordUsecase>(
-        () => _i991.ChangePasswordUsecase(gh<_i712.AuthRepo>()));
+      () => _i991.ChangePasswordUsecase(gh<_i712.AuthRepo>()),
+    );
     gh.factory<_i769.ForgetPasswordUsecase>(
-        () => _i769.ForgetPasswordUsecase(gh<_i712.AuthRepo>()));
+      () => _i769.ForgetPasswordUsecase(gh<_i712.AuthRepo>()),
+    );
     gh.factory<_i294.ResetPasswordUsecase>(
-        () => _i294.ResetPasswordUsecase(gh<_i712.AuthRepo>()));
+      () => _i294.ResetPasswordUsecase(gh<_i712.AuthRepo>()),
+    );
     gh.factory<_i112.VerifyResetCodeUsecase>(
-        () => _i112.VerifyResetCodeUsecase(gh<_i712.AuthRepo>()));
-    gh.factoryParam<_i466.VerifyResetCodeCubit, String, dynamic>((
-      email,
-      _,
-    ) =>
-        _i466.VerifyResetCodeCubit(
-          gh<_i112.VerifyResetCodeUsecase>(),
-          gh<_i769.ForgetPasswordUsecase>(),
-          email,
-        ));
-    gh.factoryParam<_i378.ResetPasswordCubit, String, dynamic>((
-      email,
-      _,
-    ) =>
-        _i378.ResetPasswordCubit(
-          email,
-          gh<_i294.ResetPasswordUsecase>(),
-        ));
+      () => _i112.VerifyResetCodeUsecase(gh<_i712.AuthRepo>()),
+    );
+    gh.factoryParam<_i466.VerifyResetCodeCubit, String, dynamic>(
+      (email, _) => _i466.VerifyResetCodeCubit(
+        gh<_i112.VerifyResetCodeUsecase>(),
+        gh<_i769.ForgetPasswordUsecase>(),
+        email,
+      ),
+    );
+    gh.factoryParam<_i378.ResetPasswordCubit, String, dynamic>(
+      (email, _) =>
+          _i378.ResetPasswordCubit(email, gh<_i294.ResetPasswordUsecase>()),
+    );
+    gh.factory<_i863.ProfileRepo>(
+      () => _i1048.ProfileRepoImpl(
+        gh<_i943.ProfileRemoteDatasource>(),
+        gh<_i697.ProfileLocalDataSource>(),
+      ),
+    );
     gh.lazySingleton<_i412.ApplyUseCase>(
-        () => _i412.ApplyUseCase(gh<_i712.AuthRepo>()));
+      () => _i412.ApplyUseCase(gh<_i712.AuthRepo>()),
+    );
     gh.lazySingleton<_i1015.GetAllVehiclesUseCase>(
-        () => _i1015.GetAllVehiclesUseCase(gh<_i712.AuthRepo>()));
+      () => _i1015.GetAllVehiclesUseCase(gh<_i712.AuthRepo>()),
+    );
     gh.factory<_i940.GetCountriesUseCase>(
-        () => _i940.GetCountriesUseCase(gh<_i712.AuthRepo>()));
+      () => _i940.GetCountriesUseCase(gh<_i712.AuthRepo>()),
+    );
     gh.factory<_i75.LoginUseCase>(
-        () => _i75.LoginUseCase(gh<_i712.AuthRepo>()));
+      () => _i75.LoginUseCase(gh<_i712.AuthRepo>()),
+    );
     gh.factory<_i14.ChangePasswordCubit>(
-        () => _i14.ChangePasswordCubit(gh<_i991.ChangePasswordUsecase>()));
-    gh.factory<_i614.ForgetPasswordCubit>(() => _i614.ForgetPasswordCubit(
-          gh<_i769.ForgetPasswordUsecase>(),
-          gh<_i603.AuthStorage>(),
-        ));
-    gh.factory<_i377.ApplyCubit>(() => _i377.ApplyCubit(
-          gh<_i940.GetCountriesUseCase>(),
-          gh<_i1015.GetAllVehiclesUseCase>(),
-          gh<_i412.ApplyUseCase>(),
-        ));
-    gh.factory<_i810.LoginCubit>(() => _i810.LoginCubit(
-          gh<_i75.LoginUseCase>(),
-          gh<_i603.AuthStorage>(),
-        ));
+      () => _i14.ChangePasswordCubit(
+        gh<_i991.ChangePasswordUsecase>(),
+        gh<_i603.AuthStorage>(),
+      ),
+    );
+    gh.factory<_i614.ForgetPasswordCubit>(
+      () => _i614.ForgetPasswordCubit(
+        gh<_i769.ForgetPasswordUsecase>(),
+        gh<_i603.AuthStorage>(),
+      ),
+    );
+    gh.factory<_i377.ApplyCubit>(
+      () => _i377.ApplyCubit(
+        gh<_i940.GetCountriesUseCase>(),
+        gh<_i1015.GetAllVehiclesUseCase>(),
+        gh<_i412.ApplyUseCase>(),
+      ),
+    );
+    gh.factory<_i221.EditProfileUseCase>(
+      () => _i221.EditProfileUseCase(gh<_i863.ProfileRepo>()),
+    );
+    gh.factory<_i248.GetProfileUsecase>(
+      () => _i248.GetProfileUsecase(gh<_i863.ProfileRepo>()),
+    );
+    gh.factory<_i884.UploadProfilePhotoUseCase>(
+      () => _i884.UploadProfilePhotoUseCase(gh<_i863.ProfileRepo>()),
+    );
+    gh.factory<_i810.LoginCubit>(
+      () => _i810.LoginCubit(gh<_i75.LoginUseCase>(), gh<_i603.AuthStorage>()),
+    );
+    gh.factory<_i603.ProfileCubit>(
+      () => _i603.ProfileCubit(
+        gh<_i221.EditProfileUseCase>(),
+        gh<_i884.UploadProfilePhotoUseCase>(),
+        gh<_i248.GetProfileUsecase>(),
+        gh<_i603.AuthStorage>(),
+      ),
+    );
     return this;
   }
 }

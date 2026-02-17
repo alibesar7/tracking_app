@@ -30,6 +30,7 @@ void main() {
     test("returns SuccessApiResult when repos returns success", () async {
       when(
         mockRepo.changePassword(
+          token: ('fake_token'),
           password: anyNamed('password'),
           newPassword: anyNamed('newPassword'),
         ),
@@ -38,20 +39,29 @@ void main() {
       );
 
       final result =
-          await useCase.call('Mm@123456', 'Mmmm@123')
+          await useCase.call(
+                token: 'fake_token',
+                password: 'Test@123',
+                newPassword: 'Test@1234',
+              )
               as SuccessApiResult<ChangePasswordModel>;
 
       expect(result, isA<SuccessApiResult<ChangePasswordModel>>());
       expect(result.data.token, fakeData.token);
       expect(result.data.message, fakeData.message);
       verify(
-        mockRepo.changePassword(password: 'Mm@123456', newPassword: 'Mmmm@123'),
+        mockRepo.changePassword(
+          token: 'fake_token',
+          password: 'Test@123',
+          newPassword: 'Test@1234',
+        ),
       ).called(1);
     });
 
     test("returns ErrorApiResult when repos returns error", () async {
       when(
         mockRepo.changePassword(
+          token: ('fake_token'),
           password: anyNamed('password'),
           newPassword: anyNamed('newPassword'),
         ),
@@ -62,13 +72,21 @@ void main() {
       );
 
       final result =
-          await useCase.call('Mm@123456', 'Mmmm@123')
+          await useCase.call(
+                token: 'fake_token',
+                password: 'Test@123',
+                newPassword: 'Test@1234',
+              )
               as ErrorApiResult<ChangePasswordModel>;
 
       expect(result, isA<ErrorApiResult<ChangePasswordModel>>());
       expect(result.error, 'change password failed');
       verify(
-        mockRepo.changePassword(password: 'Mm@123456', newPassword: 'Mmmm@123'),
+        mockRepo.changePassword(
+          token: 'fake_token',
+          password: 'Test@123',
+          newPassword: 'Test@1234',
+        ),
       ).called(1);
     });
   });

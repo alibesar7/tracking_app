@@ -17,7 +17,7 @@ abstract class AuthRepo {
     ResetPasswordRequest request,
   );
 
-    Future<ApiResult<List<VehicleModel>>> getAllVehicles();
+  Future<ApiResult<List<VehicleModel>>> getAllVehicles();
   Future<ApiResult<List<CountryEntity>>> getCountries();
   Future<ApiResult<ApplyResponseModel>> apply(
     ApplyRequestModel applyRequestModel,
@@ -25,8 +25,8 @@ abstract class AuthRepo {
   Future<ApiResult<LoginResponse>> login(String email, String password);
 
   Future<ApiResult<ChangePasswordModel>> changePassword({
+    required String token,
     String? password,
     String? newPassword,
   });
 }
-
