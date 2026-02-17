@@ -4,4 +4,6 @@ class AppPaths {
   static const String aboutUs = 'about_app';
   static const String terms = 'terms_and_conditions';
   static const String onboardingImage = 'assets/images/Clip path group.png';
+  static const String whatsappImage = 'assets/images/whatsapp.png';
+  static const String flowerLogo = 'assets/images/flower_logo.png';
 }

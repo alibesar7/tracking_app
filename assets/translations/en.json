@@ -113,7 +113,7 @@
   "no_products_found": "No products found",
   "change_language": "Change Language",
   "arabic": "Arabic",
-  "initialSearchMsg" : "Search For Any Product You Want",
+  "initialSearchMsg": "Search For Any Product You Want",
   "welcomeMessage": "Welcome to Flowery Shop",
   "home": "Home",
   "profile": "Profile",
@@ -198,7 +198,7 @@
   "notification_deleted_successfully": "Notification deleted successfully",
   "clear_all": "Clear all",
   "no_notifications_yet": "No Notifications Yet",
-  "orders" : "Orders",
+  "orders": "Orders",
   "onboardingTitle": "Welcome to ",
   "onboardingDescription": "Flowery rider app ",
   "applyNow": "Apply Now",
@@ -241,5 +241,12 @@
   "vehicle_license": "Vehicle License",
   "editDriverProfile": "Edit Driver Profile",
   "editVehicle": "Edit Vehicle",
-  "cannotBeSame": "New password cann't be same"
+  "cannotBeSame": "New password cann't be same",
+  "orderDetails": "Order details",
+  "status": "Status : ",
+  "orderId": "Order ID : # ",
+  "pickupAddress": "Pickup address",
+  "floweryStore": "Flowery Store",
+  "userAddress": "User address",
+  "arrivedAtPickupPoint": "Arrived at pickup point"
 }

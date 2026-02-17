@@ -238,6 +238,12 @@
   "vehicle_license": "رخصة المركبة",
   "editDriverProfile": "تعديل الملف الشخصي",
   "editVehicle": "تعديل المركبة",
-  "cannotBeSame": "كلمة المرور الجديدة لا يجب أن تطابق الحالية"
-
+  "cannotBeSame": "كلمة المرور الجديدة لا يجب أن تطابق الحالية",
+  "orderDetails": "بيانات الطلب",
+  "status": "الحالة",
+  "orderId": "رقم الطلب : ",
+  "pickupAddress": "عنوان الاستلام",
+  "floweryStore": "متجر فلوري",
+  "userAddress": "عنوان المستخدم",
+  "arrivedAtPickupPoint": "وصلت الى نقطة الالتقاء"
 }
