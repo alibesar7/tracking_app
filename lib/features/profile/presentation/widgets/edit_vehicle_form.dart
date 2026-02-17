@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tracking_app/features/profile/presentation/managers/profile_cubit.dart';
 import 'package:tracking_app/features/profile/presentation/managers/profile_intent.dart';
+import 'package:tracking_app/features/profile/presentation/managers/profile_state.dart';
 import 'package:tracking_app/generated/locale_keys.g.dart';
 
 class EditVehicleForm extends StatefulWidget {
@@ -52,83 +53,107 @@ class _EditVehicleFormState extends State<EditVehicleForm> {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<ProfileCubit>();
-    final state = context.watch<ProfileCubit>().state;
+    // final state = context.watch<ProfileCubit>().state;
 
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          children: [
-            TextFormField(
-              controller: vehicleTypeController,
-              decoration: InputDecoration(
-                labelText: LocaleKeys.vehicle_type.tr(),
+    return BlocListener<ProfileCubit, ProfileState>(
+      listener: (context, state) {
+        if (state.driver != null) {
+          if (state.driver!.vehicleType != null &&
+              vehicleTypeController.text != state.driver!.vehicleType) {
+            vehicleTypeController.text = state.driver!.vehicleType!;
+          }
+          if (state.driver!.vehicleNumber != null &&
+              vehicleNumberController.text != state.driver!.vehicleNumber) {
+            vehicleNumberController.text = state.driver!.vehicleNumber!;
+          }
+          if (state.driver!.vehicleLicense != null &&
+              vehicleLicenseController.text != state.driver!.vehicleLicense) {
+            vehicleLicenseController.text = state.driver!.vehicleLicense!;
+          }
+        }
+      },
+      child: BlocBuilder<ProfileCubit, ProfileState>(
+        builder: (context, state) {
+          return SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  TextFormField(
+                    controller: vehicleTypeController,
+                    decoration: InputDecoration(
+                      labelText: LocaleKeys.vehicle_type.tr(),
+                    ),
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  TextFormField(
+                    controller: vehicleNumberController,
+                    decoration: InputDecoration(
+                      labelText: LocaleKeys.vehicle_number.tr(),
+                    ),
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  TextFormField(
+                    controller: vehicleLicenseController,
+                    readOnly: true,
+                    onTap: () async {
+                      final picked = await ImagePicker().pickImage(
+                        source: ImageSource.gallery,
+                      );
+
+                      if (picked != null) {
+                        final file = File(picked.path);
+
+                        cubit.doIntent(SelectVehicleLicenseIntent(file));
+
+                        vehicleLicenseController.text = picked.name;
+
+                        cubit.doIntent(UploadVehicleLicenseIntent());
+                      }
+                    },
+                    decoration: InputDecoration(
+                      labelText: LocaleKeys.vehicle_license.tr(),
+                      suffixIcon: Icon(Icons.upload),
+                    ),
+                  ),
+
+                  const SizedBox(height: 32),
+
+                  SizedBox(
+                    width: double.infinity,
+                    height: 52,
+                    child: ElevatedButton(
+                      onPressed: state.editProfileResource.isLoading == true
+                          ? null
+                          : () {
+                              cubit.doIntent(
+                                PerformEditProfile(
+                                  vehicleType: vehicleTypeController.text
+                                      .trim(),
+                                  vehicleNumber: vehicleNumberController.text
+                                      .trim(),
+                                  vehicleLicense: vehicleLicenseController.text
+                                      .trim(),
+                                ),
+                              );
+                            },
+                      child: Text(
+                        state.editProfileResource.isLoading == true
+                            ? LocaleKeys.loading.tr()
+                            : LocaleKeys.update.tr(),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-
-            const SizedBox(height: 16),
-
-            TextFormField(
-              controller: vehicleNumberController,
-              decoration: InputDecoration(
-                labelText: LocaleKeys.vehicle_number.tr(),
-              ),
-            ),
-
-            const SizedBox(height: 16),
-
-            TextFormField(
-              controller: vehicleLicenseController,
-              readOnly: true,
-              onTap: () async {
-                final picked = await ImagePicker().pickImage(
-                  source: ImageSource.gallery,
-                );
-
-                if (picked != null) {
-                  final file = File(picked.path);
-
-                  cubit.doIntent(SelectVehicleLicenseIntent(file));
-
-                  vehicleLicenseController.text = picked.name;
-
-                  cubit.doIntent(UploadVehicleLicenseIntent());
-                }
-              },
-              decoration: InputDecoration(
-                labelText: LocaleKeys.vehicle_license.tr(),
-                suffixIcon: Icon(Icons.upload),
-              ),
-            ),
-
-            const SizedBox(height: 32),
-
-            SizedBox(
-              width: double.infinity,
-              height: 52,
-              child: ElevatedButton(
-                onPressed: state.editProfileResource.isLoading == true
-                    ? null
-                    : () {
-                        cubit.doIntent(
-                          PerformEditProfile(
-                            vehicleType: vehicleTypeController.text.trim(),
-                            vehicleNumber: vehicleNumberController.text.trim(),
-                            vehicleLicense: vehicleLicenseController.text
-                                .trim(),
-                          ),
-                        );
-                      },
-                child: Text(
-                  state.editProfileResource.isLoading == true
-                      ? LocaleKeys.loading.tr()
-                      : LocaleKeys.update.tr(),
-                ),
-              ),
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

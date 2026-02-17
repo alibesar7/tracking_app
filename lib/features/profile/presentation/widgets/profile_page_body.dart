@@ -6,6 +6,7 @@ import 'package:tracking_app/app/core/router/route_names.dart';
 import 'package:tracking_app/app/core/ui_helper/color/colors.dart';
 import 'package:tracking_app/app/core/ui_helper/style/font_style.dart';
 import 'package:tracking_app/features/profile/presentation/managers/profile_cubit.dart';
+import 'package:tracking_app/features/profile/presentation/managers/profile_intent.dart';
 import 'package:tracking_app/features/profile/presentation/widgets/info_card.dart';
 import 'package:tracking_app/features/profile/presentation/widgets/profile_avatar.dart';
 import 'package:tracking_app/features/profile/presentation/widgets/profile_item.dart';
@@ -26,8 +27,11 @@ class ProfilePageBody extends StatelessWidget {
           const SizedBox(height: 16),
           InkWell(
             borderRadius: BorderRadius.circular(16),
-            onTap: () {
-              context.push(RouteNames.editDriverProfile, extra: user);
+            onTap: () async {
+              await context.push(RouteNames.editDriverProfile, extra: user);
+              if (context.mounted) {
+                context.read<ProfileCubit>().doIntent(GetProfileIntent());
+              }
             },
             child: InfoCard(
               child: Row(
@@ -76,8 +80,13 @@ class ProfilePageBody extends StatelessWidget {
               children: [
                 Expanded(
                   child: InkWell(
-                    onTap: () {
-                      context.push(RouteNames.editVehicle, extra: user);
+                    onTap: () async {
+                      await context.push(RouteNames.editVehicle, extra: user);
+                      if (context.mounted) {
+                        context.read<ProfileCubit>().doIntent(
+                          GetProfileIntent(),
+                        );
+                      }
                     },
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

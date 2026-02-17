@@ -20,13 +20,13 @@ class ProfileRepoImpl implements ProfileRepo {
     required String token,
   }) async {
     try {
-      final localUser = await localDataSource.getUser();
+      // final localUser = await localDataSource.getUser();
 
-      if (localUser != null) {
-        return SuccessApiResult<EditProfileResponse>(
-          data: EditProfileResponse.fromJson(localUser.toJson()),
-        );
-      }
+      // if (localUser != null) {
+      //   return SuccessApiResult<EditProfileResponse>(
+      //     data: EditProfileResponse.fromJson(localUser.toJson()),
+      //   );
+      // }
       final result = await profileDatasource.getProfile(token: token);
 
       if (result is SuccessApiResult<EditProfileResponse>) {

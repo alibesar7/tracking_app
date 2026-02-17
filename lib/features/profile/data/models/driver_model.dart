@@ -76,6 +76,7 @@ class DriverModel {
       NID: user.NID,
       NIDImg: user.NIDImg,
       email: user.email,
+      phone: user.phone,
       password: null,
     );
   }

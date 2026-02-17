@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
-import 'package:tracking_app/app/config/validation/app_validation.dart';
 import 'package:tracking_app/features/auth/domain/models/change_password_model.dart';
 import 'package:tracking_app/features/auth/presentation/reset_password/manager/change_password_intent.dart';
 import 'package:tracking_app/features/auth/presentation/reset_password/manager/change_password_states.dart';
@@ -37,27 +36,23 @@ class ChangePasswordCubit extends Cubit<ChangePasswordStates> {
   }
 
   void _formValid() {
-    final isValid =
-        (Validators.passwordValidator(currentPass) == null &&
-        Validators.passwordValidator(newPass) == null &&
-        Validators.confirmPasswordValidator(confirmPass, newPass) == null);
-
+    final isValid = formKey.currentState?.validate() ?? false;
     emit(state.copyWith(isFormValid: isValid));
   }
 
   void _currentPassword(String value) {
     currentPass = value;
-    emit(state.copyWith(currentPassword: true));
+    emit(state.copyWith(currentPassword: true, data: null));
   }
 
   void _newPassword(String value) {
     newPass = value;
-    emit(state.copyWith(newPassword: true));
+    emit(state.copyWith(newPassword: true, data: null));
   }
 
   void _confirmPassword(String value) {
     confirmPass = value;
-    emit(state.copyWith(confirmPassword: true));
+    emit(state.copyWith(confirmPassword: true, data: null));
   }
 
   Future<void> _submitChangePassword() async {

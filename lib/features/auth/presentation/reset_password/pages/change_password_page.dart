@@ -38,7 +38,8 @@ class ChangePasswordPage extends StatelessWidget {
         child: BlocProvider<ChangePasswordCubit>(
           create: (context) => bloc,
           child: BlocConsumer<ChangePasswordCubit, ChangePasswordStates>(
-            // listenWhen: (p, c) => p.data?.status != c.data?.status,
+            listenWhen: (previous, current) =>
+                previous.data?.status != current.data?.status,
             listener: (context, state) {
               if (state.data?.status == Status.success) {
                 showAppSnackbar(context, LocaleKeys.passwordUpdated.tr());
