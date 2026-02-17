@@ -42,6 +42,7 @@ void main() {
           error: null,
         );
         when(mockAuthStorage.getToken()).thenAnswer((_) async => 'fake_token');
+        when(mockAuthStorage.clearToken()).thenAnswer((_) async => isTrue);
         when(
           mockUseCase.call(
             token: 'Bearer fake_token',
@@ -95,7 +96,7 @@ void main() {
             newPassword: 'Test@1234',
           ),
         ).called(1);
-        verify(mockAuthStorage.saveToken('fake_token')).called(1);
+        verify(mockAuthStorage.clearToken()).called(1);
       },
     );
 
