@@ -75,7 +75,7 @@ class ChangePasswordCubit extends Cubit<ChangePasswordStates> {
     switch (response) {
       case SuccessApiResult<ChangePasswordModel>():
         if (response.data.token != null) {
-          await _authStorage.saveToken(response.data.token!);
+          await _authStorage.clearToken();
         }
         emit(state.copyWith(data: Resource.success(response.data)));
 

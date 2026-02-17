@@ -30,7 +30,7 @@ class ResetPasswordPage extends StatelessWidget {
           listener: (context, state) {
             if (state.resource.status == Status.success) {
               showAppSnackbar(context, LocaleKeys.passwordUpdated.tr());
-              context.push(RouteNames.profile);
+              context.push(RouteNames.login);
             }
             if (state.resource.status == Status.error) {
               showAppDialog(

@@ -4,6 +4,7 @@ class AppEndpointString {
   static const String sendEmail = 'drivers/forgotPassword';
   static const String verifyResetCode = 'drivers/verifyResetCode';
   static const String resetPassword = 'drivers/resetPassword';
+  static const String changePassword = "drivers/change-password";
 
   static const String profileData = 'auth/profile-data';
   static const String logout = 'auth/logout';
@@ -18,7 +19,6 @@ class AppEndpointString {
   static const String home = '/home';
   static const String productDetails = 'products/{id}';
   static const String cartPage = 'cart';
-  static const String changePassword = "change-password";
   static const String tokenKey = 'token';
   static const String addAddress = 'addresses';
   static const String getaddresses = 'addresses';
