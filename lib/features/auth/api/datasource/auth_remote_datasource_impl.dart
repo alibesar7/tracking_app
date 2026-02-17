@@ -2,13 +2,11 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
-import 'package:tracking_app/app/config/auth_storage/auth_storage.dart';
 import 'package:tracking_app/app/core/network/api_result.dart';
 import 'package:tracking_app/features/auth/data/models/response/country_model.dart';
 import 'package:tracking_app/features/auth/data/models/response/vehicles_response_model.dart';
 import 'package:tracking_app/features/auth/data/models/request/apply_request_model.dart';
 import 'package:tracking_app/features/auth/data/models/response/apply_response_model.dart';
-
 import '../../../../app/core/api_manger/api_client.dart';
 import '../../../../app/core/network/safe_api_call.dart';
 import '../../data/datasource/auth_remote_datasource.dart';
@@ -19,20 +17,20 @@ import '../../data/model/response/change_password_dto.dart';
 @Injectable(as: AuthRemoteDataSource)
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   ApiClient apiClient;
-  AuthStorage _authStorage;
-  AuthRemoteDataSourceImpl(this.apiClient, this._authStorage);
+  AuthRemoteDataSourceImpl(this.apiClient);
+
   @override
   Future<ApiResult<ChangePasswordDto>> changePassword({
+    required String token,
     String? password,
     String? newPassword,
   }) {
     return safeApiCall<ChangePasswordDto>(
       call: () async {
-        final token = await _authStorage.getToken();
-        return apiClient.changePassword("Bearer $token", {
-          "password": password,
-          "newPassword": newPassword,
-        });
+        return apiClient.changePassword(
+          token: "Bearer $token",
+          body: {"password": password, "newPassword": newPassword},
+        );
       },
     );
   }

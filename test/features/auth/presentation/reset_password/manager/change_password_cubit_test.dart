@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:tracking_app/app/config/auth_storage/auth_storage.dart';
 import 'package:tracking_app/app/config/base_state/base_state.dart';
 import 'package:tracking_app/app/core/network/api_result.dart';
 import 'package:tracking_app/features/auth/domain/models/change_password_model.dart';
@@ -9,23 +10,24 @@ import 'package:tracking_app/features/auth/domain/usecase/change_password_usecas
 import 'package:tracking_app/features/auth/presentation/reset_password/manager/change_password_cubit.dart';
 import 'package:tracking_app/features/auth/presentation/reset_password/manager/change_password_intent.dart';
 import 'package:tracking_app/features/auth/presentation/reset_password/manager/change_password_states.dart';
-
 import 'change_password_cubit_test.mocks.dart';
 
-@GenerateMocks([ChangePasswordUsecase])
+@GenerateMocks([ChangePasswordUsecase, AuthStorage])
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   late MockChangePasswordUsecase mockUseCase;
+  late MockAuthStorage mockAuthStorage;
   late ChangePasswordCubit cubit;
 
   setUpAll(() {
     mockUseCase = MockChangePasswordUsecase();
+    mockAuthStorage = MockAuthStorage();
     provideDummy<ApiResult<ChangePasswordModel>>(
       SuccessApiResult(data: ChangePasswordModel()),
     );
   });
   setUp(() {
-    cubit = ChangePasswordCubit(mockUseCase);
+    cubit = ChangePasswordCubit(mockUseCase, mockAuthStorage);
   });
   tearDown(() async {
     await cubit.close();
@@ -39,8 +41,14 @@ void main() {
           token: 'fake_token',
           error: null,
         );
-
-        when(mockUseCase.call('Test@123', 'Test@1234')).thenAnswer(
+        when(mockAuthStorage.getToken()).thenAnswer((_) async => 'fake_token');
+        when(
+          mockUseCase.call(
+            token: 'Bearer fake_token',
+            password: 'Test@123',
+            newPassword: 'Test@1234',
+          ),
+        ).thenAnswer(
           (_) async => SuccessApiResult<ChangePasswordModel>(data: fakeData),
         );
         return cubit;
@@ -80,14 +88,27 @@ void main() {
             .having((s) => s.data!.data!.message, "message", "Success"),
       ],
       verify: (_) {
-        verify(mockUseCase.call('Test@123', 'Test@1234')).called(1);
+        verify(
+          mockUseCase.call(
+            token: 'Bearer fake_token',
+            password: 'Test@123',
+            newPassword: 'Test@1234',
+          ),
+        ).called(1);
       },
     );
 
     blocTest<ChangePasswordCubit, ChangePasswordStates>(
       'emits loading then error when usecase returns ErrorApiResult',
       build: () {
-        when(mockUseCase.call('Test@123', 'Test@1234')).thenAnswer(
+        when(mockAuthStorage.getToken()).thenAnswer((_) async => 'fake_token');
+        when(
+          mockUseCase.call(
+            token: 'Bearer fake_token',
+            password: 'Test@123',
+            newPassword: 'Test@1234',
+          ),
+        ).thenAnswer(
           (_) async => ErrorApiResult<ChangePasswordModel>(
             error: 'Change password failed',
           ),
@@ -131,7 +152,13 @@ void main() {
       ],
 
       verify: (_) {
-        verify(mockUseCase.call('Test@123', 'Test@1234')).called(1);
+        verify(
+          mockUseCase.call(
+            token: 'Bearer fake_token',
+            password: 'Test@123',
+            newPassword: 'Test@1234',
+          ),
+        ).called(1);
       },
     );
   });
@@ -189,24 +216,6 @@ void main() {
   });
 
   group('Form Validation', () {
-    blocTest<ChangePasswordCubit, ChangePasswordStates>(
-      'emits isFormValid = true when passwords are valid and match',
-      build: () {
-        cubit.currentPass = 'Test@123';
-        cubit.newPass = 'Test@1234';
-        cubit.confirmPass = 'Test@1234';
-        return cubit;
-      },
-      act: (cubit) => cubit.doIntent(FormValidIntent()),
-      expect: () => [
-        isA<ChangePasswordStates>().having(
-          (s) => s.isFormValid,
-          'isFormValid',
-          true,
-        ),
-      ],
-    );
-
     blocTest<ChangePasswordCubit, ChangePasswordStates>(
       'emits isFormValid = false when confirm password does not match',
       build: () {

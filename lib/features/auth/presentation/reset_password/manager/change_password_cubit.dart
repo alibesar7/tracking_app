@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
+import 'package:tracking_app/app/config/auth_storage/auth_storage.dart';
 import 'package:tracking_app/features/auth/domain/models/change_password_model.dart';
 import 'package:tracking_app/features/auth/presentation/reset_password/manager/change_password_intent.dart';
 import 'package:tracking_app/features/auth/presentation/reset_password/manager/change_password_states.dart';
@@ -11,8 +12,9 @@ import '../../../domain/usecase/change_password_usecase.dart';
 @injectable
 class ChangePasswordCubit extends Cubit<ChangePasswordStates> {
   final ChangePasswordUsecase _changePasswordUseCase;
+  final AuthStorage _authStorage;
 
-  ChangePasswordCubit(this._changePasswordUseCase)
+  ChangePasswordCubit(this._changePasswordUseCase, this._authStorage)
     : super(ChangePasswordStates());
 
   final formKey = GlobalKey<FormState>();
@@ -57,10 +59,17 @@ class ChangePasswordCubit extends Cubit<ChangePasswordStates> {
 
   Future<void> _submitChangePassword() async {
     emit(state.copyWith(data: Resource.loading()));
+    final token = await _authStorage.getToken();
+
+    if (token == null || token.isEmpty) {
+      emit(state.copyWith(data: Resource.error("Token not found")));
+      return;
+    }
 
     ApiResult<ChangePasswordModel> response = await _changePasswordUseCase.call(
-      currentPass,
-      newPass,
+      token: 'Bearer $token',
+      password: currentPass,
+      newPassword: newPass,
     );
 
     switch (response) {

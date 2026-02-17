@@ -17,10 +17,11 @@ abstract class ApiClient {
   factory ApiClient(Dio dio) = _ApiClient;
 
   @PATCH(AppEndpointString.changePassword)
-  Future<HttpResponse<ChangePasswordDto>> changePassword(
-    @Header(ApiConstants.authorization) String token,
-    @Body() Map<String, dynamic> body,
-  );
+  Future<HttpResponse<ChangePasswordDto>> changePassword({
+    @Header(ApiConstants.authorization) required String token,
+    @Body() required Map<String, dynamic> body,
+  });
+
   @POST(AppEndpointString.login)
   Future<LoginResponse> login(@Body() LoginRequest request);
 

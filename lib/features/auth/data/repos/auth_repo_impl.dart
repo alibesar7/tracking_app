@@ -1,11 +1,9 @@
 import 'package:injectable/injectable.dart';
 import 'package:tracking_app/app/core/network/api_result.dart';
-import 'package:tracking_app/features/auth/data/models/response/vechicles_entity.dart';
 import 'package:tracking_app/features/auth/data/models/response/vehicles_response_model.dart';
 import 'package:tracking_app/features/auth/domain/entities/country_entity.dart';
 import 'package:tracking_app/features/auth/data/models/request/apply_request_model.dart';
 import 'package:tracking_app/features/auth/data/models/response/apply_response_model.dart';
-
 import '../../domain/models/change_password_model.dart';
 import '../../domain/repos/auth_repo.dart';
 import '../datasource/auth_remote_datasource.dart';
@@ -35,10 +33,12 @@ class AuthRepoImp implements AuthRepo {
 
   @override
   Future<ApiResult<ChangePasswordModel>> changePassword({
+    required String token,
     String? password,
     String? newPassword,
   }) async {
     ApiResult<ChangePasswordDto> response = await authDatasource.changePassword(
+      token: token,
       password: password,
       newPassword: newPassword,
     );

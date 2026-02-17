@@ -88,6 +88,7 @@ void main() {
 
         when(
           mockDataSource.changePassword(
+            token: ('fake_token'),
             password: anyNamed('password'),
             newPassword: anyNamed('newPassword'),
           ),
@@ -97,6 +98,7 @@ void main() {
 
         final result =
             await repo.changePassword(
+                  token: 'fake_token',
                   password: 'Mm@123456',
                   newPassword: 'Mmmm@123',
                 )
@@ -107,6 +109,7 @@ void main() {
         expect(result.data.message, fakeDto.message);
         verify(
           mockDataSource.changePassword(
+            token: ('fake_token'),
             password: anyNamed('password'),
             newPassword: anyNamed('newPassword'),
           ),
@@ -119,6 +122,7 @@ void main() {
       () async {
         when(
           mockDataSource.changePassword(
+            token: ('fake_token'),
             password: anyNamed('password'),
             newPassword: anyNamed('newPassword'),
           ),
@@ -129,6 +133,7 @@ void main() {
 
         final result =
             await repo.changePassword(
+                  token: 'fake_token',
                   password: 'Mm@123456',
                   newPassword: 'Mmmm@123',
                 )
@@ -138,6 +143,7 @@ void main() {
         expect(result.error.toString(), contains("Network error"));
         verify(
           mockDataSource.changePassword(
+            token: ('fake_token'),
             password: anyNamed('password'),
             newPassword: anyNamed('newPassword'),
           ),
