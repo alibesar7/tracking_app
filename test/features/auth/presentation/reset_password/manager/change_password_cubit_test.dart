@@ -95,6 +95,7 @@ void main() {
             newPassword: 'Test@1234',
           ),
         ).called(1);
+        verify(mockAuthStorage.saveToken('fake_token')).called(1);
       },
     );
 

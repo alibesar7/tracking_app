@@ -12,6 +12,7 @@ class PerformEditProfile extends ProfileIntent {
   final String? vehicleType;
   final String? vehicleNumber;
   final String? vehicleLicense;
+  final File? photo;
 
   PerformEditProfile({
     this.firstName,
@@ -21,6 +22,7 @@ class PerformEditProfile extends ProfileIntent {
     this.vehicleType,
     this.vehicleNumber,
     this.vehicleLicense,
+    this.photo,
   });
 }
 

@@ -225,6 +225,7 @@ abstract class LocaleKeys {
   static const enterNationalId = 'enterNationalId';
   static const idImage = 'idImage';
   static const uploadIdImage = 'uploadIdImage';
+  static const continueText = 'continueText';
   static const requiredField = 'requiredField';
   static const licensePhotoRequired = 'licensePhotoRequired';
   static const idImageRequired = 'idImageRequired';
@@ -244,4 +245,5 @@ abstract class LocaleKeys {
   static const vehicle_license = 'vehicle_license';
   static const editDriverProfile = 'editDriverProfile';
   static const editVehicle = 'editVehicle';
+  static const cannotBeSame = 'cannotBeSame';
 }

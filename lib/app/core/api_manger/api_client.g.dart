@@ -16,12 +16,14 @@ class _ApiClient implements ApiClient {
   String? baseUrl;
 
   @override
-  Future<HttpResponse<ChangePasswordDto>> changePassword(
-    Map<String, dynamic> body,
-  ) async {
+  Future<HttpResponse<ChangePasswordDto>> changePassword({
+    required String token,
+    required Map<String, dynamic> body,
+  }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     _data.addAll(body);
     final _result = await _dio.fetch<Map<String, dynamic>>(
@@ -29,7 +31,7 @@ class _ApiClient implements ApiClient {
         Options(method: 'PATCH', headers: _headers, extra: _extra)
             .compose(
               _dio.options,
-              'drivers/change-password',
+              'change-password',
               queryParameters: queryParameters,
               data: _data,
             )

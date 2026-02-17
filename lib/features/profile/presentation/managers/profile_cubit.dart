@@ -111,6 +111,21 @@ class ProfileCubit extends Cubit<ProfileState> {
       return;
     }
 
+    if (intent.photo != null) {
+      final uploadResult = await _uploadPhotoUseCase.call(
+        token: 'Bearer $token',
+        photo: intent.photo!,
+      );
+
+      if (uploadResult is ErrorApiResult<EditProfileResponse>) {
+        emit(
+          state.copyWith(
+            editProfileResource: Resource.error(uploadResult.error),
+          ),
+        );
+        return;
+      }
+    }
     final result = await _editProfileUseCase.call(
       token: 'Bearer $token',
       firstName: intent.firstName,
@@ -137,6 +152,7 @@ class ProfileCubit extends Cubit<ProfileState> {
             state.copyWith(
               driver: driverModel,
               editProfileResource: Resource.success(result.data),
+              clearSelectedPhoto: true,
             ),
           );
         }

@@ -111,7 +111,10 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i75.LoginUseCase(gh<_i712.AuthRepo>()),
     );
     gh.factory<_i14.ChangePasswordCubit>(
-      () => _i14.ChangePasswordCubit(gh<_i991.ChangePasswordUsecase>()),
+      () => _i14.ChangePasswordCubit(
+        gh<_i991.ChangePasswordUsecase>(),
+        gh<_i603.AuthStorage>(),
+      ),
     );
     gh.factory<_i377.ApplyCubit>(
       () => _i377.ApplyCubit(

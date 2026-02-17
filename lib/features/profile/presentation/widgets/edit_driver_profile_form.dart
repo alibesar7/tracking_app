@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -169,16 +170,15 @@ class _EditDriverProfileFormState extends State<EditDriverProfileForm> {
                               final token = await authStorage.getToken();
                               if (token == null) return;
 
-                              if (state.selectedPhoto != null) {
-                                cubit.doIntent(UploadSelectedPhotoIntent());
-                              }
-
                               cubit.doIntent(
                                 PerformEditProfile(
                                   firstName: firstNameController.text.trim(),
                                   lastName: lastNameController.text.trim(),
                                   email: emailController.text.trim(),
                                   phone: phoneController.text.trim(),
+                                  photo: state.selectedPhoto?.path != null
+                                      ? File(state.selectedPhoto!.path)
+                                      : null,
                                 ),
                               );
                             },
