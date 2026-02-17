@@ -1,0 +1,58 @@
+﻿00:00 +0: loading C:/Users/20101/StudioProjects/tracking_app/test/features/auth/presentation/login/pages/loginScreen_test.dart
+00:00 +0: (setUpAll)
+[90m[­ƒîÄ Easy Localization] [DEBUG] Localization initialized[0m
+00:00 +0: LoginScreen renders correctly
+[90m[­ƒîÄ Easy Localization] [DEBUG] Start[0m
+[90m[­ƒîÄ Easy Localization] [DEBUG] Init state[0m
+[90m[­ƒîÄ Easy Localization] [DEBUG] Build[0m
+[90m[­ƒîÄ Easy Localization] [DEBUG] Init Localization Delegate[0m
+[90m[­ƒîÄ Easy Localization] [DEBUG] Init provider[0m
+[34m[­ƒîÄ Easy Localization] [WARNING] Localization key [login] not found[0m
+[34m[­ƒîÄ Easy Localization] [WARNING] Localization key [email] not found[0m
+[34m[­ƒîÄ Easy Localization] [WARNING] Localization key [enterEmail] not found[0m
+[34m[­ƒîÄ Easy Localization] [WARNING] Localization key [password] not found[0m
+[34m[­ƒîÄ Easy Localization] [WARNING] Localization key [enterPassword] not found[0m
+[34m[­ƒîÄ Easy Localization] [WARNING] Localization key [rememberMe] not found[0m
+[34m[­ƒîÄ Easy Localization] [WARNING] Localization key [forgotPasswordTitle] not found[0m
+[34m[­ƒîÄ Easy Localization] [WARNING] Localization key [login] not found[0m
+ÔòÉÔòÉÔòí EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK Ôò×ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+The following TestFailure was thrown running a test:
+Expected: exactly one matching candidate
+  Actual: _TextWidgetFinder:<Found 0 widgets with text "Email": []>
+   Which: means none were found but one was expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///C:/Users/20101/StudioProjects/tracking_app/test/features/auth/presentation/login/pages/loginScreen_test.dart:64:5)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1059:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///C:/Users/20101/StudioProjects/tracking_app/test/features/auth/presentation/login/pages/loginScreen_test.dart line 64
+The test description was:
+  LoginScreen renders correctly
+ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+00:02 +0 -1: LoginScreen renders correctly [E]
+  Test failed. See exception logs above.
+  The test description was: LoginScreen renders correctly
+  
+00:02 +0 -1: Enters text into email and password fields
+[90m[­ƒîÄ Easy Localization] [DEBUG] Start[0m
+[90m[­ƒîÄ Easy Localization] [DEBUG] Init state[0m
+[90m[­ƒîÄ Easy Localization] [DEBUG] Build[0m
+[90m[­ƒîÄ Easy Localization] [DEBUG] Init Localization Delegate[0m
+[90m[­ƒîÄ Easy Localization] [DEBUG] Init provider[0m
+[34m[­ƒîÄ Easy Localization] [WARNING] Localization key [login] not found[0m
+[34m[­ƒîÄ Easy Localization] [WARNING] Localization key [email] not found[0m
+[34m[­ƒîÄ Easy Localization] [WARNING] Localization key [enterEmail] not found[0m
+[34m[­ƒîÄ Easy Localization] [WARNING] Localization key [password] not found[0m
+[34m[­ƒîÄ Easy Localization] [WARNING] Localization key [enterPassword] not found[0m
+[34m[­ƒîÄ Easy Localization] [WARNING] Localization key [rememberMe] not found[0m
+[34m[­ƒîÄ Easy Localization] [WARNING] Localization key [forgotPasswordTitle] not found[0m
+[34m[­ƒîÄ Easy Localization] [WARNING] Localization key [login] not found[0m
+00:03 +1 -1: (tearDownAll)
+00:03 +1 -1: Some tests failed.
