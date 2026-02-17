@@ -32,6 +32,7 @@ import '../../../features/auth/domain/usecase/get_all_vehicles_usecase.dart'
 import '../../../features/auth/domain/usecase/get_countries_usecase.dart'
     as _i940;
 import '../../../features/auth/domain/usecase/login_usecase.dart' as _i75;
+import '../../../features/auth/domain/usecase/logout_usecase.dart' as _i27;
 import '../../../features/auth/domain/usecase/resertpassword_usecase.dart'
     as _i294;
 import '../../../features/auth/domain/usecase/verifyreaset_usecase.dart'
@@ -42,6 +43,8 @@ import '../../../features/auth/presentation/forget_pass/manager/cubit/forget_pas
     as _i614;
 import '../../../features/auth/presentation/login/manager/login_cubit.dart'
     as _i810;
+import '../../../features/auth/presentation/logout/manager/logout_cubit.dart'
+    as _i1023;
 import '../../../features/auth/presentation/reset_password/manager/change_password_cubit.dart'
     as _i14;
 import '../../../features/auth/presentation/reset_password/manager/reset_password_cubit.dart'
@@ -142,6 +145,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i75.LoginUseCase>(
       () => _i75.LoginUseCase(gh<_i712.AuthRepo>()),
     );
+    gh.factory<_i27.LogoutUseCase>(
+      () => _i27.LogoutUseCase(gh<_i712.AuthRepo>()),
+    );
     gh.factory<_i14.ChangePasswordCubit>(
       () => _i14.ChangePasswordCubit(
         gh<_i991.ChangePasswordUsecase>(),
@@ -169,6 +175,10 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i884.UploadProfilePhotoUseCase>(
       () => _i884.UploadProfilePhotoUseCase(gh<_i863.ProfileRepo>()),
+    );
+    gh.factory<_i1023.LogoutCubit>(
+      () =>
+          _i1023.LogoutCubit(gh<_i27.LogoutUseCase>(), gh<_i603.AuthStorage>()),
     );
     gh.factory<_i810.LoginCubit>(
       () => _i810.LoginCubit(gh<_i75.LoginUseCase>(), gh<_i603.AuthStorage>()),

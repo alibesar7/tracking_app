@@ -3,12 +3,15 @@ import 'package:go_router/go_router.dart';
 import 'package:tracking_app/app/config/auth_storage/auth_storage.dart';
 import 'package:tracking_app/app/config/di/di.dart';
 import 'package:tracking_app/app/core/router/route_names.dart';
+import 'package:tracking_app/features/auth/presentation/logout/manager/logout_cubit.dart';
 import 'package:tracking_app/features/Onboarding/presentation/pages/onboardingScreen.dart';
 import 'package:tracking_app/features/app_sections/presentation/pages/app_sections.dart';
 import 'package:tracking_app/features/profile/data/models/driver_model.dart';
 import 'package:tracking_app/features/profile/presentation/pages/edit_driver_profile_page.dart';
 import 'package:tracking_app/features/profile/presentation/pages/edit_vehicle_page.dart';
 import 'package:tracking_app/features/profile/presentation/pages/profile_page.dart';
+
+import '../../config/di/di.dart';
 import 'package:tracking_app/features/auth/presentation/apply/view/apply_view.dart';
 import 'package:tracking_app/features/auth/presentation/forget_pass/manager/cubit/forget_pass_cubit.dart';
 import 'package:tracking_app/features/auth/presentation/forget_pass/pages/forget_pass_page.dart';
@@ -31,10 +34,12 @@ final GoRouter appRouter = GoRouter(
       path: RouteNames.onboarding,
       builder: (context, state) => const Onboardingscreen(),
     ),
+
     GoRoute(
       path: RouteNames.login,
       builder: (context, state) => const LoginScreen(),
     ),
+
     GoRoute(
       path: RouteNames.profile,
       builder: (context, state) => const ProfilePage(),
@@ -44,10 +49,12 @@ final GoRouter appRouter = GoRouter(
       path: RouteNames.appStart,
       builder: (context, state) => AppSections(),
     ),
+
     GoRoute(
       path: RouteNames.applyScreen,
       builder: (context, state) => const ApplyScreen(),
     ),
+
     GoRoute(
       path: RouteNames.verifyResetCode,
       builder: (context, state) {
@@ -59,6 +66,7 @@ final GoRouter appRouter = GoRouter(
         );
       },
     ),
+
     GoRoute(
       path: RouteNames.forgetPassword,
       builder: (context, state) => BlocProvider(
@@ -91,17 +99,4 @@ final GoRouter appRouter = GoRouter(
       },
     ),
   ],
-  redirect: (context, state) async {
-    final token = await getIt<AuthStorage>().getToken();
-    final rememberMe = await getIt<AuthStorage>().getRememberMe();
-
-    final bool loggingIn =
-        state.matchedLocation == RouteNames.login ||
-        state.matchedLocation == RouteNames.onboarding;
-
-    if (loggingIn && token != null && rememberMe) {
-      return RouteNames.profile;
-    }
-    return null;
-  },
 );

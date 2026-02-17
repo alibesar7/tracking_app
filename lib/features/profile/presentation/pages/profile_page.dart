@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tracking_app/app/config/di/di.dart';
 import 'package:tracking_app/app/core/widgets/custom_app_bar.dart';
+import 'package:tracking_app/features/auth/presentation/logout/manager/logout_cubit.dart';
 import 'package:tracking_app/features/profile/presentation/managers/profile_cubit.dart';
 import 'package:tracking_app/features/profile/presentation/managers/profile_intent.dart';
 import 'package:tracking_app/features/profile/presentation/widgets/notification_with_badge_widget.dart';
@@ -19,6 +20,7 @@ class ProfilePage extends StatelessWidget {
           create: (context) =>
               getIt<ProfileCubit>()..doIntent(GetProfileIntent()),
         ),
+        BlocProvider(create: (_) => getIt<LogoutCubit>()),
       ],
       child: SafeArea(
         child: Scaffold(
