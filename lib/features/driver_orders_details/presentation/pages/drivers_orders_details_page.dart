@@ -1,9 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tracking_app/app/config/base_state/base_state.dart';
+import 'package:tracking_app/app/config/di/di.dart';
 import 'package:tracking_app/app/core/ui_helper/color/colors.dart';
 import 'package:tracking_app/app/core/values/paths.dart';
 import 'package:tracking_app/app/core/widgets/custom_button.dart';
+import 'package:tracking_app/features/driver_orders_details/presentation/manager/order_details_cubit.dart';
+import 'package:tracking_app/features/driver_orders_details/presentation/manager/order_details_states.dart';
 import 'package:tracking_app/features/driver_orders_details/presentation/widgets/address_card.dart';
 import 'package:tracking_app/features/driver_orders_details/presentation/widgets/bottom_row_section.dart';
 import 'package:tracking_app/features/driver_orders_details/presentation/widgets/order_item.dart';
@@ -15,6 +20,7 @@ class DriversOrdersDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var cubit = getIt<OrderDetailsCubit>();
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -29,105 +35,157 @@ class DriversOrdersDetailsPage extends StatelessWidget {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: List.generate(
-                5,
-                (index) => Expanded(
-                  child: Container(
-                    height: 4,
-                    margin: const EdgeInsets.symmetric(horizontal: 2),
-                    decoration: BoxDecoration(
-                      color: index == 0 ? AppColors.green : AppColors.lightGrey,
-                      borderRadius: BorderRadius.circular(2),
+      body: BlocProvider<OrderDetailsCubit>(
+        create: (context) => cubit..getOrderDetails('pxkMaEmWYVuvV5jkW0JK'),
+        child: BlocBuilder<OrderDetailsCubit, OrderDetailsStates>(
+          builder: (context, state) {
+            if (state.data?.status == Status.loading) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (state.data?.status == Status.error) {
+              return Center(child: Text(state.data!.error.toString()));
+            } else if (state.data?.status == Status.success) {
+              final order = state.data!.data;
+              return SingleChildScrollView(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: List.generate(5, (index) {
+                        int currentStep = _getStepCount(order!.status);
+                        return Expanded(
+                          child: Container(
+                            height: 4,
+                            margin: const EdgeInsets.symmetric(horizontal: 2),
+                            decoration: BoxDecoration(
+                              color: index < currentStep
+                                  ? AppColors.green
+                                  : AppColors.lightGrey,
+                              borderRadius: BorderRadius.circular(2),
+                            ),
+                          ),
+                        );
+                      }),
                     ),
-                  ),
+                    const SizedBox(height: 20),
+
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: AppColors.lightPink,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${LocaleKeys.status.tr()}${order!.status}',
+                            style: TextStyle(
+                              color: AppColors.green,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            '${LocaleKeys.orderId.tr()}${order.id}',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            'Wed, 03 Sep 2024, 11:00 AM',
+                            style: TextStyle(
+                              color: AppColors.grey,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+
+                    SectionTitle(title: LocaleKeys.pickupAddress.tr()),
+                    AddressCard(
+                      title: LocaleKeys.floweryStore.tr(),
+                      address: order.userAddress.address,
+                      imagePath: AppPaths.flowerLogo,
+                    ),
+                    const SizedBox(height: 16),
+                    SectionTitle(title: LocaleKeys.userAddress.tr()),
+
+                    AddressCard(
+                      title: order.userAddress.name,
+                      address: order.userAddress.address,
+                      imagePath: AppPaths.flowerLogo,
+                    ),
+                    const SizedBox(height: 24),
+
+                    SectionTitle(title: LocaleKeys.orderDetails.tr()),
+                    OrderItem(),
+                    OrderItem(),
+                    const SizedBox(height: 16),
+
+                    BottomRowSection(
+                      label: LocaleKeys.total.tr(),
+                      value: '${LocaleKeys.egp.tr()} ${order.totalPrice}',
+                    ),
+                    BottomRowSection(
+                      label: LocaleKeys.payment_method.tr(),
+                      value: LocaleKeys.cash_on_delivery.tr(),
+                    ),
+
+                    const SizedBox(height: 32),
+
+                    SizedBox(
+                      width: double.infinity,
+                      height: 55,
+                      child: CustomButton(
+                        isEnabled: true,
+                        onPressed: () {},
+                        isLoading: false,
+                        text: _getButtonText(order.status),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ),
-            const SizedBox(height: 20),
-
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: AppColors.lightPink,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '${LocaleKeys.status.tr()}Accepted',
-                    style: TextStyle(
-                      color: AppColors.green,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    '${LocaleKeys.orderId.tr()}123456',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'Wed, 03 Sep 2024, 11:00 AM',
-                    style: TextStyle(color: AppColors.grey, fontSize: 14),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 24),
-
-            SectionTitle(title: LocaleKeys.pickupAddress.tr()),
-            AddressCard(
-              title: LocaleKeys.floweryStore.tr(),
-              address: '20th st, Sheikh Zayed, Giza',
-              imagePath: AppPaths.flowerLogo,
-            ),
-            const SizedBox(height: 16),
-            SectionTitle(title: LocaleKeys.userAddress.tr()),
-            AddressCard(
-              title: 'Nour mohamed',
-              address: '20th st, Sheikh Zayed, Giza',
-              imagePath: AppPaths.flowerLogo,
-            ),
-            const SizedBox(height: 24),
-
-            SectionTitle(title: LocaleKeys.orderDetails.tr()),
-            OrderItem(),
-            OrderItem(),
-            const SizedBox(height: 16),
-
-            BottomRowSection(
-              label: LocaleKeys.total.tr(),
-              value: '${LocaleKeys.egp.tr()} 3000',
-            ),
-            BottomRowSection(
-              label: LocaleKeys.payment_method.tr(),
-              value: LocaleKeys.cash_on_delivery.tr(),
-            ),
-
-            const SizedBox(height: 32),
-
-            SizedBox(
-              width: double.infinity,
-              height: 55,
-              child: CustomButton(
-                isEnabled: true,
-                onPressed: () {},
-                isLoading: false,
-                text: LocaleKeys.arrivedAtPickupPoint.tr(),
-              ),
-            ),
-          ],
+              );
+            }
+            return const SizedBox.shrink();
+          },
         ),
       ),
     );
+  }
+
+  int _getStepCount(String status) {
+    switch (status.toLowerCase()) {
+      case 'accepted':
+        return 1;
+      case 'pickup':
+        return 2;
+      case 'out_for_delivery':
+        return 3;
+      case 'arrived':
+        return 4;
+      case 'delivered':
+        return 5;
+      default:
+        return 1;
+    }
+  }
+
+  String _getButtonText(String status) {
+    switch (status.toLowerCase()) {
+      case 'accepted':
+        return LocaleKeys.arrivedAtPickupPoint.tr();
+      case 'pickup':
+        return 'Start deliver';
+      default:
+        return LocaleKeys.arrivedAtPickupPoint.tr();
+    }
   }
 }

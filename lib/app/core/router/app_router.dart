@@ -93,7 +93,7 @@ final GoRouter appRouter = GoRouter(
     ),
 
     GoRoute(
-      path: RouteNames.driverOrdersDetailsPage,
+      path: RouteNames.ordersDetailsPage,
       builder: (context, state) => DriversOrdersDetailsPage(),
     ),
   ],
