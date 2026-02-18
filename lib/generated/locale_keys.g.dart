@@ -246,4 +246,11 @@ abstract class LocaleKeys {
   static const editDriverProfile = 'editDriverProfile';
   static const editVehicle = 'editVehicle';
   static const cannotBeSame = 'cannotBeSame';
+  static const orderDetails = 'orderDetails';
+  static const status = 'status';
+  static const orderId = 'orderId';
+  static const pickupAddress = 'pickupAddress';
+  static const floweryStore = 'floweryStore';
+  static const userAddress = 'userAddress';
+  static const arrivedAtPickupPoint = 'arrivedAtPickupPoint';
 }
