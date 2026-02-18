@@ -74,4 +74,11 @@ abstract class ApiClient {
   Future<HttpResponse<EditProfileResponse>> getProfile({
     @Header(ApiConstants.authorization) required String token,
   });
+
+  //   @GET(AppEndpointString.driverOrders)
+  // Future<MyOrdersListResponse> getAllOrders(
+  //   @Header("Authorization") String bearerToken,
+  //   @Query("limit") int limit,
+  //   @Query("page") int page,
+  // );
 }
