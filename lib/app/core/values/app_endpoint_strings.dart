@@ -32,4 +32,6 @@ class AppEndpointString {
   static const String getProfile = "drivers/profile-data";
   static const String login = "drivers/signin";
   static const String logout = 'drivers/logout';
+
+  static const String driverOrders = 'orders/pending-orders';
 }

@@ -19,6 +19,7 @@ import 'package:tracking_app/app/core/values/api_constants.dart';
 import 'package:tracking_app/features/profile/data/models/requests/edit_profile_request.dart';
 import 'package:tracking_app/features/profile/data/models/responses/edit_profile_response.dart';
 import '../../../features/auth/data/models/response/logout_response_dto/logout_response_dto.dart';
+import 'package:tracking_app/features/home/data/model/response/orderRespons.dart';
 part 'api_client.g.dart';
 
 @RestApi(baseUrl: AppEndpointString.baseUrl)
@@ -74,4 +75,9 @@ abstract class ApiClient {
   Future<HttpResponse<EditProfileResponse>> getProfile({
     @Header(ApiConstants.authorization) required String token,
   });
+
+  @GET(AppEndpointString.driverOrders)
+  Future<HttpResponse<OrderResponse>> getPendingOrders(
+    @Header("Authorization") String token,
+  );
 }

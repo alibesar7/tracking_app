@@ -241,5 +241,13 @@
   "vehicle_license": "Vehicle License",
   "editDriverProfile": "Edit Driver Profile",
   "editVehicle": "Edit Vehicle",
-  "cannotBeSame": "New password cann't be same"
+  "cannotBeSame": "New password cann't be same",
+  "driverOrderTitle": "Flower order",
+  "pickupAddress": "Pickup address",
+  "unknownStore": "Unknown Store",
+  "noAddress": "No address",
+  "userAddress": "User address",
+  "accept": "Accept",
+  "reject": "Reject",
+  "noPendingOrders": "No pending orders"
 }

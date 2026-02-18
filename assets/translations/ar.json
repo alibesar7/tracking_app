@@ -238,6 +238,13 @@
   "vehicle_license": "رخصة المركبة",
   "editDriverProfile": "تعديل الملف الشخصي",
   "editVehicle": "تعديل المركبة",
-  "cannotBeSame": "كلمة المرور الجديدة لا يجب أن تطابق الحالية"
-
+  "cannotBeSame": "كلمة المرور الجديدة لا يجب أن تطابق الحالية",
+  "driverOrderTitle": "طلب زهور",
+  "pickupAddress": "عنوان الاستلام",
+  "unknownStore": "متجر غير معروف",
+  "noAddress": "لا يوجد عنوان",
+  "userAddress": "عنوان المستخدم",
+  "accept": "قبول",
+  "reject": "رفض",
+  "noPendingOrders": "لا توجد طلبات معلقة"
 }

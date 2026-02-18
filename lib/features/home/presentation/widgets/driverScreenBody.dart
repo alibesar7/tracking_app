@@ -1,0 +1,66 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tracking_app/app/config/base_state/base_state.dart';
+import 'package:tracking_app/features/home/presentation/manger/driverorderCubit.dart';
+import 'package:tracking_app/features/home/presentation/manger/driverorderIntent.dart';
+import 'package:tracking_app/features/home/presentation/manger/driverorderStates.dart';
+import 'package:tracking_app/features/home/presentation/widgets/driverOrderItem.dart';
+
+class DriverOrderBody extends StatefulWidget {
+  const DriverOrderBody({super.key});
+
+  @override
+  State<DriverOrderBody> createState() => _DriverOrderBodyState();
+}
+
+class _DriverOrderBodyState extends State<DriverOrderBody> {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<DriverOrderCubit, DriverOrderState>(
+      builder: (context, state) {
+        final resource = state.orderResource;
+
+        if (resource.status == Status.loading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (resource.status == Status.error) {
+          return Center(
+            child: Text(
+              resource.error ?? "Unknown error",
+              style: const TextStyle(color: Colors.red),
+            ),
+          );
+        }
+
+        if (resource.status == Status.success) {
+          final orders = resource.data?.orders ?? [];
+          if (orders.isEmpty) {
+            return const Center(child: Text("No pending orders"));
+          }
+          return RefreshIndicator(
+            onRefresh: () async {
+              context.read<DriverOrderCubit>().onIntent(GetPendingOrders());
+            },
+            child: ListView.builder(
+              itemCount: orders.length,
+              itemBuilder: (context, index) {
+                return DriverOrderItem(
+                  order: orders[index],
+                  onAccept: () {
+                    // TODO: Implement accept logic
+                  },
+                  onReject: () {
+                    // TODO: Implement reject logic
+                  },
+                );
+              },
+            ),
+          );
+        }
+
+        return const SizedBox.shrink();
+      },
+    );
+  }
+}

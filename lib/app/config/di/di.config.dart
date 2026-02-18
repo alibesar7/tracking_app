@@ -51,6 +51,15 @@ import '../../../features/auth/presentation/reset_password/manager/reset_passwor
     as _i378;
 import '../../../features/auth/presentation/verify_reset/manger/cubit/verify_reset_cubit.dart'
     as _i466;
+import '../../../features/home/api/driverOrderDataS_imp.dart' as _i495;
+import '../../../features/home/data/datascourse/driverOrderDatascource.dart'
+    as _i743;
+import '../../../features/home/data/repo/driverOrderRepo_impl.dart' as _i1020;
+import '../../../features/home/domain/repo/driverOrderRepo.dart' as _i499;
+import '../../../features/home/domain/usecase/getdriverOrderUsecase.dart'
+    as _i858;
+import '../../../features/home/presentation/manger/driverorderCubit.dart'
+    as _i573;
 import '../../../features/profile/api/profile_lacal_datasource_imp.dart'
     as _i495;
 import '../../../features/profile/api/profile_remote_datasource_imp.dart'
@@ -95,6 +104,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i890.ApiClient>(
       () => networkModule.authApiClient(gh<_i361.Dio>()),
     );
+    gh.factory<_i743.DriverOrderDataSource>(
+      () => _i495.DriverOrderDataSourceImpl(gh<_i890.ApiClient>()),
+    );
     gh.factory<_i943.ProfileRemoteDatasource>(
       () => _i899.ProfileRemoteDatasourceImp(gh<_i890.ApiClient>()),
     );
@@ -126,6 +138,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factoryParam<_i378.ResetPasswordCubit, String, dynamic>(
       (email, _) =>
           _i378.ResetPasswordCubit(email, gh<_i294.ResetPasswordUsecase>()),
+    );
+    gh.factory<_i499.DriverOrderRepo>(
+      () => _i1020.DriverOrderRepositoryImpl(gh<_i743.DriverOrderDataSource>()),
     );
     gh.factory<_i863.ProfileRepo>(
       () => _i1048.ProfileRepoImpl(
@@ -160,6 +175,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i603.AuthStorage>(),
       ),
     );
+    gh.factory<_i858.GetDriverOrdersUseCase>(
+      () => _i858.GetDriverOrdersUseCase(gh<_i499.DriverOrderRepo>()),
+    );
     gh.factory<_i377.ApplyCubit>(
       () => _i377.ApplyCubit(
         gh<_i940.GetCountriesUseCase>(),
@@ -182,6 +200,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i810.LoginCubit>(
       () => _i810.LoginCubit(gh<_i75.LoginUseCase>(), gh<_i603.AuthStorage>()),
+    );
+    gh.factory<_i573.DriverOrderCubit>(
+      () => _i573.DriverOrderCubit(
+        gh<_i858.GetDriverOrdersUseCase>(),
+        gh<_i603.AuthStorage>(),
+      ),
     );
     gh.factory<_i603.ProfileCubit>(
       () => _i603.ProfileCubit(
