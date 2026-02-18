@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:tracking_app/features/home/data/model/response/orderRespons.dart';
 import 'package:tracking_app/features/home/presentation/widgets/driverOrderButton.dart';
@@ -35,38 +36,40 @@ class DriverOrderItem extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            "Flower order",
-            style: TextStyle(
+          Text(
+            "driverOrderTitle".tr(),
+            style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
               color: Color(0xFF2D2D2D),
             ),
           ),
           const SizedBox(height: 16),
-          const DriverOrderSectionLabel("Pickup address"),
+          DriverOrderSectionLabel("pickupAddress".tr()),
           const SizedBox(height: 8),
           DriverOrderInfoCard(
             image: order.store?.image,
-            title: order.store?.name ?? 'Unknown Store',
-            subtitle: order.store?.address ?? 'No address',
+            title: order.store?.name ?? "unknownStore".tr(),
+            subtitle: order.store?.address ?? "noAddress".tr(),
             isStore: true,
           ),
           const SizedBox(height: 16),
-          const DriverOrderSectionLabel("User address"),
+          DriverOrderSectionLabel("userAddress".tr()),
           const SizedBox(height: 8),
           DriverOrderInfoCard(
-            image: order.user?.photo,
+            image: order.user?.photo != null
+                ? "https://flower.elevateegy.com/uploads/${order.user!.photo!}"
+                : null,
             title:
                 "${order.user?.firstName ?? ''} ${order.user?.lastName ?? ''}",
-            subtitle: order.shippingAddress?.street ?? 'No address',
+            subtitle: order.shippingAddress?.street ?? "noAddress".tr(),
             isStore: false,
           ),
           const SizedBox(height: 24),
           Row(
             children: [
               Text(
-                "EGP ${order.totalPrice ?? 0}",
+                "${order.totalPrice ?? 0} ${"egp".tr()}",
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -75,13 +78,13 @@ class DriverOrderItem extends StatelessWidget {
               ),
               const Spacer(),
               DriverOrderButton(
-                text: "Reject",
+                text: "reject".tr(),
                 onTap: onReject,
                 isPrimary: false,
               ),
               const SizedBox(width: 8),
               DriverOrderButton(
-                text: "Accept",
+                text: "accept".tr(),
                 onTap: onAccept,
                 isPrimary: true,
               ),

@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:injectable/injectable.dart';
+import 'package:injectable/injectable.dart' hide Order;
+import 'package:tracking_app/features/home/data/model/response/orderRespons.dart';
 import 'package:tracking_app/app/config/auth_storage/auth_storage.dart';
 import 'package:tracking_app/app/config/base_state/base_state.dart';
 import 'package:tracking_app/app/core/network/api_result.dart';
@@ -19,6 +20,26 @@ class DriverOrderCubit extends Cubit<DriverOrderState> {
     switch (intent) {
       case GetPendingOrders():
         _getPendingOrders();
+      case RemoveOrder(order: final order):
+        _removeOrder(order);
+    }
+  }
+
+  void _removeOrder(Order order) {
+    final currentResource = state.orderResource;
+    if (currentResource.status == Status.success &&
+        currentResource.data != null) {
+      final currentOrders = currentResource.data!.orders!;
+      final updatedOrders = currentOrders
+          .where((element) => element != order)
+          .toList();
+      emit(
+        state.copyWith(
+          orderResource: Resource.success(
+            currentResource.data!.copyWith(orders: updatedOrders),
+          ),
+        ),
+      );
     }
   }
 

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tracking_app/app/config/base_state/base_state.dart';
@@ -27,7 +28,7 @@ class _DriverOrderBodyState extends State<DriverOrderBody> {
         if (resource.status == Status.error) {
           return Center(
             child: Text(
-              resource.error ?? "Unknown error",
+              resource.error ?? "unknownError".tr(),
               style: const TextStyle(color: Colors.red),
             ),
           );
@@ -36,7 +37,7 @@ class _DriverOrderBodyState extends State<DriverOrderBody> {
         if (resource.status == Status.success) {
           final orders = resource.data?.orders ?? [];
           if (orders.isEmpty) {
-            return const Center(child: Text("No pending orders"));
+            return Center(child: Text("noPendingOrders".tr()));
           }
           return RefreshIndicator(
             onRefresh: () async {
@@ -47,11 +48,11 @@ class _DriverOrderBodyState extends State<DriverOrderBody> {
               itemBuilder: (context, index) {
                 return DriverOrderItem(
                   order: orders[index],
-                  onAccept: () {
-                    // TODO: Implement accept logic
-                  },
+                  onAccept: () {},
                   onReject: () {
-                    // TODO: Implement reject logic
+                    context.read<DriverOrderCubit>().onIntent(
+                      RemoveOrder(orders[index]),
+                    );
                   },
                 );
               },

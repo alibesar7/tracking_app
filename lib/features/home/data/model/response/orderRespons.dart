@@ -17,6 +17,18 @@ class OrderResponse {
       _$OrderResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$OrderResponseToJson(this);
+
+  OrderResponse copyWith({
+    String? message,
+    Metadata? metadata,
+    List<Order>? orders,
+  }) {
+    return OrderResponse(
+      message: message ?? this.message,
+      metadata: metadata ?? this.metadata,
+      orders: orders ?? this.orders,
+    );
+  }
 }
 
 @JsonSerializable()
