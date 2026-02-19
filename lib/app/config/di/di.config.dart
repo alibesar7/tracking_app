@@ -51,6 +51,10 @@ import '../../../features/auth/presentation/reset_password/manager/reset_passwor
     as _i378;
 import '../../../features/auth/presentation/verify_reset/manger/cubit/verify_reset_cubit.dart'
     as _i466;
+import '../../../features/my_orders/api/datasource/my_orders_remote_data_source_imp.dart'
+    as _i583;
+import '../../../features/my_orders/data/datasource/my_orders_remote_data_source.dart'
+    as _i466;
 import '../../../features/profile/api/profile_lacal_datasource_imp.dart'
     as _i495;
 import '../../../features/profile/api/profile_remote_datasource_imp.dart'
@@ -94,6 +98,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i890.ApiClient>(
       () => networkModule.authApiClient(gh<_i361.Dio>()),
+    );
+    gh.factory<_i466.MyOrdersRemoteDataSource>(
+      () => _i583.MyOrdersRemoteDataSourceImp(gh<_i890.ApiClient>()),
     );
     gh.factory<_i943.ProfileRemoteDatasource>(
       () => _i899.ProfileRemoteDatasourceImp(gh<_i890.ApiClient>()),
