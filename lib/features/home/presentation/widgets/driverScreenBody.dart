@@ -48,7 +48,11 @@ class _DriverOrderBodyState extends State<DriverOrderBody> {
               itemBuilder: (context, index) {
                 return DriverOrderItem(
                   order: orders[index],
-                  onAccept: () {},
+                  onAccept: () {
+                    context.read<DriverOrderCubit>().onIntent(
+                      AcceptOrder(orders[index]),
+                    );
+                  },
                   onReject: () {
                     context.read<DriverOrderCubit>().onIntent(
                       RemoveOrder(orders[index]),

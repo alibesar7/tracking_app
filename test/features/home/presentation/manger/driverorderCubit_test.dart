@@ -8,16 +8,19 @@ import 'package:tracking_app/app/core/network/api_result.dart';
 import 'package:tracking_app/features/home/data/model/response/orderRespons.dart';
 import 'package:tracking_app/features/home/domain/repo/driverOrderRepo.dart';
 import 'package:tracking_app/features/home/domain/usecase/getdriverOrderUsecase.dart';
+import 'package:tracking_app/features/home/domain/usecase/getdriverOrderUsecase.dart';
+import 'package:tracking_app/features/home/domain/usecase/upload_driver_fire_data_use_case.dart';
 import 'package:tracking_app/features/home/presentation/manger/driverorderCubit.dart';
 import 'package:tracking_app/features/home/presentation/manger/driverorderIntent.dart';
 import 'package:tracking_app/features/home/presentation/manger/driverorderStates.dart';
 
 import 'driverorderCubit_test.mocks.dart';
 
-@GenerateMocks([DriverOrderRepo, AuthStorage])
+@GenerateMocks([DriverOrderRepo, AuthStorage, UploadDriverFireDataUseCase])
 void main() {
   late DriverOrderCubit driverOrderCubit;
   late MockDriverOrderRepo mockDriverOrderRepo;
+  late MockUploadDriverFireDataUseCase mockUploadDriverFireDataUseCase;
   late GetDriverOrdersUseCase getDriverOrdersUseCase;
   late MockAuthStorage mockAuthStorage;
 
@@ -27,10 +30,13 @@ void main() {
     );
     mockDriverOrderRepo = MockDriverOrderRepo();
     mockAuthStorage = MockAuthStorage();
+    mockUploadDriverFireDataUseCase = MockUploadDriverFireDataUseCase();
     getDriverOrdersUseCase = GetDriverOrdersUseCase(mockDriverOrderRepo);
     driverOrderCubit = DriverOrderCubit(
       getDriverOrdersUseCase,
       mockAuthStorage,
+      mockUploadDriverFireDataUseCase,
+      mockDriverOrderRepo,
     );
   });
 
