@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:tracking_app/features/auth/data/models/response/metadata_model.dart';
+import '../meta_data_dto.dart';
 import '../order_model.dart';
 
 part 'my_order_response.g.dart';
