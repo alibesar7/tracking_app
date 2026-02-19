@@ -14,10 +14,15 @@ class DriverOrderButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return InkWell(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+        padding: EdgeInsets.symmetric(
+          horizontal: width * 0.06,
+          vertical: height * 0.012,
+        ),
         decoration: BoxDecoration(
           color: isPrimary ? const Color(0xFFE91E63) : Colors.white,
           borderRadius: BorderRadius.circular(24),
@@ -27,7 +32,7 @@ class DriverOrderButton extends StatelessWidget {
           text,
           style: TextStyle(
             color: isPrimary ? Colors.white : const Color(0xFFE91E63),
-            fontSize: 14,
+            fontSize: width * 0.035,
             fontWeight: FontWeight.w500,
           ),
         ),

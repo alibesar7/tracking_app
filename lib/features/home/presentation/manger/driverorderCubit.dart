@@ -12,18 +12,21 @@ import 'package:tracking_app/features/home/presentation/manger/driverorderIntent
 import 'package:tracking_app/features/home/presentation/manger/driverorderStates.dart';
 import 'package:tracking_app/features/home/domain/repo/driverOrderRepo.dart';
 import 'package:tracking_app/features/home/domain/usecase/upload_driver_fire_data_use_case.dart';
+import 'package:tracking_app/features/home/domain/usecase/upload_order_fire_data_use_case.dart';
 
 @injectable
 class DriverOrderCubit extends Cubit<DriverOrderState> {
   final GetDriverOrdersUseCase _getDriverOrdersUseCase;
   final AuthStorage _authStorage;
   final UploadDriverFireDataUseCase _uploadDriverFireDataUseCase;
+  final UploadOrderFireDataUseCase _uploadOrderFireDataUseCase;
   final DriverOrderRepo _driverOrderRepository;
 
   DriverOrderCubit(
     this._getDriverOrdersUseCase,
     this._authStorage,
     this._uploadDriverFireDataUseCase,
+    this._uploadOrderFireDataUseCase,
     this._driverOrderRepository,
   ) : super(DriverOrderState());
 
@@ -80,6 +83,15 @@ class DriverOrderCubit extends Cubit<DriverOrderState> {
             lng: position.longitude,
             deviceToken: deviceToken,
           );
+
+          await _uploadOrderFireDataUseCase(
+            order: order,
+            driverId: profile.driver?.Id ?? '',
+          );
+
+          if (order.id != null) {
+            await _authStorage.saveOrderId(order.id!);
+          }
         } catch (e) {
           if (kDebugMode) {
             print("Firestore/Location Error: $e");

@@ -250,5 +250,6 @@
   "userAddress": "User address",
   "accept": "Accept",
   "reject": "Reject",
-  "noPendingOrders": "No pending orders"
+  "noPendingOrders": "No pending orders",
+  "floweryRider": "Flowery Rider"
 }

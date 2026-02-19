@@ -62,6 +62,8 @@ import '../../../features/home/domain/usecase/getdriverOrderUsecase.dart'
     as _i858;
 import '../../../features/home/domain/usecase/upload_driver_fire_data_use_case.dart'
     as _i329;
+import '../../../features/home/domain/usecase/upload_order_fire_data_use_case.dart'
+    as _i233;
 import '../../../features/home/presentation/manger/driverorderCubit.dart'
     as _i573;
 import '../../../features/profile/api/profile_lacal_datasource_imp.dart'
@@ -108,6 +110,11 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i329.UploadDriverFireDataUseCase>(
       () => _i329.UploadDriverFireDataUseCase(
+        gh<_i974.FirebaseFirestore>(instanceName: 'firestore'),
+      ),
+    );
+    gh.factory<_i233.UploadOrderFireDataUseCase>(
+      () => _i233.UploadOrderFireDataUseCase(
         gh<_i974.FirebaseFirestore>(instanceName: 'firestore'),
       ),
     );
@@ -219,6 +226,7 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i858.GetDriverOrdersUseCase>(),
         gh<_i603.AuthStorage>(),
         gh<_i329.UploadDriverFireDataUseCase>(),
+        gh<_i233.UploadOrderFireDataUseCase>(),
         gh<_i499.DriverOrderRepo>(),
       ),
     );
