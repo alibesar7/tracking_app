@@ -1,4 +1,5 @@
 import 'package:injectable/injectable.dart';
+import 'package:tracking_app/app/core/network/api_result.dart';
 import 'package:tracking_app/features/driver_orders_details/data/datasource/order_details_remote_datasource.dart';
 import 'package:tracking_app/features/driver_orders_details/data/mapper/order_dto_mapper.dart';
 import 'package:tracking_app/features/driver_orders_details/data/models/orders_dto.dart';
@@ -11,17 +12,16 @@ class OrderDetailsRepoImpl implements OrderDetailsRepo {
   OrderDetailsRepoImpl(this.remoteDataSource);
 
   @override
-  Stream<OrderModel> getOrderDetails(String orderId) {
-    return remoteDataSource.getOrderStream(orderId).map((snapshot) {
-      if (!snapshot.exists || snapshot.data() == null) {
-        throw Exception("Document does not exist in Firestore!");
-      }
-      final Map<String, dynamic> data = Map<String, dynamic>.from(
-        snapshot.data() as Map,
-      );
+  ApiResult<Stream<OrderModel>> getOrderDetails(String orderId) {
+    final result = remoteDataSource.getOrderStream(orderId);
 
-      final orderDto = OrderDto.fromJson(data);
-      return orderDto.toOrderModel();
-    });
+    switch (result) {
+      case SuccessApiResult<Stream<OrderDto>>():
+        return SuccessApiResult<Stream<OrderModel>>(
+          data: result.data.map((dto) => dto.toOrderModel()),
+        );
+      case ErrorApiResult<Stream<OrderDto>>():
+        return ErrorApiResult<Stream<OrderModel>>(error: result.error);
+    }
   }
 }

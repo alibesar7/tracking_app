@@ -1,5 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tracking_app/app/core/network/api_result.dart';
+import 'package:tracking_app/features/driver_orders_details/data/models/orders_dto.dart';
 
 abstract class OrderDetailsRemoteDatasource {
-  Stream<DocumentSnapshot> getOrderStream(String orderId);
+  ApiResult<Stream<OrderDto>> getOrderStream(String orderId);
 }

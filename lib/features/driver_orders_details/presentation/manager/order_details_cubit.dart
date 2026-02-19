@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:tracking_app/app/config/base_state/base_state.dart';
+import 'package:tracking_app/app/core/network/api_result.dart';
+import 'package:tracking_app/features/driver_orders_details/domain/models/orders_model.dart';
 import '../../domain/usecases/get_order_details_usecase.dart';
 import 'order_details_states.dart';
 
@@ -15,10 +17,11 @@ class OrderDetailsCubit extends Cubit<OrderDetailsStates> {
   void getOrderDetails(String orderId) async {
     emit(state.copyWith(data: Resource.loading()));
     _subscription?.cancel();
+    final result = getOrderDetailsUsecase.call(orderId);
 
-    _subscription = getOrderDetailsUsecase
-        .call(orderId)
-        .listen(
+    switch (result) {
+      case SuccessApiResult<Stream<OrderModel>>():
+        _subscription = result.data.listen(
           (order) {
             emit(state.copyWith(data: Resource.success(order)));
           },
@@ -26,5 +29,14 @@ class OrderDetailsCubit extends Cubit<OrderDetailsStates> {
             emit(state.copyWith(data: Resource.error(error.toString())));
           },
         );
+      case ErrorApiResult<Stream<OrderModel>>(error: final errorMessage):
+        emit(state.copyWith(data: Resource.error(errorMessage)));
+    }
+  }
+
+  @override
+  Future<void> close() {
+    _subscription?.cancel();
+    return super.close();
   }
 }
