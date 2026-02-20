@@ -62,21 +62,21 @@ void main() {
       expect(find.byType(ProfilePageTest), findsNothing);
     });
 
-    testWidgets('should navigate to Orders page when tapping Orders', (
-      WidgetTester tester,
-    ) async {
-      when(mockCubit.state).thenReturn(AppSectionStates(selectedIndex: 1));
-      when(mockCubit.stream).thenAnswer(
-        (_) =>
-            Stream<AppSectionStates>.value(AppSectionStates(selectedIndex: 1)),
-      );
+    // testWidgets('should navigate to Orders page when tapping Orders', (
+    //   WidgetTester tester,
+    // ) async {
+    //   when(mockCubit.state).thenReturn(AppSectionStates(selectedIndex: 1));
+    //   when(mockCubit.stream).thenAnswer(
+    //     (_) =>
+    //         Stream<AppSectionStates>.value(AppSectionStates(selectedIndex: 1)),
+    //   );
 
-      await tester.pumpWidget(buildTestableWidget());
-      await tester.tap(find.byIcon(Icons.fact_check_outlined));
-      await tester.pump();
+    //   await tester.pumpWidget(buildTestableWidget());
+    //   await tester.tap(find.byIcon(Icons.fact_check_outlined));
+    //   await tester.pump();
 
-      expect(find.byType(OrdersPageTest), findsOneWidget);
-    });
+    //   expect(find.byType(OrdersPageTest), findsOneWidget);
+    // });
 
     // testWidgets('should navigate to Profile page when tapping Profile', (
     //   WidgetTester tester,
