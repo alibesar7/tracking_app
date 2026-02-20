@@ -55,6 +55,12 @@ import '../../../features/my_orders/api/datasource/my_orders_remote_data_source_
     as _i583;
 import '../../../features/my_orders/data/datasource/my_orders_remote_data_source.dart'
     as _i466;
+import '../../../features/my_orders/data/repo/my_orders_repo_imp.dart' as _i754;
+import '../../../features/my_orders/domain/repo/my_orders_repo.dart' as _i919;
+import '../../../features/my_orders/domain/usecases/get_order_use_case.dart'
+    as _i335;
+import '../../../features/my_orders/presentation/manager/my_orders_cubit.dart'
+    as _i156;
 import '../../../features/profile/api/profile_lacal_datasource_imp.dart'
     as _i495;
 import '../../../features/profile/api/profile_remote_datasource_imp.dart'
@@ -102,6 +108,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i466.MyOrdersRemoteDataSource>(
       () => _i583.MyOrdersRemoteDataSourceImp(gh<_i890.ApiClient>()),
     );
+    gh.factory<_i919.MyOrdersRepo>(
+      () => _i754.MyOrdersRepoImpl(gh<_i466.MyOrdersRemoteDataSource>()),
+    );
+    gh.factory<_i335.GetOrderUseCase>(
+      () => _i335.GetOrderUseCase(gh<_i919.MyOrdersRepo>()),
+    );
     gh.factory<_i943.ProfileRemoteDatasource>(
       () => _i899.ProfileRemoteDatasourceImp(gh<_i890.ApiClient>()),
     );
@@ -128,6 +140,12 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i112.VerifyResetCodeUsecase>(),
         gh<_i769.ForgetPasswordUsecase>(),
         email,
+      ),
+    );
+    gh.factory<_i156.MyOrdersCubit>(
+      () => _i156.MyOrdersCubit(
+        gh<_i335.GetOrderUseCase>(),
+        gh<_i603.AuthStorage>(),
       ),
     );
     gh.factoryParam<_i378.ResetPasswordCubit, String, dynamic>(

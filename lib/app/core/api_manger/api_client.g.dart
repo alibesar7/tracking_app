@@ -332,7 +332,7 @@ class _ApiClient implements ApiClient {
         Options(method: 'GET', headers: _headers, extra: _extra)
             .compose(
               _dio.options,
-              'driver-orders',
+              'orders/driver-orders',
               queryParameters: queryParameters,
               data: _data,
             )

@@ -7,6 +7,7 @@ import 'package:tracking_app/features/app_sections/presentation/manager/app_sect
 import 'package:tracking_app/features/app_sections/presentation/pages/home_page_test.dart';
 import 'package:tracking_app/features/app_sections/presentation/pages/orders_page_test.dart';
 import 'package:tracking_app/features/app_sections/presentation/pages/profile_page_test.dart';
+import 'package:tracking_app/features/my_orders/presentation/pages/my_orders_page.dart';
 import 'package:tracking_app/features/profile/presentation/pages/profile_page.dart';
 import 'package:tracking_app/generated/locale_keys.g.dart';
 
@@ -28,7 +29,7 @@ class _AppSectionsViewState extends State<AppSectionsView> {
             bodyWidget = const HomePageTest();
             break;
           case 1:
-            bodyWidget = const OrdersPageTest();
+            bodyWidget = const MyOrdersPage();
             break;
           case 2:
             bodyWidget = const ProfilePage();
