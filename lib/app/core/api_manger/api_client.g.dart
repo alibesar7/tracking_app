@@ -319,11 +319,12 @@ class _ApiClient implements ApiClient {
   @override
   Future<HttpResponse<MyOrderResponse>> getAllOrders({
     required String token,
-    int limit = 10,
-    int page = 1,
+    int? limit,
+    int? page,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'limit': limit, r'page': page};
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{r'Authorization': token};
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
