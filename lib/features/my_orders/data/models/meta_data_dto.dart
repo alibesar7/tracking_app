@@ -12,8 +12,19 @@ class Metadata {
   final int? totalItems;
   @JsonKey(name: "limit")
   final int? limit;
+  @JsonKey(name: "cancelledCount")
+  final int? cancelledCount;
+  @JsonKey(name: "completedCount")
+  final int? completedCount;
 
-  Metadata({this.currentPage, this.totalPages, this.totalItems, this.limit});
+  Metadata({
+    this.currentPage,
+    this.totalPages,
+    required this.totalItems,
+    required this.limit,
+    this.cancelledCount = 0,
+    this.completedCount = 0,
+  });
 
   factory Metadata.fromJson(Map<String, dynamic> json) {
     return _$MetadataFromJson(json);

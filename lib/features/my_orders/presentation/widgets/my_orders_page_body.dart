@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tracking_app/app/core/widgets/show_snak_bar.dart';
 import 'package:tracking_app/features/my_orders/presentation/manager/my_orders_cubit.dart';
 import 'package:tracking_app/features/my_orders/presentation/manager/my_orders_state.dart';
+import 'package:tracking_app/app/core/ui_helper/color/colors.dart';
 import 'package:tracking_app/features/my_orders/presentation/widgets/orders_filters_row.dart';
 import 'package:tracking_app/features/my_orders/presentation/widgets/orders_list_view.dart';
 
@@ -22,11 +23,24 @@ class MyOrdersPageBody extends StatelessWidget {
         }
       },
       child: Column(
-        children: const [
-          SizedBox(height: 12),
-          OrdersFiltersRow(),
-          SizedBox(height: 12),
-          Expanded(child: OrdersListView()),
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 12),
+          const OrdersFiltersRow(),
+          const SizedBox(height: 20),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: Text(
+              "Recent orders",
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: AppColors.blackColor,
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+          const Expanded(child: OrdersListView()),
         ],
       ),
     );

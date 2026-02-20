@@ -16,9 +16,17 @@ class MyOrdersPage extends StatelessWidget {
             ..doIntent(GetMyOrdersIntent(page: 1, limit: 10)),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("My orders", style: TextStyle(color: Colors.black)),
           backgroundColor: Colors.white,
           elevation: 0,
+          title: const Text(
+            "My orders",
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          centerTitle: false,
         ),
         backgroundColor: Colors.white,
         body: const MyOrdersPageBody(),

@@ -8,6 +8,8 @@ extension MetadataMapper on Metadata {
       totalPages: totalPages ?? 0,
       totalItems: totalItems ?? 0,
       limit: limit ?? 10,
+      cancelledCount: cancelledCount ?? 0,
+      completedCount: completedCount ?? 0,
     );
   }
 }

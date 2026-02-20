@@ -1,6 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'order_item_model.dart';
 import 'user_model.dart';
+import 'store_model.dart';
 
 part 'order_model.g.dart';
 
@@ -11,6 +12,12 @@ class Order {
 
   @JsonKey(name: "user")
   final User? user;
+
+  @JsonKey(name: "store")
+  final Store? store;
+
+  @JsonKey(name: "address")
+  final String? address;
 
   @JsonKey(name: "orderItems")
   final List<OrderItem>? orderItems;
@@ -45,6 +52,8 @@ class Order {
   Order({
     this.id,
     this.user,
+    this.store,
+    this.address,
     this.orderItems,
     this.totalPrice,
     this.paymentType,
