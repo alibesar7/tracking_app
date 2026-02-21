@@ -3,6 +3,11 @@ import '../models/product_model.dart';
 
 extension ProductMapper on Product {
   ProductEntity toEntity() {
-    return ProductEntity(id: id ?? '', price: price ?? 0);
+    return ProductEntity(
+      id: id ?? '',
+      title: title ?? '',
+      image: image ?? '',
+      price: price ?? 0,
+    );
   }
 }

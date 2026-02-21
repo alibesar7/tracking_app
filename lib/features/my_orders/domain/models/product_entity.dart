@@ -1,6 +1,13 @@
 class ProductEntity {
   final String id;
+  final String title;
+  final String image;
   final int price;
 
-  ProductEntity({required this.id, required this.price});
+  ProductEntity({
+    required this.id,
+    required this.title,
+    required this.image,
+    required this.price,
+  });
 }

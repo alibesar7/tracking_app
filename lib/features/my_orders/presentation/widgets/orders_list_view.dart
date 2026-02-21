@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:tracking_app/app/core/router/route_names.dart';
 import 'package:tracking_app/features/my_orders/presentation/manager/my_orders_cubit.dart';
 import 'package:tracking_app/features/my_orders/presentation/manager/my_orders_intent.dart';
 import 'package:tracking_app/features/my_orders/presentation/manager/my_orders_state.dart';
@@ -39,7 +41,7 @@ class OrdersListView extends StatelessWidget {
                 context.read<MyOrdersCubit>().doIntent(
                   OpenOrderDetailsIntent(order),
                 );
-                //Navigate to details nn
+                context.push(RouteNames.orderDetails, extra: order);
               },
             );
           },

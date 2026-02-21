@@ -14,4 +14,5 @@ abstract class RouteNames {
   static const editVehicle = "/editVehicle";
   static const getProfle = "/profile-data";
   static const myOrders = "/myOrders";
+  static const orderDetails = "/orderDetails";
 }

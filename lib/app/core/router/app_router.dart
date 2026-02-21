@@ -10,7 +10,8 @@ import 'package:tracking_app/features/profile/data/models/driver_model.dart';
 import 'package:tracking_app/features/profile/presentation/pages/edit_driver_profile_page.dart';
 import 'package:tracking_app/features/profile/presentation/pages/edit_vehicle_page.dart';
 import 'package:tracking_app/features/profile/presentation/pages/profile_page.dart';
-
+import 'package:tracking_app/features/my_orders/domain/models/order_entity.dart';
+import 'package:tracking_app/features/my_orders/presentation/pages/order_details_page.dart';
 import '../../config/di/di.dart';
 import 'package:tracking_app/features/auth/presentation/apply/view/apply_view.dart';
 import 'package:tracking_app/features/auth/presentation/forget_pass/manager/cubit/forget_pass_cubit.dart';
@@ -96,6 +97,13 @@ final GoRouter appRouter = GoRouter(
       builder: (context, state) {
         final driver = state.extra as DriverModel;
         return EditVehiclePage(driver: driver);
+      },
+    ),
+    GoRoute(
+      path: RouteNames.orderDetails,
+      builder: (context, state) {
+        final order = state.extra as OrderEntity;
+        return OrderDetailsPage(order: order);
       },
     ),
   ],

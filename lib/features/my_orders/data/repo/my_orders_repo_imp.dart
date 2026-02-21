@@ -4,6 +4,9 @@ import 'package:tracking_app/features/my_orders/data/datasource/my_orders_remote
 import 'package:tracking_app/features/my_orders/data/mappers/metadata_mapper.dart';
 import 'package:tracking_app/features/my_orders/data/mappers/order_mapper.dart';
 import 'package:tracking_app/features/my_orders/data/models/response/my_order_response.dart';
+import 'package:tracking_app/features/my_orders/domain/models/order_item_entity.dart';
+import 'package:tracking_app/features/my_orders/domain/models/product_entity.dart';
+import 'package:tracking_app/features/my_orders/domain/models/store_entity.dart';
 import 'package:tracking_app/features/my_orders/domain/repo/my_orders_repo.dart';
 import 'package:tracking_app/features/my_orders/domain/models/order_entity.dart';
 import 'package:tracking_app/features/my_orders/domain/models/meta_data_entity.dart';
@@ -34,7 +37,6 @@ class MyOrdersRepoImpl implements MyOrdersRepo {
             response.orders?.map((e) => e.toEntity()).toList() ?? [];
         MetadataEntity? metadata = response.metadata?.toEntity();
 
-        // Adding static data for testing UI when API returns empty list
         if (orders.isEmpty) {
           orders = _getDummyOrders();
           metadata = const MetadataEntity(
@@ -61,6 +63,31 @@ class MyOrdersRepoImpl implements MyOrdersRepo {
   }
 
   List<OrderEntity> _getDummyOrders() {
+    final dummyItems = [
+      OrderItemEntity(
+        product: ProductEntity(
+          id: "p1",
+          title: "Red roses, 15 Pink Rose Bouquet",
+          image:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6-k6E9vG_c9B_I0m_K-7J1f8e6C9F5G1g5A&s",
+          price: 600,
+        ),
+        price: 600,
+        quantity: 1,
+      ),
+      OrderItemEntity(
+        product: ProductEntity(
+          id: "p2",
+          title: "Red roses, 15 Pink Rose Bouquet",
+          image:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6-k6E9vG_c9B_I0m_K-7J1f8e6C9F5G1g5A&s",
+          price: 600,
+        ),
+        price: 600,
+        quantity: 4,
+      ),
+    ];
+
     return [
       OrderEntity(
         id: "123456",
@@ -71,9 +98,17 @@ class MyOrdersRepoImpl implements MyOrdersRepo {
           phone: "01012345678",
           photo: "https://i.pravatar.cc/150?u=u1",
         ),
-        items: [],
-        totalPrice: 2100,
-        paymentType: "Cash on Delivery",
+        store: StoreEntity(
+          name: "Flowery store",
+          image:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6-k6E9vG_c9B_I0m_K-7J1f8e6C9F5G1g5A&s",
+          address: "20th st, Sheikh Zayed, Giza",
+          phoneNumber: "01012345678",
+        ),
+        address: "20th st, Sheikh Zayed, Giza",
+        items: dummyItems,
+        totalPrice: 3000,
+        paymentType: "Cash on delivery",
         isPaid: true,
         isDelivered: true,
         state: "Completed",
@@ -86,14 +121,22 @@ class MyOrdersRepoImpl implements MyOrdersRepo {
         id: "123457",
         user: UserEntity(
           id: "u1",
-          firstName: "Noor",
+          firstName: "Nooor",
           lastName: "mohamed",
           phone: "01012345678",
           photo: "https://i.pravatar.cc/150?u=u1",
         ),
-        items: [],
-        totalPrice: 2100,
-        paymentType: "Cash on Delivery",
+        store: StoreEntity(
+          name: "Flowery store",
+          image:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6-k6E9vG_c9B_I0m_K-7J1f8e6C9F5G1g5A&s",
+          address: "20th st, Sheikh Zayed, Giza",
+          phoneNumber: "01012345678",
+        ),
+        address: "20th st, Sheikh Zayed, Giza",
+        items: dummyItems,
+        totalPrice: 3000,
+        paymentType: "Cash on delivery",
         isPaid: false,
         isDelivered: false,
         state: "Cancelled",
@@ -111,54 +154,22 @@ class MyOrdersRepoImpl implements MyOrdersRepo {
           phone: "01012345678",
           photo: "https://i.pravatar.cc/150?u=u1",
         ),
-        items: [],
-        totalPrice: 2100,
-        paymentType: "Cash on Delivery",
-        isPaid: true,
-        isDelivered: true,
-        state: "Completed",
+        store: StoreEntity(
+          name: "Flowery store",
+          image:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6-k6E9vG_c9B_I0m_K-7J1f8e6C9F5G1g5A&s",
+          address: "20th st, Sheikh Zayed, Giza",
+          phoneNumber: "01012345678",
+        ),
+        address: "20th st, Sheikh Zayed, Giza",
+        items: dummyItems,
+        totalPrice: 3000,
+        paymentType: "Cash on delivery",
+        isPaid: false,
+        isDelivered: false,
+        state: "Pending",
         createdAt: DateTime.now()
             .subtract(const Duration(hours: 6))
-            .toIso8601String(),
-        orderNumber: "123458",
-      ),
-      OrderEntity(
-        id: "123459",
-        user: UserEntity(
-          id: "u1",
-          firstName: "Noor",
-          lastName: "mohamed",
-          phone: "01012345678",
-          photo: "https://i.pravatar.cc/150?u=u1",
-        ),
-        items: [],
-        totalPrice: 2100,
-        paymentType: "Cash on Delivery",
-        isPaid: true,
-        isDelivered: true,
-        state: "Completed",
-        createdAt: DateTime.now()
-            .subtract(const Duration(hours: 8))
-            .toIso8601String(),
-        orderNumber: "123456",
-      ),
-      OrderEntity(
-        id: "123460",
-        user: UserEntity(
-          id: "u1",
-          firstName: "Noor",
-          lastName: "mohamed",
-          phone: "01012345678",
-          photo: "https://i.pravatar.cc/150?u=u1",
-        ),
-        items: [],
-        totalPrice: 2100,
-        paymentType: "Cash on Delivery",
-        isPaid: true,
-        isDelivered: true,
-        state: "Completed",
-        createdAt: DateTime.now()
-            .subtract(const Duration(hours: 10))
             .toIso8601String(),
         orderNumber: "123456",
       ),
