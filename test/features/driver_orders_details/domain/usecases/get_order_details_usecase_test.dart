@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:tracking_app/app/core/network/api_result.dart';
 import 'package:tracking_app/features/driver_orders_details/domain/models/orders_model.dart';
 import 'package:tracking_app/features/driver_orders_details/domain/repos/order_details_repo.dart';
 import 'package:tracking_app/features/driver_orders_details/domain/usecases/get_order_details_usecase.dart';
@@ -15,40 +16,52 @@ void main() {
   setUp(() {
     mockRepo = MockOrderDetailsRepo();
     usecase = GetOrderDetailsUsecase(repo: mockRepo);
+    provideDummy<ApiResult<Stream<OrderModel>>>(ErrorApiResult(error: 'dummy'));
   });
 
   const tOrderId = 'pxkMaEmWYVuvV5jkW0JK';
 
   final tOrderModel = OrderModel(
     driverId: 'D1',
-    id: tOrderId,
-    status: 'accepted',
-    totalPrice: '100',
-    userAddress: UserAddressModel(address: 'Shebin', name: 'Ali'),
+    userAddress: UserAddressModel(address: 'Shebin', name: 'Ali', userId: 'U1'),
     userId: 'U1',
+    orderId: tOrderId,
+    orderDetails: OrderDetailsModel(
+      items: [],
+      status: 'accepted',
+      totalPrice: 500,
+      pickupAddress: PickedAddressModel(name: 'Pharmacy', address: 'Downtown'),
+      orderId: tOrderId,
+      userAddress: 'Shebin',
+    ),
   );
 
   group('GetOrderDetailsUsecase test', () {
-    test('should get order details from the repository when called', () async {
+    test(
+      'should return SuccessApiResult containing the Stream from the repository',
+      () async {
+        when(
+          mockRepo.getOrderDetails(any),
+        ).thenReturn(SuccessApiResult(data: Stream.value(tOrderModel)));
+
+        final result = usecase.call(tOrderId);
+
+        expect(result, isA<SuccessApiResult<Stream<OrderModel>>>());
+        final stream = (result as SuccessApiResult<Stream<OrderModel>>).data;
+        await expectLater(stream, emits(tOrderModel));
+        verify(mockRepo.getOrderDetails(tOrderId)).called(1);
+      },
+    );
+
+    test('should return ErrorApiResult when the repository fails', () async {
       when(
         mockRepo.getOrderDetails(any),
-      ).thenAnswer((_) => Stream.value(tOrderModel));
+      ).thenReturn(ErrorApiResult(error: 'Error from Repository'));
 
       final result = usecase.call(tOrderId);
 
-      expect(result, emits(tOrderModel));
-      verify(mockRepo.getOrderDetails(tOrderId)).called(1);
-      verifyNoMoreInteractions(mockRepo);
-    });
-
-    test('should forward the error stream if the repository fails', () async {
-      when(
-        mockRepo.getOrderDetails(any),
-      ).thenAnswer((_) => Stream.error('Error from Repository'));
-
-      final result = usecase.call(tOrderId);
-
-      expect(result, emitsError('Error from Repository'));
+      expect(result, isA<ErrorApiResult<Stream<OrderModel>>>());
+      expect((result as ErrorApiResult).error, 'Error from Repository');
     });
   });
 }

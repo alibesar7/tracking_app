@@ -13,14 +13,17 @@ class OrderDetailsRemoteDatasourceImpl implements OrderDetailsRemoteDatasource {
   ApiResult<Stream<OrderDto>> getOrderStream(String orderId) {
     try {
       final stream = firestore
-          .collection('u8sj29sk2sff')
+          .collection('orders')
           .doc(orderId)
           .snapshots()
           .map((snapshot) {
             if (!snapshot.exists || snapshot.data() == null) {
               throw Exception("Document does not exist!");
             }
-            return OrderDto.fromJson(snapshot.data()!);
+            return OrderDto.fromJson(
+              snapshot.data() as Map<String, dynamic>,
+              snapshot.id,
+            );
           });
       return SuccessApiResult<Stream<OrderDto>>(data: stream);
     } catch (e) {

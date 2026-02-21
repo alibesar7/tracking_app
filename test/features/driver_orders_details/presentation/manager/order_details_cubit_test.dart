@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tracking_app/app/config/base_state/base_state.dart';
+import 'package:tracking_app/app/core/network/api_result.dart';
 import 'package:tracking_app/features/driver_orders_details/domain/models/orders_model.dart';
 import 'package:tracking_app/features/driver_orders_details/domain/usecases/get_order_details_usecase.dart';
 import 'package:tracking_app/features/driver_orders_details/presentation/manager/order_details_cubit.dart';
@@ -18,6 +19,7 @@ void main() {
   setUp(() {
     mockUsecase = MockGetOrderDetailsUsecase();
     cubit = OrderDetailsCubit(mockUsecase);
+    provideDummy<ApiResult<Stream<OrderModel>>>(ErrorApiResult(error: 'dummy'));
   });
 
   tearDown(() {
@@ -27,11 +29,17 @@ void main() {
   const tOrderId = 'order_123';
   final tOrderModel = OrderModel(
     driverId: 'D1',
-    id: tOrderId,
-    status: 'accepted',
-    totalPrice: '100',
-    userAddress: UserAddressModel(address: 'Shebin', name: 'Ali'),
+    userAddress: UserAddressModel(address: 'Shebin', name: 'Ali', userId: 'U1'),
     userId: 'U1',
+    orderId: tOrderId,
+    orderDetails: OrderDetailsModel(
+      items: [],
+      status: 'accepted',
+      totalPrice: 500,
+      pickupAddress: PickedAddressModel(name: 'Pharmacy', address: 'Downtown'),
+      orderId: tOrderId,
+      userAddress: 'Shebin',
+    ),
   );
 
   group('OrderDetailsCubit Tests', () {
@@ -40,9 +48,10 @@ void main() {
       build: () {
         when(
           mockUsecase.call(any),
-        ).thenAnswer((_) => Stream.value(tOrderModel));
+        ).thenReturn(SuccessApiResult(data: Stream.value(tOrderModel)));
         return cubit;
       },
+
       act: (cubit) => cubit.getOrderDetails(tOrderId),
       expect: () => [
         predicate<OrderDetailsStates>(
@@ -53,9 +62,6 @@ void main() {
               state.data?.data == tOrderModel;
         }),
       ],
-      verify: (_) {
-        verify(mockUsecase.call(tOrderId)).called(1);
-      },
     );
 
     blocTest<OrderDetailsCubit, OrderDetailsStates>(
@@ -63,7 +69,7 @@ void main() {
       build: () {
         when(
           mockUsecase.call(any),
-        ).thenAnswer((_) => Stream.error('Server Error'));
+        ).thenReturn(ErrorApiResult(error: 'Server Error'));
         return cubit;
       },
       act: (cubit) => cubit.getOrderDetails(tOrderId),

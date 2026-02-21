@@ -48,11 +48,17 @@ void main() {
 
   final tOrderModel = OrderModel(
     driverId: 'D1',
-    id: 'ORD-123',
-    status: 'accepted',
-    totalPrice: '500',
-    userAddress: UserAddressModel(address: 'Shebin', name: 'Ali'),
+    userAddress: UserAddressModel(address: 'Shebin', name: 'Ali', userId: 'U1'),
     userId: 'U1',
+    orderId: 'N123',
+    orderDetails: OrderDetailsModel(
+      items: [],
+      status: 'accepted',
+      totalPrice: 500,
+      pickupAddress: PickedAddressModel(name: 'Pharmacy', address: 'Downtown'),
+      orderId: 'N123',
+      userAddress: 'Shebin',
+    ),
   );
 
   group('DriversOrdersDetailsPage Widget Tests', () {
@@ -87,13 +93,10 @@ void main() {
         await tester.pumpWidget(buildTestableWidget());
         await tester.pump();
 
-        expect(find.textContaining('ORD-123'), findsOneWidget);
-
+        expect(find.textContaining('N123'), findsOneWidget);
         expect(find.text('Ali'), findsOneWidget);
         expect(find.text('Shebin'), findsAtLeastNWidgets(1));
-
         expect(find.textContaining('500'), findsOneWidget);
-
         expect(find.byType(AddressCard), findsAtLeastNWidgets(2));
       },
     );

@@ -6,4 +6,5 @@ class AppPaths {
   static const String onboardingImage = 'assets/images/Clip path group.png';
   static const String whatsappImage = 'assets/images/whatsapp.png';
   static const String flowerLogo = 'assets/images/flower_logo.png';
+  static const String mediaUrl = 'https://flower.elevateegy.com/uploads/';
 }

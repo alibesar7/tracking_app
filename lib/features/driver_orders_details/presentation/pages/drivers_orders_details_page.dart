@@ -36,7 +36,7 @@ class DriversOrdersDetailsPage extends StatelessWidget {
         ),
       ),
       body: BlocProvider<OrderDetailsCubit>(
-        create: (context) => cubit..getOrderDetails('pxkMaEmWYVuvV5jkW0JK'),
+        create: (context) => cubit..getOrderDetails('696ae30ce364ef61404760df'),
         child: BlocBuilder<OrderDetailsCubit, OrderDetailsStates>(
           builder: (context, state) {
             if (state.data?.status == Status.loading) {
@@ -52,7 +52,9 @@ class DriversOrdersDetailsPage extends StatelessWidget {
                   children: [
                     Row(
                       children: List.generate(5, (index) {
-                        int currentStep = _getStepCount(order!.status);
+                        int currentStep = _getStepCount(
+                          order!.orderDetails.status,
+                        );
                         return Expanded(
                           child: Container(
                             height: 4,
@@ -80,7 +82,7 @@ class DriversOrdersDetailsPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            '${LocaleKeys.status.tr()}${order!.status}',
+                            '${LocaleKeys.status.tr()}${order!.orderDetails.status}',
                             style: TextStyle(
                               color: AppColors.green,
                               fontWeight: FontWeight.bold,
@@ -89,7 +91,7 @@ class DriversOrdersDetailsPage extends StatelessWidget {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            '${LocaleKeys.orderId.tr()}${order.id}',
+                            '${LocaleKeys.orderId.tr()}${order.orderId}',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
@@ -110,8 +112,8 @@ class DriversOrdersDetailsPage extends StatelessWidget {
 
                     SectionTitle(title: LocaleKeys.pickupAddress.tr()),
                     AddressCard(
-                      title: LocaleKeys.floweryStore.tr(),
-                      address: order.userAddress.address,
+                      title: order.orderDetails.pickupAddress.name,
+                      address: order.orderDetails.pickupAddress.address,
                       imagePath: AppPaths.flowerLogo,
                     ),
                     const SizedBox(height: 16),
@@ -125,13 +127,13 @@ class DriversOrdersDetailsPage extends StatelessWidget {
                     const SizedBox(height: 24),
 
                     SectionTitle(title: LocaleKeys.orderDetails.tr()),
-                    OrderItem(),
-                    OrderItem(),
+                    OrderItems(),
                     const SizedBox(height: 16),
 
                     BottomRowSection(
                       label: LocaleKeys.total.tr(),
-                      value: '${LocaleKeys.egp.tr()} ${order.totalPrice}',
+                      value:
+                          '${LocaleKeys.egp.tr()} ${order.orderDetails.totalPrice.toStringAsFixed(2)}',
                     ),
                     BottomRowSection(
                       label: LocaleKeys.payment_method.tr(),
@@ -147,7 +149,7 @@ class DriversOrdersDetailsPage extends StatelessWidget {
                         isEnabled: true,
                         onPressed: () {},
                         isLoading: false,
-                        text: _getButtonText(order.status),
+                        text: _getButtonText(order.orderDetails.status),
                       ),
                     ),
                   ],

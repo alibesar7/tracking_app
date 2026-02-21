@@ -5,17 +5,47 @@ extension OrderDtoMapper on OrderDto {
   OrderModel toOrderModel() {
     return OrderModel(
       driverId: driverId,
-      id: id,
-      status: status,
-      totalPrice: totalPrice,
+      orderId: orderId,
       userAddress: userAddress.toUserAddressModel(),
       userId: userId,
+      orderDetails: orderDetails.toOrderDetailsModel(),
     );
+  }
+}
+
+extension OrderDetailsDtoMapper on OrderDetailsDto {
+  OrderDetailsModel toOrderDetailsModel() {
+    return OrderDetailsModel(
+      items: items.map((i) => i.toOrderItemModel()).toList(),
+      status: status,
+      totalPrice: totalPrice,
+      pickupAddress: pickupAddress.toPickedAddressModel(),
+      orderId: orderId,
+      userAddress: userAddress,
+    );
+  }
+}
+
+extension OrderItemDtoMapper on OrderItemDto {
+  OrderItemModel toOrderItemModel() {
+    return OrderItemModel(
+      productId: productId,
+      title: title,
+      image: image,
+      quantity: quantity,
+      price: price,
+    );
+  }
+}
+
+extension PickedAddressDtoMapper on PickedAddressDto {
+  PickedAddressModel toPickedAddressModel() {
+    return PickedAddressModel(name: name, address: address);
   }
 }
 
 extension UserAddressDtoMapper on UserAddressDto {
   UserAddressModel toUserAddressModel() {
-    return UserAddressModel(address: address, name: name);
+    return UserAddressModel(name: name, address: address, userId: userId);
   }
 }

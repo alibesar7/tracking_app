@@ -1,61 +1,154 @@
-class UserAddressDto {
-  final String address;
-  final String name;
-
-  UserAddressDto({required this.address, required this.name});
-
-  factory UserAddressDto.fromJson(Map<String, dynamic> json) {
-    return UserAddressDto(
-      address: json['address'].toString(),
-      name: json['name'].toString(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {'address': address, 'name': name};
-  }
-}
-
 class OrderDto {
+  final String orderId;
   final String driverId;
-  final String id;
-  final String status;
-  final String totalPrice;
-  final UserAddressDto userAddress;
   final String userId;
+  final OrderDetailsDto orderDetails;
+  final UserAddressDto userAddress;
 
   OrderDto({
+    required this.orderId,
     required this.driverId,
-    required this.id,
-    required this.status,
-    required this.totalPrice,
-    required this.userAddress,
     required this.userId,
+    required this.orderDetails,
+    required this.userAddress,
   });
 
-  factory OrderDto.fromJson(Map<String, dynamic> json) {
+  factory OrderDto.fromJson(Map<String, dynamic> json, String id) {
     return OrderDto(
-      driverId: json['driverId'].toString(),
-      id: json['id'].toString(),
-      status: json['status'].toString(),
-      totalPrice: json['totalPrice'].toString(),
-      userAddress: json['userAddress '] != null
-          ? UserAddressDto.fromJson(
-              Map<String, dynamic>.from(json['userAddress ']),
-            )
-          : UserAddressDto(address: 'No Address', name: 'No Name'),
-      userId: json['userId'].toString(),
+      orderId: id,
+      driverId: json['driver_id'] ?? '',
+      userId: json['user_id'] ?? '',
+      orderDetails: OrderDetailsDto.fromJson(json['oder_dt'] ?? {}),
+      userAddress: UserAddressDto.fromJson(json['userAddress'] ?? {}),
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'driverId': driverId,
-      'id': id,
+      'driver_id': driverId,
+      'user_id': userId,
+      'oder_dt': (orderDetails).toJson(),
+      'userAddress': (userAddress).toJson(),
+    };
+  }
+}
+
+class OrderDetailsDto {
+  final List<OrderItemDto> items;
+  final String status;
+  final double totalPrice;
+  final PickedAddressDto pickupAddress;
+  final String orderId;
+  final String userAddress;
+
+  OrderDetailsDto({
+    required this.items,
+    required this.status,
+    required this.totalPrice,
+    required this.pickupAddress,
+    required this.orderId,
+    required this.userAddress,
+  });
+
+  factory OrderDetailsDto.fromJson(Map<String, dynamic> json) {
+    return OrderDetailsDto(
+      status: json['status'] ?? '',
+      totalPrice: (json['totalPrice'] ?? 0).toDouble(),
+      pickupAddress: PickedAddressDto.fromJson(json['pickupAddress'] ?? {}),
+      items: (json['items'] as List? ?? [])
+          .map((i) => OrderItemDto.fromJson(i))
+          .toList(),
+      orderId: json['orderId'] ?? '',
+      userAddress: json['userAddress'] ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
       'status': status,
       'totalPrice': totalPrice,
-      'userAddress': userAddress.toJson(),
-      'userId': userId,
+      'pickupAddress': (pickupAddress).toJson(),
+      'items': items.map((i) => (i).toJson()).toList(),
+      'orderId': orderId,
+      'userAddress': userAddress,
     };
+  }
+}
+
+class OrderItemDto {
+  final String productId;
+  final String title;
+  final String image;
+  final int quantity;
+  final double price;
+
+  OrderItemDto({
+    required this.productId,
+    required this.title,
+    required this.image,
+    required this.quantity,
+    required this.price,
+  });
+
+  factory OrderItemDto.fromJson(Map<String, dynamic> json) {
+    return OrderItemDto(
+      productId: json['productId'] ?? '',
+      title: json['title'] ?? '',
+      image: json['image'] ?? '',
+      quantity: json['quantity'] ?? 0,
+      price: (json['price'] ?? 0).toDouble(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'productId': productId,
+      'title': title,
+      'image': image,
+      'quantity': quantity,
+      'price': price,
+    };
+  }
+}
+
+class PickedAddressDto {
+  final String name;
+  final String address;
+
+  PickedAddressDto({required this.name, required this.address});
+
+  factory PickedAddressDto.fromJson(Map<String, dynamic> json) {
+    return PickedAddressDto(
+      name: json['name'] ?? '',
+      address: json['address'] ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {'name': name, 'address': address};
+  }
+}
+
+class UserAddressDto {
+  final String name;
+  final String address;
+  final String userId;
+
+  UserAddressDto({
+    required this.name,
+    required this.address,
+    required this.userId,
+  });
+
+  factory UserAddressDto.fromJson(Map<String, dynamic> json) {
+    return UserAddressDto(
+      name: json['name'] ?? '',
+      address: json['adress'] ?? '',
+      userId: json['user_id'] ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {'name': name, 'adress': address, 'user_id': userId};
   }
 }
