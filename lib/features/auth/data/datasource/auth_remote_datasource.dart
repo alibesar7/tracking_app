@@ -1,11 +1,11 @@
-import 'package:tracking_app/app/core/network/api_result.dart';
+import 'package:tracking_app/features/auth/data/models/response/logout_response_dto/logout_response_dto.dart';
+import '../../../../app/core/network/api_result.dart';
 import 'package:tracking_app/features/auth/data/models/request/forget_password_request.dart';
 import 'package:tracking_app/features/auth/data/models/request/resetpassword_request.dart';
 import 'package:tracking_app/features/auth/data/models/request/verifyreset_request.dart';
 import 'package:tracking_app/features/auth/data/models/response/forgetpassword_response.dart';
 import 'package:tracking_app/features/auth/data/models/response/resetpassword_response.dart';
 import 'package:tracking_app/features/auth/data/models/response/verifyreset_response.dart';
-import '../../../../app/core/network/api_result.dart';
 import '../models/response/country_model.dart';
 import '../models/response/vehicles_response_model.dart';
 import '../models/request/apply_request_model.dart';
@@ -37,4 +37,6 @@ abstract class AuthRemoteDataSource {
   Future<ApiResult<ResetpasswordResponse>?> resetPassword(
     ResetPasswordRequest request,
   );
+
+  Future<ApiResult<LogoutResponseDto>> logout(String token);
 }

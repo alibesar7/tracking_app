@@ -1,5 +1,7 @@
 import 'dart:io';
+
 import 'package:dio/dio.dart';
+import 'package:retrofit/dio.dart';
 import 'package:tracking_app/app/core/values/app_endpoint_strings.dart';
 import 'package:tracking_app/features/auth/data/model/response/change_password_dto.dart';
 import 'package:tracking_app/features/auth/data/model/request/LoginRequest.dart';
@@ -16,11 +18,16 @@ import '../../../features/auth/data/models/response/vehicles_response_model.dart
 import 'package:tracking_app/app/core/values/api_constants.dart';
 import 'package:tracking_app/features/profile/data/models/requests/edit_profile_request.dart';
 import 'package:tracking_app/features/profile/data/models/responses/edit_profile_response.dart';
+import '../../../features/auth/data/models/response/logout_response_dto/logout_response_dto.dart';
 part 'api_client.g.dart';
 
 @RestApi(baseUrl: AppEndpointString.baseUrl)
 abstract class ApiClient {
   factory ApiClient(Dio dio) = _ApiClient;
+  @GET(AppEndpointString.logout)
+  Future<HttpResponse<LogoutResponseDto>> logout(
+    @Header(ApiConstants.authorization) String token,
+  );
 
   @POST(AppEndpointString.sendEmail)
   Future<HttpResponse<ForgetpasswordResponse>> forgetPassword(

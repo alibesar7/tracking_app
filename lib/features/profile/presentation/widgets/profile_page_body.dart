@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tracking_app/app/core/router/route_names.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tracking_app/app/core/ui_helper/color/colors.dart';
 import 'package:tracking_app/app/core/ui_helper/style/font_style.dart';
 import 'package:tracking_app/features/profile/presentation/managers/profile_cubit.dart';
@@ -10,6 +12,11 @@ import 'package:tracking_app/features/profile/presentation/managers/profile_inte
 import 'package:tracking_app/features/profile/presentation/widgets/info_card.dart';
 import 'package:tracking_app/features/profile/presentation/widgets/profile_avatar.dart';
 import 'package:tracking_app/features/profile/presentation/widgets/profile_item.dart';
+import 'package:tracking_app/generated/locale_keys.g.dart';
+import '../../../../app/core/router/route_names.dart';
+import '../../../auth/presentation/logout/manager/logout_cubit.dart';
+import '../../../auth/presentation/logout/manager/logout_intent.dart';
+import '../../../auth/presentation/logout/manager/logout_state.dart';
 import 'language_bottom_sheet.dart';
 
 class ProfilePageBody extends StatelessWidget {
@@ -128,15 +135,42 @@ class ProfilePageBody extends StatelessWidget {
               style: AppStyles.font14Black.copyWith(color: AppColors.pink),
             ),
           ),
-
-          ProfileItem(
-            itemName: "Logout",
-            icon: Icons.logout,
-            onTap: () {},
-            trailing: const Icon(Icons.logout, color: AppColors.pink),
+          BlocConsumer<LogoutCubit, LogoutStates>(
+            listener: (context, state) {
+              if (state.logoutResource.isSuccess) {
+                context.go(RouteNames.login);
+              }
+              if (state.logoutResource.isError) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      state.logoutResource.error ??
+                          LocaleKeys.logoutFailed.tr(),
+                    ),
+                  ),
+                );
+              }
+            },
+            builder: (context, state) {
+              final isLoading = state.logoutResource.isLoading;
+              return ProfileItem(
+                itemName: LocaleKeys.logout.tr(),
+                icon: Icons.logout,
+                trailing: isLoading
+                    ? const SizedBox(
+                        width: 22,
+                        height: 22,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : Icon(Icons.logout, color: AppColors.pink),
+                onTap: isLoading
+                    ? null
+                    : () {
+                        context.read<LogoutCubit>().doIntent(PerformLogout());
+                      },
+              );
+            },
           ),
-
-          const SizedBox(height: 30),
         ],
       ),
     );

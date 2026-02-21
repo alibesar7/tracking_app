@@ -7,7 +7,6 @@ class AppEndpointString {
   static const String changePassword = "drivers/change-password";
 
   static const String profileData = 'auth/profile-data';
-  static const String logout = 'auth/logout';
   static const String updateRole = 'auth/update-role';
   static const String cashOrder = 'orders';
   static const String orders = 'orders';
@@ -32,4 +31,5 @@ class AppEndpointString {
   static const String uploadPhoto = "drivers/upload-photo";
   static const String getProfile = "drivers/profile-data";
   static const String login = "drivers/signin";
+  static const String logout = 'drivers/logout';
 }
