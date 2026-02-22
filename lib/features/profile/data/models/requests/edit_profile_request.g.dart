@@ -19,11 +19,11 @@ EditProfileRequest _$EditProfileRequestFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$EditProfileRequestToJson(EditProfileRequest instance) =>
     <String, dynamic>{
-      if (instance.firstName case final value?) 'firstName': value,
-      if (instance.lastName case final value?) 'lastName': value,
-      if (instance.email case final value?) 'email': value,
-      if (instance.phone case final value?) 'phone': value,
-      if (instance.vehicleType case final value?) 'vehicleType': value,
-      if (instance.vehicleNumber case final value?) 'vehicleNumber': value,
-      if (instance.vehicleLicense case final value?) 'vehicleLicense': value,
+      'firstName': ?instance.firstName,
+      'lastName': ?instance.lastName,
+      'email': ?instance.email,
+      'phone': ?instance.phone,
+      'vehicleType': ?instance.vehicleType,
+      'vehicleNumber': ?instance.vehicleNumber,
+      'vehicleLicense': ?instance.vehicleLicense,
     };
