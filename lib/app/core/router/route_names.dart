@@ -10,4 +10,5 @@ abstract class RouteNames {
   static const changePassword = '/changePassword';
   static const applyScreen = '/applyScreen';
   static const onboarding = '/onboarding';
+  static const trackOrder = '/trackOrder';
 }

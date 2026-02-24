@@ -1,12 +1,14 @@
-import 'package:tracking_app/features/track_order/domain/entities/order_location_entity.dart';
+import 'package:injectable/injectable.dart';
+import 'package:tracking_app/app/core/network/api_result.dart';
+import 'package:tracking_app/features/track_order/domain/entities/order_entity.dart';
 import 'package:tracking_app/features/track_order/domain/repos/track_order_repo.dart';
 
+@injectable
 class TrackOrderUseCase {
   final TrackOrderRepo repository;
 
   TrackOrderUseCase(this.repository);
 
-  Stream<Order> call(String orderId) {
-    return repository.trackOrder(orderId);
-  }
+  ApiResult<Stream<OrderEntity>> call(orderId) =>
+      repository.trackOrder(orderId);
 }

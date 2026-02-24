@@ -8,6 +8,7 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:cloud_firestore/cloud_firestore.dart' as _i974;
 import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
@@ -48,6 +49,20 @@ import '../../../features/auth/presentation/reset_password/manager/reset_passwor
     as _i378;
 import '../../../features/auth/presentation/verify_reset/manger/cubit/verify_reset_cubit.dart'
     as _i466;
+import '../../../features/track_order/api/track_order_remote_source_impl.dart'
+    as _i1007;
+import '../../../features/track_order/data/datasource/track_order_remote_source.dart'
+    as _i511;
+import '../../../features/track_order/data/repos/track_order_repo_imp.dart'
+    as _i40;
+import '../../../features/track_order/domain/repos/track_order_repo.dart'
+    as _i1042;
+import '../../../features/track_order/domain/usecases/driver_usecase.dart'
+    as _i866;
+import '../../../features/track_order/domain/usecases/track_order_usecase.dart'
+    as _i810;
+import '../../../features/track_order/presentation/manager/cubit/track_order_cubit.dart'
+    as _i364;
 import '../../core/api_manger/api_client.dart' as _i890;
 import '../auth_storage/auth_storage.dart' as _i603;
 import '../network/network_module.dart' as _i200;
@@ -68,8 +83,21 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i603.AuthStorage>(() => _i603.AuthStorage());
     gh.lazySingleton<_i783.CountryLocalDataSource>(
         () => _i783.CountryLocalDataSourceImpl());
+    gh.factory<_i511.TrackOrderRemoteDataSource>(() =>
+        _i1007.TrackOrderRemoteDataSourceImpl(gh<_i974.FirebaseFirestore>()));
     gh.lazySingleton<_i361.Dio>(
         () => networkModule.dio(gh<_i603.AuthStorage>()));
+    gh.factory<_i1042.TrackOrderRepo>(
+        () => _i40.TrackOrderRepoImpl(gh<_i511.TrackOrderRemoteDataSource>()));
+    gh.factory<_i866.TrackDriverUseCase>(
+        () => _i866.TrackDriverUseCase(gh<_i1042.TrackOrderRepo>()));
+    gh.factory<_i810.TrackOrderUseCase>(
+        () => _i810.TrackOrderUseCase(gh<_i1042.TrackOrderRepo>()));
+    gh.factory<_i364.TrackOrderCubit>(() => _i364.TrackOrderCubit(
+          gh<_i974.FirebaseFirestore>(),
+          gh<_i810.TrackOrderUseCase>(),
+          gh<_i866.TrackDriverUseCase>(),
+        ));
     gh.lazySingleton<_i890.ApiClient>(
         () => networkModule.authApiClient(gh<_i361.Dio>()));
     gh.factory<_i708.AuthRemoteDataSource>(

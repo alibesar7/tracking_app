@@ -1,25 +1,25 @@
-import 'package:tracking_app/features/track_order/domain/entities/order_location_entity.dart';
+class TrackOrderModel {
+  final String driverId;
+  final String id;
+  final String status;
+  final String totalPrice;
+  final String userId;
 
-class OrderModel extends Order {
-  OrderModel({
-    required super.id,
-    required super.driverId,
-    required super.userId,
-    required super.status,
-    required super.totalPrice,
-    required super.address,
-    required super.name,
+  TrackOrderModel({
+    required this.driverId,
+    required this.id,
+    required this.status,
+    required this.totalPrice,
+    required this.userId,
   });
 
-  factory OrderModel.fromFirestore(Map<String, dynamic> json) {
-    return OrderModel(
-      id: json['id'] ?? '',
-      driverId: json['driverId'] ?? '',
-      userId: json['userId'] ?? '',
-      status: json['status'] ?? '',
-      totalPrice: json['totalPrice'] ?? '',
-      address: json['userAddress']?['address'] ?? '',
-      name: json['userAddress']?['name'] ?? '',
+    factory TrackOrderModel.fromFirestore(String id, Map<String, dynamic> data) {
+    return TrackOrderModel(
+      id: id,
+      driverId: data['driverId'] ?? '',
+      status: data['status'] ?? '',
+      totalPrice: data['totalPrice'] ?? '',
+      userId: data['userId'] ?? '',
     );
   }
 }

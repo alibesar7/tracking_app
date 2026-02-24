@@ -1,4 +1,4 @@
-class Order {
+class OrderEntity {
   final String id;
   final String userId;
   final String status;
@@ -8,7 +8,7 @@ class Order {
   final String? address;
   final String? name;
 
-  Order({
+  OrderEntity({
     required this.id,
     required this.userId,
     required this.status,
