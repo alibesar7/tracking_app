@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:tracking_app/app/core/router/route_names.dart';
 import 'package:tracking_app/app/core/ui_helper/color/colors.dart';
 
 class HomePageTest extends StatelessWidget {
@@ -6,6 +8,18 @@ class HomePageTest extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: AppColors.green);
+    return Scaffold(
+      backgroundColor: AppColors.green,
+      body: Column(
+        children: [
+          ElevatedButton(
+            onPressed: () {
+              context.go(RouteNames.trackOrder);
+            },
+            child: const Text("Track Order"),
+          ),
+        ],
+      ),
+    );
   }
 }

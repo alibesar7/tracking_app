@@ -1,4 +1,5 @@
 import 'package:injectable/injectable.dart';
+import 'package:tracking_app/app/core/network/api_result.dart';
 import 'package:tracking_app/features/track_order/data/datasource/track_order_remote_source.dart';
 import 'package:tracking_app/features/track_order/data/models/driver_model.dart';
 import 'package:tracking_app/features/track_order/data/models/track_order_model.dart';
@@ -10,37 +11,58 @@ class TrackOrderRemoteDataSourceImpl implements TrackOrderRemoteDataSource {
 
   TrackOrderRemoteDataSourceImpl(this.firestore);
   @override
-  Stream<TrackOrderModel> trackOrder(String orderId) {
-    return firestore.collection('orders').doc(orderId).snapshots().map((
-      snapshot,
-    ) {
-      final data = snapshot.data();
-      if (data == null) {
-        throw Exception("Order not found");
-      }
-      return TrackOrderModel.fromFirestore(snapshot.id, data);
-    });
+  ApiResult<Stream<TrackOrderModel>> trackOrder(String orderId) {
+    try {
+      final stream = firestore
+          .collection('orders')
+          .doc(orderId)
+          .snapshots()
+          .map((snapshot) {
+            final data = snapshot.data();
+            if (data == null) {
+              throw Exception("Order not found");
+            }
+            return TrackOrderModel.fromFirestore(snapshot.id, data);
+          });
+      return SuccessApiResult<Stream<TrackOrderModel>>(data: stream);
+    } catch (e) {
+      return ErrorApiResult<Stream<TrackOrderModel>>(error: e.toString());
+    }
+    ;
   }
 
   @override
-  Stream<DriverModel> trackDriver(String driverId) {
-    return firestore.collection('drivers').doc(driverId).snapshots().map((
-      snapshot,
-    ) {
-      final data = snapshot.data();
-      if (data == null) throw Exception("Driver not found");
-      return DriverModel.fromFirestore(snapshot.id, data);
-    });
+  ApiResult<Stream<DriverModel>> trackDriver(String driverId) {
+    try {
+      final stream = firestore
+          .collection('drivers')
+          .doc(driverId)
+          .snapshots()
+          .map((snapshot) {
+            final data = snapshot.data();
+            if (!snapshot.exists || data == null)
+              throw Exception("Driver not found");
+            return DriverModel.fromFirestore(snapshot.id, data);
+          });
+      return SuccessApiResult<Stream<DriverModel>>(data: stream);
+    } catch (e) {
+      return ErrorApiResult<Stream<DriverModel>>(error: e.toString());
+    }
   }
 
   @override
-  Future<DocumentSnapshot> updateOrderStatus(String orderId, String status) {
-    return firestore
-        .collection('orders')
-        .doc(orderId)
-        .update({'status': status})
-        .then((_) {
-          return firestore.collection('orders').doc(orderId).get();
-        });
+  Future<DocumentSnapshot<Map<String, dynamic>>> updateOrderStatus(
+    String orderId,
+    String status,
+  ) async {
+    try {
+      await firestore.collection('orders').doc(orderId).update({
+        'status': status,
+      });
+
+      return await firestore.collection('orders').doc(orderId).get();
+    } catch (e) {
+      rethrow; // Let upper layer handle it
+    }
   }
 }

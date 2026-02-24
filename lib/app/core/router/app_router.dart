@@ -15,7 +15,8 @@ import 'package:tracking_app/features/auth/presentation/reset_password/pages/res
 import 'package:tracking_app/features/auth/presentation/verify_reset/manger/cubit/verify_reset_cubit.dart';
 import 'package:tracking_app/features/auth/presentation/verify_reset/pages/verify_reset_page.dart';
 import 'package:tracking_app/features/profile/presentation/pages/profile_page.dart';
-
+import 'package:tracking_app/features/track_order/presentation/manager/cubit/track_order_cubit.dart';
+import 'package:tracking_app/features/track_order/presentation/pages/track_order_page.dart';
 
 final GoRouter appRouter = GoRouter(
   initialLocation: RouteNames.onboarding,
@@ -75,7 +76,16 @@ final GoRouter appRouter = GoRouter(
       path: RouteNames.profile,
       builder: (context, state) => const ProfilePage(),
     ),
+
+    GoRoute(
+      path: RouteNames.trackOrder,
+      builder: (context, state) => BlocProvider(
+        create: (_) => getIt<TrackOrderCubit>(param1: state.extra as String),
+        child: TrackOrderPage(orderId: '123'),
+      ),
+    ),
   ],
+
   redirect: (context, state) async {
     final token = await getIt<AuthStorage>().getToken();
     final rememberMe = await getIt<AuthStorage>().getRememberMe();

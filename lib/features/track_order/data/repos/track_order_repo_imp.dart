@@ -1,4 +1,5 @@
 import 'package:injectable/injectable.dart';
+import 'package:tracking_app/app/core/network/api_result.dart';
 import 'package:tracking_app/features/track_order/data/datasource/track_order_remote_source.dart';
 import 'package:tracking_app/features/track_order/data/models/driver_model.dart';
 import 'package:tracking_app/features/track_order/data/models/track_order_model.dart';
@@ -12,28 +13,53 @@ class TrackOrderRepoImpl implements TrackOrderRepo {
   final TrackOrderRemoteDataSource remoteDataSource;
 
   TrackOrderRepoImpl(this.remoteDataSource);
+
   @override
-  Stream<OrderEntity> trackOrder(String orderId) {
-    return remoteDataSource.trackOrder(orderId).map((model) {
-      return OrderEntity(
-        id: model.id,
-        userId: model.userId,
-        status: model.status,
-        driverId: model.driverId,
-        totalPrice: model.totalPrice,
+  ApiResult<Stream<OrderEntity>> trackOrder(String orderId) {
+    final result = remoteDataSource.trackOrder(orderId);
+
+    if (result is SuccessApiResult<Stream<TrackOrderModel>>) {
+      final entityStream = result.data.map(
+        (model) => OrderEntity(
+          id: model.id,
+          userId: model.userId,
+          status: model.status,
+          driverId: model.driverId,
+          totalPrice: model.totalPrice,
+        ),
       );
-    });
+
+      return SuccessApiResult(data: entityStream);
+    }
+
+    if (result is ErrorApiResult<Stream<TrackOrderModel>>) {
+      return ErrorApiResult(error: result.error);
+    }
+
+    throw Exception("Unhandled ApiResult type");
   }
 
   @override
-  Stream<DriverEntity> trackOrderWithDriver(String orderId) {
-    return remoteDataSource.trackDriver(orderId).map((model) {
-      return DriverEntity(
-        id: model.id,
-        lat: model.lat,
-        lng: model.lng,
+  ApiResult<Stream<DriverEntity>> trackOrderWithDriver(String driverId) {
+    final result = remoteDataSource.trackDriver(driverId);
+
+    if (result is SuccessApiResult<Stream<DriverModel>>) {
+      final entityStream = result.data.map(
+        (model) => DriverEntity(
+          id: model.id,
+          lat: model.lat,
+          lng: model.lng,
+        ),
       );
-    });
+
+      return SuccessApiResult(data: entityStream);
+    }
+
+    if (result is ErrorApiResult<Stream<DriverModel>>) {
+      return ErrorApiResult(error: result.error);
+    }
+
+    throw Exception("Unhandled ApiResult type");
   }
 
   @override

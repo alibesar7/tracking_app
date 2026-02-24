@@ -6,6 +6,15 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: const Text("Welcome to Profile Page")));
+    return Scaffold(
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.pushNamed(context, RouteNames.trackOrder);
+          },
+          child: const Text("Track Order"),
+        ),
+      ),
+    );
   }
 }
