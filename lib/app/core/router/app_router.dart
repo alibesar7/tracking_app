@@ -80,8 +80,8 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: RouteNames.trackOrder,
       builder: (context, state) => BlocProvider(
-        create: (_) => getIt<TrackOrderCubit>(param1: state.extra as String),
-        child: TrackOrderPage(orderId: '123'),
+        create: (_) => getIt<TrackOrderCubit>(),
+        child: TrackOrderPage(),
       ),
     ),
   ],

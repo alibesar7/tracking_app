@@ -40,8 +40,7 @@ class TrackOrderRemoteDataSourceImpl implements TrackOrderRemoteDataSource {
           .snapshots()
           .map((snapshot) {
             final data = snapshot.data();
-            if (!snapshot.exists || data == null)
-              throw Exception("Driver not found");
+            if (data == null) throw Exception("Driver not found");
             return DriverModel.fromFirestore(snapshot.id, data);
           });
       return SuccessApiResult<Stream<DriverModel>>(data: stream);

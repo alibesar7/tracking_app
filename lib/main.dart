@@ -11,7 +11,7 @@ import 'package:tracking_app/firebase_options.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-  configureDependencies();
+  await configureDependencies();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   FirebaseMessaging.onBackgroundMessage(
     CloudMessaging.firebaseMessagingBackgroundHandler,

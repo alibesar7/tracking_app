@@ -1,72 +1,86 @@
 import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
 import 'package:tracking_app/app/core/network/api_result.dart';
+import 'package:tracking_app/app/config/auth_storage/auth_storage.dart';
 import 'package:tracking_app/features/track_order/domain/entities/order_entity.dart';
 import 'package:tracking_app/features/track_order/domain/entities/driver_entity.dart';
 import 'package:tracking_app/features/track_order/domain/usecases/track_order_usecase.dart';
 import 'package:tracking_app/features/track_order/domain/usecases/driver_usecase.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tracking_app/features/track_order/domain/repos/track_order_repo.dart';
 
 part 'track_order_state.dart';
 
 @injectable
 class TrackOrderCubit extends Cubit<TrackOrderState> {
-  final FirebaseFirestore firestore;
-
-  final TrackOrderUseCase trackOrderUseCase;
+  final  TrackOrderUseCase trackOrderUseCase;
   final TrackDriverUseCase driverUseCase;
+  final AuthStorage authStorage;
 
-  StreamSubscription<OrderEntity>? _orderSubscription;
+  StreamSubscription<List<OrderEntity>>? _ordersSubscription;
   StreamSubscription<DriverEntity>? _driverSubscription;
 
-  TrackOrderCubit(this.firestore, this.trackOrderUseCase, this.driverUseCase)
-    : super(const TrackOrderState());
+  TrackOrderCubit(
+    this.trackOrderUseCase,
+    this.driverUseCase,
+    this.authStorage,
+  ) : super(const TrackOrderState());
 
-  void trackOrder(String orderId) {
+  Future<void> loadUserOrders() async {
     emit(state.copyWith(isLoading: true, error: null));
 
-    _orderSubscription?.cancel();
-    _driverSubscription?.cancel();
+    final userId = await authStorage.getToken();
 
-    /// -------- ORDER --------
-    final orderResult = trackOrderUseCase(orderId);
-
-    if (orderResult is SuccessApiResult<Stream<OrderEntity>>) {
-      _orderSubscription = orderResult.data.listen(
-        (order) {
-          emit(state.copyWith(order: order, isLoading: false, error: null));
-        },
-        onError: (error) {
-          emit(state.copyWith(error: error.toString(), isLoading: false));
-        },
-      );
-    } else if (orderResult is ErrorApiResult<Stream<OrderEntity>>) {
-      emit(state.copyWith(error: orderResult.error, isLoading: false));
+    if (userId == null) {
+      emit(state.copyWith(
+        isLoading: false,
+        error: "User not logged in",
+      ));
+      return;
     }
 
-    /// -------- DRIVER --------
-    final driverResult = driverUseCase(orderId);
+    final result = trackOrderUseCase(userId);
 
-    if (driverResult is SuccessApiResult<Stream<DriverEntity>>) {
-      _driverSubscription = driverResult.data.listen(
-        (driver) {
-          emit(state.copyWith(driver: driver, error: null));
+    if (result is SuccessApiResult<Stream<List<OrderEntity>>>) {
+      _ordersSubscription = result.data.listen(
+        (orders) {
+          emit(state.copyWith(
+            orders: orders,
+            isLoading: false,
+            error: null,
+          ));
         },
         onError: (error) {
-          emit(state.copyWith(error: error.toString(), isLoading: false));
+          emit(state.copyWith(
+            isLoading: false,
+            error: error.toString(),
+          ));
         },
       );
-    } else if (driverResult is ErrorApiResult<Stream<DriverEntity>>) {
-      emit(state.copyWith(error: driverResult.error, isLoading: false));
+    } else if (result is ErrorApiResult<Stream<List<OrderEntity>>>) {
+      emit(state.copyWith(
+        isLoading: false,
+        error: result.error,
+      ));
+    }
+  }
+
+  void trackDriver(String driverId) {
+    final result = driverUseCase(driverId);
+
+    if (result is SuccessApiResult<Stream<DriverEntity>>) {
+      _driverSubscription = result.data.listen(
+        (driver) => emit(state.copyWith(driver: driver)),
+        onError: (error) =>
+            emit(state.copyWith(error: error.toString())),
+      );
     }
   }
 
   @override
   Future<void> close() async {
-    await _orderSubscription?.cancel();
+    await _ordersSubscription?.cancel();
     await _driverSubscription?.cancel();
     return super.close();
   }

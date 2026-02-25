@@ -10,6 +10,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:cloud_firestore/cloud_firestore.dart' as _i974;
 import 'package:dio/dio.dart' as _i361;
+import 'package:firebase_auth/firebase_auth.dart' as _i59;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
@@ -64,6 +65,7 @@ import '../../../features/track_order/domain/usecases/track_order_usecase.dart'
 import '../../../features/track_order/presentation/manager/cubit/track_order_cubit.dart'
     as _i364;
 import '../../core/api_manger/api_client.dart' as _i890;
+import '../../core/network/firebase_module.dart' as _i236;
 import '../auth_storage/auth_storage.dart' as _i603;
 import '../network/network_module.dart' as _i200;
 
@@ -78,9 +80,12 @@ extension GetItInjectableX on _i174.GetIt {
       environment,
       environmentFilter,
     );
+    final firebaseModule = _$FirebaseModule();
     final networkModule = _$NetworkModule();
     gh.factory<_i959.AppSectionCubit>(() => _i959.AppSectionCubit());
     gh.lazySingleton<_i603.AuthStorage>(() => _i603.AuthStorage());
+    gh.lazySingleton<_i974.FirebaseFirestore>(() => firebaseModule.firestore);
+    gh.lazySingleton<_i59.FirebaseAuth>(() => firebaseModule.auth);
     gh.lazySingleton<_i783.CountryLocalDataSource>(
         () => _i783.CountryLocalDataSourceImpl());
     gh.factory<_i511.TrackOrderRemoteDataSource>(() =>
@@ -94,9 +99,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i810.TrackOrderUseCase>(
         () => _i810.TrackOrderUseCase(gh<_i1042.TrackOrderRepo>()));
     gh.factory<_i364.TrackOrderCubit>(() => _i364.TrackOrderCubit(
-          gh<_i974.FirebaseFirestore>(),
           gh<_i810.TrackOrderUseCase>(),
           gh<_i866.TrackDriverUseCase>(),
+          gh<_i603.AuthStorage>(),
         ));
     gh.lazySingleton<_i890.ApiClient>(
         () => networkModule.authApiClient(gh<_i361.Dio>()));
@@ -155,5 +160,7 @@ extension GetItInjectableX on _i174.GetIt {
     return this;
   }
 }
+
+class _$FirebaseModule extends _i236.FirebaseModule {}
 
 class _$NetworkModule extends _i200.NetworkModule {}
