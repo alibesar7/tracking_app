@@ -8,3 +8,8 @@ class RemoveOrder extends DriverOrderIntent {
   final Order order;
   RemoveOrder(this.order);
 }
+
+class AcceptOrder extends DriverOrderIntent {
+  final Order order;
+  AcceptOrder(this.order);
+}

@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:retrofit/dio.dart';
 import 'package:tracking_app/app/core/values/app_endpoint_strings.dart';
 import 'package:tracking_app/features/auth/data/model/response/change_password_dto.dart';
 import 'package:tracking_app/features/auth/data/model/request/LoginRequest.dart';

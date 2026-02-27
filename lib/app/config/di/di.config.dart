@@ -9,6 +9,7 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:cloud_firestore/cloud_firestore.dart' as _i974;
 import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
@@ -59,6 +60,10 @@ import '../../../features/home/data/repo/driverOrderRepo_impl.dart' as _i1020;
 import '../../../features/home/domain/repo/driverOrderRepo.dart' as _i499;
 import '../../../features/home/domain/usecase/getdriverOrderUsecase.dart'
     as _i858;
+import '../../../features/home/domain/usecase/upload_driver_fire_data_use_case.dart'
+    as _i329;
+import '../../../features/home/domain/usecase/upload_order_fire_data_use_case.dart'
+    as _i233;
 import '../../../features/home/presentation/manger/driverorderCubit.dart'
     as _i573;
 import '../../../features/profile/api/profile_lacal_datasource_imp.dart'
@@ -96,8 +101,22 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i783.CountryLocalDataSource>(
       () => _i783.CountryLocalDataSourceImpl(),
     );
+    gh.lazySingleton<_i974.FirebaseFirestore>(
+      () => networkModule.firestore,
+      instanceName: 'firestore',
+    );
     gh.lazySingleton<_i361.Dio>(
       () => networkModule.dio(gh<_i603.AuthStorage>()),
+    );
+    gh.factory<_i329.UploadDriverFireDataUseCase>(
+      () => _i329.UploadDriverFireDataUseCase(
+        gh<_i974.FirebaseFirestore>(instanceName: 'firestore'),
+      ),
+    );
+    gh.factory<_i233.UploadOrderFireDataUseCase>(
+      () => _i233.UploadOrderFireDataUseCase(
+        gh<_i974.FirebaseFirestore>(instanceName: 'firestore'),
+      ),
     );
     gh.lazySingleton<_i697.ProfileLocalDataSource>(
       () => _i495.ProfileLocalDataSourceImpl(gh<_i603.AuthStorage>()),
@@ -206,6 +225,9 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i573.DriverOrderCubit(
         gh<_i858.GetDriverOrdersUseCase>(),
         gh<_i603.AuthStorage>(),
+        gh<_i329.UploadDriverFireDataUseCase>(),
+        gh<_i233.UploadOrderFireDataUseCase>(),
+        gh<_i499.DriverOrderRepo>(),
       ),
     );
     gh.factory<_i603.ProfileCubit>(

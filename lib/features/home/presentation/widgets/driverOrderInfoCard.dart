@@ -16,8 +16,10 @@ class DriverOrderInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: EdgeInsets.all(width * 0.03),
       decoration: BoxDecoration(
         color: const Color(0xFFF9F9F9),
         borderRadius: BorderRadius.circular(12),
@@ -26,8 +28,8 @@ class DriverOrderInfoCard extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            width: 50,
-            height: 50,
+            width: width * 0.12,
+            height: width * 0.12,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: isStore ? const Color(0xFFE91E63) : Colors.grey[300],
@@ -45,33 +47,33 @@ class DriverOrderInfoCard extends StatelessWidget {
                   )
                 : null,
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: width * 0.03),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   title,
-                  style: const TextStyle(
-                    fontSize: 14,
+                  style: TextStyle(
+                    fontSize: width * 0.035,
                     fontWeight: FontWeight.w500,
-                    color: Color(0xFF2D2D2D),
+                    color: const Color(0xFF2D2D2D),
                   ),
                 ),
-                const SizedBox(height: 4),
+                SizedBox(height: height * 0.005),
                 Row(
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.location_on_outlined,
-                      size: 14,
+                      size: width * 0.035,
                       color: Colors.black54,
                     ),
-                    const SizedBox(width: 4),
+                    SizedBox(width: width * 0.01),
                     Expanded(
                       child: Text(
                         subtitle,
-                        style: const TextStyle(
-                          fontSize: 12,
+                        style: TextStyle(
+                          fontSize: width * 0.03,
                           color: Colors.black54,
                         ),
                         maxLines: 1,

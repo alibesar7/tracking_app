@@ -37,4 +37,5 @@ class AppConstants {
   static const String english = 'English';
   static const String arabic = 'Arabic';
   static const String logoutFailed = 'Logout failed';
+  static const String floweryRider = 'Flowery Rider';
 }

@@ -6,6 +6,7 @@ import 'package:tracking_app/features/home/presentation/manger/driverorderCubit.
 import 'package:tracking_app/features/home/presentation/manger/driverorderIntent.dart';
 import 'package:tracking_app/features/home/presentation/manger/driverorderStates.dart';
 import 'package:tracking_app/features/home/presentation/widgets/driverOrderItem.dart';
+import 'package:tracking_app/generated/locale_keys.g.dart';
 
 class DriverOrderBody extends StatefulWidget {
   const DriverOrderBody({super.key});
@@ -28,7 +29,7 @@ class _DriverOrderBodyState extends State<DriverOrderBody> {
         if (resource.status == Status.error) {
           return Center(
             child: Text(
-              resource.error ?? "unknownError".tr(),
+              resource.error ?? LocaleKeys.unknownError.tr(),
               style: const TextStyle(color: Colors.red),
             ),
           );
@@ -37,7 +38,7 @@ class _DriverOrderBodyState extends State<DriverOrderBody> {
         if (resource.status == Status.success) {
           final orders = resource.data?.orders ?? [];
           if (orders.isEmpty) {
-            return Center(child: Text("noPendingOrders".tr()));
+            return Center(child: Text(LocaleKeys.noPendingOrders.tr()));
           }
           return RefreshIndicator(
             onRefresh: () async {
@@ -48,7 +49,11 @@ class _DriverOrderBodyState extends State<DriverOrderBody> {
               itemBuilder: (context, index) {
                 return DriverOrderItem(
                   order: orders[index],
-                  onAccept: () {},
+                  onAccept: () {
+                    context.read<DriverOrderCubit>().onIntent(
+                      AcceptOrder(orders[index]),
+                    );
+                  },
                   onReject: () {
                     context.read<DriverOrderCubit>().onIntent(
                       RemoveOrder(orders[index]),

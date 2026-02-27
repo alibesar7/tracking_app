@@ -6,6 +6,10 @@ class DriverOrderSectionLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(text, style: const TextStyle(fontSize: 14, color: Colors.grey));
+    final width = MediaQuery.of(context).size.width;
+    return Text(
+      text,
+      style: TextStyle(fontSize: width * 0.035, color: Colors.grey),
+    );
   }
 }

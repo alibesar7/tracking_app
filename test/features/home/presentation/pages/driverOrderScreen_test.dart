@@ -10,16 +10,26 @@ import 'package:tracking_app/app/core/network/api_result.dart';
 import 'package:tracking_app/features/home/data/model/response/orderRespons.dart';
 import 'package:tracking_app/features/home/domain/repo/driverOrderRepo.dart';
 import 'package:tracking_app/features/home/domain/usecase/getdriverOrderUsecase.dart';
+import 'package:tracking_app/features/home/domain/usecase/getdriverOrderUsecase.dart';
+import 'package:tracking_app/features/home/domain/usecase/upload_driver_fire_data_use_case.dart';
+import 'package:tracking_app/features/home/domain/usecase/upload_order_fire_data_use_case.dart';
 import 'package:tracking_app/features/home/presentation/manger/driverorderCubit.dart';
 import 'package:tracking_app/features/home/presentation/pages/driverOrderScreen.dart';
 import 'package:tracking_app/features/home/presentation/widgets/driverOrderItem.dart';
 
 import 'driverOrderScreen_test.mocks.dart';
 
-@GenerateMocks([DriverOrderRepo, AuthStorage])
+@GenerateMocks([
+  DriverOrderRepo,
+  AuthStorage,
+  UploadDriverFireDataUseCase,
+  UploadOrderFireDataUseCase,
+])
 void main() {
   late MockDriverOrderRepo mockDriverOrderRepo;
   late MockAuthStorage mockAuthStorage;
+  late MockUploadDriverFireDataUseCase mockUploadDriverFireDataUseCase;
+  late MockUploadOrderFireDataUseCase mockUploadOrderFireDataUseCase;
   late GetDriverOrdersUseCase getDriverOrdersUseCase;
 
   setUpAll(() async {
@@ -30,6 +40,8 @@ void main() {
   setUp(() async {
     mockDriverOrderRepo = MockDriverOrderRepo();
     mockAuthStorage = MockAuthStorage();
+    mockUploadDriverFireDataUseCase = MockUploadDriverFireDataUseCase();
+    mockUploadOrderFireDataUseCase = MockUploadOrderFireDataUseCase();
     getDriverOrdersUseCase = GetDriverOrdersUseCase(mockDriverOrderRepo);
 
     provideDummy<ApiResult<OrderResponse>>(
@@ -38,7 +50,13 @@ void main() {
 
     await GetIt.I.reset();
     GetIt.I.registerFactory<DriverOrderCubit>(
-      () => DriverOrderCubit(getDriverOrdersUseCase, mockAuthStorage),
+      () => DriverOrderCubit(
+        getDriverOrdersUseCase,
+        mockAuthStorage,
+        mockUploadDriverFireDataUseCase,
+        mockUploadOrderFireDataUseCase,
+        mockDriverOrderRepo,
+      ),
     );
   });
 

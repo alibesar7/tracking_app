@@ -4,6 +4,7 @@ import 'package:tracking_app/features/home/data/model/response/orderRespons.dart
 import 'package:tracking_app/features/home/presentation/widgets/driverOrderButton.dart';
 import 'package:tracking_app/features/home/presentation/widgets/driverOrderInfoCard.dart';
 import 'package:tracking_app/features/home/presentation/widgets/driverOrderSectionLabel.dart';
+import 'package:tracking_app/generated/locale_keys.g.dart';
 
 class DriverOrderItem extends StatelessWidget {
   final Order order;
@@ -19,9 +20,14 @@ class DriverOrderItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      padding: const EdgeInsets.all(16),
+      margin: EdgeInsets.symmetric(
+        horizontal: width * 0.04,
+        vertical: height * 0.01,
+      ),
+      padding: EdgeInsets.all(width * 0.04),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
@@ -37,39 +43,40 @@ class DriverOrderItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "driverOrderTitle".tr(),
+            LocaleKeys.driverOrderTitle.tr(),
             style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
               color: Color(0xFF2D2D2D),
             ),
           ),
-          const SizedBox(height: 16),
-          DriverOrderSectionLabel("pickupAddress".tr()),
-          const SizedBox(height: 8),
+          SizedBox(height: height * 0.02),
+          DriverOrderSectionLabel(LocaleKeys.pickupAddress.tr()),
+          SizedBox(height: height * 0.01),
           DriverOrderInfoCard(
             image: order.store?.image,
-            title: order.store?.name ?? "unknownStore".tr(),
-            subtitle: order.store?.address ?? "noAddress".tr(),
+            title: order.store?.name ?? LocaleKeys.unknownStore.tr(),
+            subtitle: order.store?.address ?? LocaleKeys.noAddress.tr(),
             isStore: true,
           ),
-          const SizedBox(height: 16),
-          DriverOrderSectionLabel("userAddress".tr()),
-          const SizedBox(height: 8),
+          SizedBox(height: height * 0.02),
+          DriverOrderSectionLabel(LocaleKeys.userAddress.tr()),
+          SizedBox(height: height * 0.01),
           DriverOrderInfoCard(
             image: order.user?.photo != null
                 ? "https://flower.elevateegy.com/uploads/${order.user!.photo!}"
                 : null,
             title:
                 "${order.user?.firstName ?? ''} ${order.user?.lastName ?? ''}",
-            subtitle: order.shippingAddress?.street ?? "noAddress".tr(),
+            subtitle:
+                order.shippingAddress?.street ?? LocaleKeys.noAddress.tr(),
             isStore: false,
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: height * 0.03),
           Row(
             children: [
               Text(
-                "${order.totalPrice ?? 0} ${"egp".tr()}",
+                "${order.totalPrice ?? 0} ${LocaleKeys.egp.tr()}",
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -78,13 +85,13 @@ class DriverOrderItem extends StatelessWidget {
               ),
               const Spacer(),
               DriverOrderButton(
-                text: "reject".tr(),
+                text: LocaleKeys.reject.tr(),
                 onTap: onReject,
                 isPrimary: false,
               ),
-              const SizedBox(width: 8),
+              SizedBox(width: width * 0.02),
               DriverOrderButton(
-                text: "accept".tr(),
+                text: LocaleKeys.accept.tr(),
                 onTap: onAccept,
                 isPrimary: true,
               ),
