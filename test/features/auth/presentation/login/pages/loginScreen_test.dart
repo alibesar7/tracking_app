@@ -7,6 +7,7 @@ import 'package:tracking_app/features/auth/domain/repos/auth_repo.dart';
 import 'package:tracking_app/features/auth/domain/usecase/login_usecase.dart';
 import 'package:tracking_app/features/auth/presentation/login/manager/login_cubit.dart';
 import 'package:tracking_app/features/auth/presentation/login/pages/loginScreen.dart';
+import 'package:tracking_app/generated/locale_keys.g.dart';
 
 import 'loginScreen_test.mocks.dart';
 
@@ -46,9 +47,9 @@ void main() {
     await tester.pumpWidget(createWidgetUnderTest());
 
     // Assert
-    expect(find.text('email'), findsOneWidget);
-    expect(find.text('password'), findsOneWidget);
-    expect(find.text('continueTxt'), findsOneWidget);
+    expect(find.text(LocaleKeys.email), findsOneWidget);
+    expect(find.text(LocaleKeys.password), findsOneWidget);
+    expect(find.text(LocaleKeys.login), findsWidgets);
   });
 
   testWidgets('Enters text into email and password fields', (
