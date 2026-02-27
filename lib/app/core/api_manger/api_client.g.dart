@@ -2,24 +2,20 @@
 
 part of 'api_client.dart';
 
-// dart format off
-
 // **************************************************************************
 // RetrofitGenerator
 // **************************************************************************
 
-// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element,unnecessary_string_interpolations,unused_element_parameter,avoid_unused_constructor_parameters,unreachable_from_main
+// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element,unnecessary_string_interpolations,unused_element_parameter
 
 class _ApiClient implements ApiClient {
-  _ApiClient(this._dio, {this.baseUrl, this.errorLogger}) {
+  _ApiClient(this._dio, {this.baseUrl}) {
     baseUrl ??= 'https://flower.elevateegy.com/api/v1/';
   }
 
   final Dio _dio;
 
   String? baseUrl;
-
-  final ParseErrorLogger? errorLogger;
 
   @override
   Future<HttpResponse<LogoutResponseDto>> logout(String token) async {
@@ -43,7 +39,7 @@ class _ApiClient implements ApiClient {
     try {
       _value = LogoutResponseDto.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options, response: _result);
+      //errorLogger?.logError(e, s, _options);
       rethrow;
     }
     final httpResponse = HttpResponse(_value, _result);
@@ -74,7 +70,7 @@ class _ApiClient implements ApiClient {
     try {
       _value = ForgetpasswordResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options, response: _result);
+      //errorLogger?.logError(e, s, _options);
       rethrow;
     }
     final httpResponse = HttpResponse(_value, _result);
@@ -105,7 +101,7 @@ class _ApiClient implements ApiClient {
     try {
       _value = ResetpasswordResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options, response: _result);
+      //errorLogger?.logError(e, s, _options);
       rethrow;
     }
     final httpResponse = HttpResponse(_value, _result);
@@ -136,7 +132,7 @@ class _ApiClient implements ApiClient {
     try {
       _value = VerifyresetResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options, response: _result);
+      //errorLogger?.logError(e, s, _options);
       rethrow;
     }
     final httpResponse = HttpResponse(_value, _result);
@@ -169,7 +165,7 @@ class _ApiClient implements ApiClient {
     try {
       _value = ChangePasswordDto.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options, response: _result);
+      //errorLogger?.logError(e, s, _options);
       rethrow;
     }
     final httpResponse = HttpResponse(_value, _result);
@@ -198,7 +194,7 @@ class _ApiClient implements ApiClient {
     try {
       _value = LoginResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options, response: _result);
+      //errorLogger?.logError(e, s, _options);
       rethrow;
     }
     return _value;
@@ -225,7 +221,7 @@ class _ApiClient implements ApiClient {
     try {
       _value = VehiclesResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options, response: _result);
+      //errorLogger?.logError(e, s, _options);
       rethrow;
     }
     final httpResponse = HttpResponse(_value, _result);
@@ -258,7 +254,7 @@ class _ApiClient implements ApiClient {
     try {
       _value = ApplyResponseModel.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options, response: _result);
+      //errorLogger?.logError(e, s, _options);
       rethrow;
     }
     final httpResponse = HttpResponse(_value, _result);
@@ -291,7 +287,7 @@ class _ApiClient implements ApiClient {
     try {
       _value = EditProfileResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options, response: _result);
+      //errorLogger?.logError(e, s, _options);
       rethrow;
     }
     final httpResponse = HttpResponse(_value, _result);
@@ -337,7 +333,7 @@ class _ApiClient implements ApiClient {
     try {
       _value = EditProfileResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options, response: _result);
+      //errorLogger?.logError(e, s, _options);
       rethrow;
     }
     final httpResponse = HttpResponse(_value, _result);
@@ -368,7 +364,41 @@ class _ApiClient implements ApiClient {
     try {
       _value = EditProfileResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options, response: _result);
+      //errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    final httpResponse = HttpResponse(_value, _result);
+    return httpResponse;
+  }
+
+  @override
+  Future<HttpResponse<MyOrderResponse>> getAllOrders({
+    required String token,
+    int? limit,
+    int? page,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'limit': limit, r'page': page};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<HttpResponse<MyOrderResponse>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'orders/pending-orders',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late MyOrderResponse _value;
+    try {
+      _value = MyOrderResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      //errorLogger?.logError(e, s, _options);
       rethrow;
     }
     final httpResponse = HttpResponse(_value, _result);
@@ -397,7 +427,7 @@ class _ApiClient implements ApiClient {
     try {
       _value = OrderResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options, response: _result);
+      //errorLogger?.logError(e, s, _options);
       rethrow;
     }
     final httpResponse = HttpResponse(_value, _result);
@@ -431,5 +461,3 @@ class _ApiClient implements ApiClient {
     return Uri.parse(dioBaseUrl).resolveUri(url).toString();
   }
 }
-
-// dart format on

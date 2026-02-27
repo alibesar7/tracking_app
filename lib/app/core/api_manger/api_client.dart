@@ -12,6 +12,7 @@ import 'package:tracking_app/features/auth/data/models/request/verifyreset_reque
 import 'package:tracking_app/features/auth/data/models/response/forgetpassword_response.dart';
 import 'package:tracking_app/features/auth/data/models/response/resetpassword_response.dart';
 import 'package:tracking_app/features/auth/data/models/response/verifyreset_response.dart';
+import 'package:tracking_app/features/my_orders/data/models/response/my_order_response.dart';
 import '../../../features/auth/data/models/response/apply_response_model.dart';
 import '../../../features/auth/data/models/response/vehicles_response_model.dart';
 import 'package:tracking_app/app/core/values/api_constants.dart';
@@ -75,7 +76,14 @@ abstract class ApiClient {
     @Header(ApiConstants.authorization) required String token,
   });
 
-  @GET(AppEndpointString.driverOrders)
+  @GET(AppEndpointString.mydriverOrders)
+  Future<HttpResponse<MyOrderResponse>> getAllOrders({
+    @Header("Authorization") required String token,
+    @Query("limit") int? limit,
+    @Query("page") int? page,
+  });
+
+  @GET(AppEndpointString.mydriverOrders)
   Future<HttpResponse<OrderResponse>> getPendingOrders(
     @Header("Authorization") String token,
   );

@@ -9,8 +9,7 @@ class AppEndpointString {
   static const String profileData = 'auth/profile-data';
   static const String updateRole = 'auth/update-role';
   static const String cashOrder = 'orders';
-  static const String orders = 'orders';
-  static const String checkout = '$orders/checkout';
+
   static const String addresses = 'addresses';
   static const String signup = '/auth/signup';
   static const String allCategories = 'categories';
@@ -32,6 +31,7 @@ class AppEndpointString {
   static const String getProfile = "drivers/profile-data";
   static const String login = "drivers/signin";
   static const String logout = 'drivers/logout';
+  static const String driverOrders = 'orders/driver-orders';
 
-  static const String driverOrders = 'orders/pending-orders';
+  static const String mydriverOrders = 'orders/pending-orders';
 }
