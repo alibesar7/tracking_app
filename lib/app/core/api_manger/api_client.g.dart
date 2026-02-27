@@ -2,14 +2,16 @@
 
 part of 'api_client.dart';
 
+// dart format off
+
 // **************************************************************************
 // RetrofitGenerator
 // **************************************************************************
 
-// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
+// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element,unnecessary_string_interpolations,unused_element_parameter,avoid_unused_constructor_parameters,unreachable_from_main
 
 class _ApiClient implements ApiClient {
-  _ApiClient(this._dio, {this.baseUrl}) {
+  _ApiClient(this._dio, {this.baseUrl, this.errorLogger}) {
     baseUrl ??= 'https://flower.elevateegy.com/api/v1/';
   }
 
@@ -17,29 +19,36 @@ class _ApiClient implements ApiClient {
 
   String? baseUrl;
 
+  final ParseErrorLogger? errorLogger;
+
   @override
   Future<HttpResponse<ForgetpasswordResponse>> forgetPassword(
     ForgetPasswordRequest request,
   ) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(request.toJson());
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-      _setStreamType<HttpResponse<ForgetpasswordResponse>>(
-        Options(method: 'POST', headers: _headers, extra: _extra)
-            .compose(
-              _dio.options,
-              'drivers/forgotPassword',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
-      ),
+    final _options = _setStreamType<HttpResponse<ForgetpasswordResponse>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'drivers/forgotPassword',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
-    final value = ForgetpasswordResponse.fromJson(_result.data!);
-    final httpResponse = HttpResponse(value, _result);
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late ForgetpasswordResponse _value;
+    try {
+      _value = ForgetpasswordResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    final httpResponse = HttpResponse(_value, _result);
     return httpResponse;
   }
 
@@ -47,25 +56,30 @@ class _ApiClient implements ApiClient {
   Future<HttpResponse<ResetpasswordResponse>> resetPassword(
     ResetPasswordRequest request,
   ) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(request.toJson());
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-      _setStreamType<HttpResponse<ResetpasswordResponse>>(
-        Options(method: 'PUT', headers: _headers, extra: _extra)
-            .compose(
-              _dio.options,
-              'drivers/resetPassword',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
-      ),
+    final _options = _setStreamType<HttpResponse<ResetpasswordResponse>>(
+      Options(method: 'PUT', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'drivers/resetPassword',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
-    final value = ResetpasswordResponse.fromJson(_result.data!);
-    final httpResponse = HttpResponse(value, _result);
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late ResetpasswordResponse _value;
+    try {
+      _value = ResetpasswordResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    final httpResponse = HttpResponse(_value, _result);
     return httpResponse;
   }
 
@@ -73,25 +87,30 @@ class _ApiClient implements ApiClient {
   Future<HttpResponse<VerifyresetResponse>> verifyResetCode(
     VerifyResetRequest request,
   ) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(request.toJson());
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-      _setStreamType<HttpResponse<VerifyresetResponse>>(
-        Options(method: 'POST', headers: _headers, extra: _extra)
-            .compose(
-              _dio.options,
-              'drivers/verifyResetCode',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
-      ),
+    final _options = _setStreamType<HttpResponse<VerifyresetResponse>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'drivers/verifyResetCode',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
-    final value = VerifyresetResponse.fromJson(_result.data!);
-    final httpResponse = HttpResponse(value, _result);
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late VerifyresetResponse _value;
+    try {
+      _value = VerifyresetResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    final httpResponse = HttpResponse(_value, _result);
     return httpResponse;
   }
 
@@ -99,99 +118,119 @@ class _ApiClient implements ApiClient {
   Future<HttpResponse<ChangePasswordDto>> changePassword(
     Map<String, dynamic> body,
   ) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(body);
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-      _setStreamType<HttpResponse<ChangePasswordDto>>(
-        Options(method: 'PATCH', headers: _headers, extra: _extra)
-            .compose(
-              _dio.options,
-              'drivers/change-password',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
-      ),
+    final _options = _setStreamType<HttpResponse<ChangePasswordDto>>(
+      Options(method: 'PATCH', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'drivers/change-password',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
-    final value = ChangePasswordDto.fromJson(_result.data!);
-    final httpResponse = HttpResponse(value, _result);
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late ChangePasswordDto _value;
+    try {
+      _value = ChangePasswordDto.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    final httpResponse = HttpResponse(_value, _result);
     return httpResponse;
   }
 
   @override
   Future<LoginResponse> login(LoginRequest request) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(request.toJson());
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-      _setStreamType<LoginResponse>(
-        Options(method: 'POST', headers: _headers, extra: _extra)
-            .compose(
-              _dio.options,
-              'drivers/signin',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
-      ),
+    final _options = _setStreamType<LoginResponse>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'drivers/signin',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
-    final value = LoginResponse.fromJson(_result.data!);
-    return value;
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late LoginResponse _value;
+    try {
+      _value = LoginResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
   }
 
   @override
   Future<HttpResponse<VehiclesResponse>> getAllVehicle() async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-      _setStreamType<HttpResponse<VehiclesResponse>>(
-        Options(method: 'GET', headers: _headers, extra: _extra)
-            .compose(
-              _dio.options,
-              'vehicles',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
-      ),
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<HttpResponse<VehiclesResponse>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'vehicles',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
-    final value = VehiclesResponse.fromJson(_result.data!);
-    final httpResponse = HttpResponse(value, _result);
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late VehiclesResponse _value;
+    try {
+      _value = VehiclesResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    final httpResponse = HttpResponse(_value, _result);
     return httpResponse;
   }
 
   @override
   Future<HttpResponse<ApplyResponseModel>> apply(FormData formData) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = formData;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-      _setStreamType<HttpResponse<ApplyResponseModel>>(
-        Options(
-              method: 'POST',
-              headers: _headers,
-              extra: _extra,
-              contentType: 'multipart/form-data',
-            )
-            .compose(
-              _dio.options,
-              'drivers/apply',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
-      ),
+    final _options = _setStreamType<HttpResponse<ApplyResponseModel>>(
+      Options(
+            method: 'POST',
+            headers: _headers,
+            extra: _extra,
+            contentType: 'multipart/form-data',
+          )
+          .compose(
+            _dio.options,
+            'drivers/apply',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
-    final value = ApplyResponseModel.fromJson(_result.data!);
-    final httpResponse = HttpResponse(value, _result);
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late ApplyResponseModel _value;
+    try {
+      _value = ApplyResponseModel.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    final httpResponse = HttpResponse(_value, _result);
     return httpResponse;
   }
 
@@ -222,3 +261,5 @@ class _ApiClient implements ApiClient {
     return Uri.parse(dioBaseUrl).resolveUri(url).toString();
   }
 }
+
+// dart format on
