@@ -1,29 +1,35 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:get_it/get_it.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:tracking_app/app/config/auth_storage/auth_storage.dart';
 import 'package:tracking_app/app/config/base_state/base_state.dart';
 import 'package:tracking_app/app/core/network/api_result.dart';
 import 'package:tracking_app/features/driver_orders_details/domain/models/orders_model.dart';
 import 'package:tracking_app/features/driver_orders_details/domain/usecases/get_order_details_usecase.dart';
 import 'package:tracking_app/features/driver_orders_details/presentation/manager/order_details_cubit.dart';
 import 'package:tracking_app/features/driver_orders_details/presentation/manager/order_details_states.dart';
-
 import 'order_details_cubit_test.mocks.dart';
 
-@GenerateMocks([GetOrderDetailsUsecase])
+@GenerateMocks([GetOrderDetailsUsecase, AuthStorage])
 void main() {
   late OrderDetailsCubit cubit;
   late MockGetOrderDetailsUsecase mockUsecase;
+  late MockAuthStorage mockAuthStorage;
 
   setUp(() {
     mockUsecase = MockGetOrderDetailsUsecase();
+    mockAuthStorage = MockAuthStorage();
+    final sl = GetIt.instance;
+    sl.registerSingleton<AuthStorage>(mockAuthStorage);
     cubit = OrderDetailsCubit(mockUsecase);
     provideDummy<ApiResult<Stream<OrderModel>>>(ErrorApiResult(error: 'dummy'));
   });
 
   tearDown(() {
     cubit.close();
+    GetIt.instance.reset();
   });
 
   const tOrderId = 'order_123';
@@ -41,46 +47,46 @@ void main() {
       userAddress: 'Shebin',
     ),
   );
-
   group('OrderDetailsCubit Tests', () {
     blocTest<OrderDetailsCubit, OrderDetailsStates>(
-      'should emit [Loading, Success] when data is fetched successfully',
+      'emits [Loading, Success] when data is fetched successfully',
       build: () {
         when(
           mockUsecase.call(any),
-        ).thenReturn(SuccessApiResult(data: Stream.value(tOrderModel)));
+        ).thenAnswer((_) => SuccessApiResult(data: Stream.value(tOrderModel)));
         return cubit;
       },
-
       act: (cubit) => cubit.getOrderDetails(tOrderId),
       expect: () => [
-        predicate<OrderDetailsStates>(
-          (state) => state.data?.status == Status.loading,
+        isA<OrderDetailsStates>().having(
+          (s) => s.data?.status,
+          'status',
+          Status.loading,
         ),
-        predicate<OrderDetailsStates>((state) {
-          return state.data?.status == Status.success &&
-              state.data?.data == tOrderModel;
-        }),
+        isA<OrderDetailsStates>()
+            .having((s) => s.data?.status, 'status', Status.success)
+            .having((s) => s.data?.data, 'data', tOrderModel),
       ],
     );
 
     blocTest<OrderDetailsCubit, OrderDetailsStates>(
-      'should emit [Loading, Error] when fetching data fails',
+      'emits [Loading, Error] when fetching data fails',
       build: () {
         when(
           mockUsecase.call(any),
-        ).thenReturn(ErrorApiResult(error: 'Server Error'));
+        ).thenAnswer((_) => ErrorApiResult(error: 'Server Error'));
         return cubit;
       },
       act: (cubit) => cubit.getOrderDetails(tOrderId),
       expect: () => [
-        predicate<OrderDetailsStates>(
-          (state) => state.data?.status == Status.loading,
+        isA<OrderDetailsStates>().having(
+          (s) => s.data?.status,
+          'status',
+          Status.loading,
         ),
-        predicate<OrderDetailsStates>((state) {
-          return state.data?.status == Status.error &&
-              state.data?.error == 'Server Error';
-        }),
+        isA<OrderDetailsStates>()
+            .having((s) => s.data?.status, 'status', Status.error)
+            .having((s) => s.data?.error, 'error', 'Server Error'),
       ],
     );
   });
