@@ -3,13 +3,9 @@ import 'package:tracking_app/features/auth/data/models/response/forgetpassword_r
 
 void main() {
   group("ForgetpasswordResponse", () {
-
     test("fromJson should parse correctly", () {
       // Arrange
-      final json = {
-        "message": "Reset email sent",
-        "info": "Check your inbox",
-      };
+      final json = {"message": "Reset email sent", "info": "Check your inbox"};
 
       // Act
       final model = ForgetpasswordResponse.fromJson(json);
@@ -42,9 +38,7 @@ void main() {
       );
 
       // Act
-      final updatedModel = model.copyWith(
-        message: "New message",
-      );
+      final updatedModel = model.copyWith(message: "New message");
 
       // Assert
       expect(updatedModel.message, "New message");
@@ -63,6 +57,5 @@ void main() {
       expect(json.containsKey("message"), true);
       expect(json.containsKey("info"), true);
     });
-
   });
 }

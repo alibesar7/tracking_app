@@ -19,20 +19,20 @@ class TrackOrderRepoImpl implements TrackOrderRepo {
 
     return switch (result) {
       SuccessApiResult() => SuccessApiResult(
-          data: (result.data as Stream<List<TrackOrderModel>>).map(
-            (models) => models
-                .map(
-                  (model) => OrderEntity(
-                    id: model.id,
-                    userId: model.userId,
-                    status: model.status,
-                    driverId: model.driverId,
-                    totalPrice: model.totalPrice,
-                  ),
-                )
-                .toList(),
-          ),
+        data: (result.data as Stream<List<TrackOrderModel>>).map(
+          (models) => models
+              .map(
+                (model) => OrderEntity(
+                  id: model.id,
+                  userId: model.userId,
+                  status: model.status,
+                  driverId: model.driverId,
+                  totalPrice: model.totalPrice,
+                ),
+              )
+              .toList(),
         ),
+      ),
 
       ErrorApiResult() => ErrorApiResult(error: result.error),
     };
@@ -44,14 +44,10 @@ class TrackOrderRepoImpl implements TrackOrderRepo {
 
     return switch (result) {
       SuccessApiResult() => SuccessApiResult(
-          data: (result.data as Stream<DriverModel>).map(
-            (model) => DriverEntity(
-              id: model.id,
-              lat: model.lat,
-              lng: model.lng,
-            ),
-          ),
+        data: (result.data as Stream<DriverModel>).map(
+          (model) => DriverEntity(id: model.id, lat: model.lat, lng: model.lng),
         ),
+      ),
 
       ErrorApiResult() => ErrorApiResult(error: result.error),
     };

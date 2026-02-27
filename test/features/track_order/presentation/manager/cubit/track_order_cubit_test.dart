@@ -10,7 +10,9 @@ import 'package:tracking_app/features/track_order/domain/usecases/driver_usecase
 import 'package:tracking_app/features/track_order/presentation/manager/cubit/track_order_cubit.dart';
 
 class MockTrackOrderUseCase extends Mock implements TrackOrderUseCase {}
+
 class MockTrackDriverUseCase extends Mock implements TrackDriverUseCase {}
+
 class MockAuthStorage extends Mock implements AuthStorage {}
 
 void main() {
@@ -50,9 +52,12 @@ void main() {
     });
 
     test('emits orders when SuccessApiResult is returned', () async {
-      when(() => mockAuthStorage.getToken()).thenAnswer((_) async => 'dummy.token.value');
-      when(() => mockTrackOrderUseCase.call(any()))
-          .thenReturn(SuccessApiResult(data: ordersStream));
+      when(
+        () => mockAuthStorage.getToken(),
+      ).thenAnswer((_) async => 'dummy.token.value');
+      when(
+        () => mockTrackOrderUseCase.call(any()),
+      ).thenReturn(SuccessApiResult(data: ordersStream));
 
       await cubit.loadUserOrders();
 
@@ -62,9 +67,12 @@ void main() {
     });
 
     test('emits error when ErrorApiResult is returned', () async {
-      when(() => mockAuthStorage.getToken()).thenAnswer((_) async => 'dummy.token.value');
-      when(() => mockTrackOrderUseCase.call(any()))
-          .thenReturn(ErrorApiResult(error: 'Network Error'));
+      when(
+        () => mockAuthStorage.getToken(),
+      ).thenAnswer((_) async => 'dummy.token.value');
+      when(
+        () => mockTrackOrderUseCase.call(any()),
+      ).thenReturn(ErrorApiResult(error: 'Network Error'));
 
       await cubit.loadUserOrders();
 
@@ -79,8 +87,9 @@ void main() {
     final driverStream = Stream.value(driver);
 
     test('emits driver when SuccessApiResult is returned', () async {
-      when(() => mockTrackDriverUseCase.call('d1'))
-          .thenReturn(SuccessApiResult(data: driverStream));
+      when(
+        () => mockTrackDriverUseCase.call('d1'),
+      ).thenReturn(SuccessApiResult(data: driverStream));
 
       cubit.trackDriver('d1');
 
@@ -94,8 +103,9 @@ void main() {
     test('emits error if stream has error', () async {
       final errorStream = Stream<DriverEntity>.error('Driver not found');
 
-      when(() => mockTrackDriverUseCase.call('d1'))
-          .thenReturn(SuccessApiResult(data: errorStream));
+      when(
+        () => mockTrackDriverUseCase.call('d1'),
+      ).thenReturn(SuccessApiResult(data: errorStream));
 
       cubit.trackDriver('d1');
 
@@ -105,14 +115,18 @@ void main() {
   });
 
   test('close cancels subscriptions', () async {
-    final orderStream = Stream.value([OrderEntity(id: 'o1', userId: 'u1', status: 'delivered')]);
+    final orderStream = Stream.value([
+      OrderEntity(id: 'o1', userId: 'u1', status: 'delivered'),
+    ]);
     final driverStream = Stream.value(DriverEntity(id: 'd1', lat: 10, lng: 20));
 
     when(() => mockAuthStorage.getToken()).thenAnswer((_) async => 'token');
-    when(() => mockTrackOrderUseCase.call(any()))
-        .thenReturn(SuccessApiResult(data: orderStream));
-    when(() => mockTrackDriverUseCase.call(any()))
-        .thenReturn(SuccessApiResult(data: driverStream));
+    when(
+      () => mockTrackOrderUseCase.call(any()),
+    ).thenReturn(SuccessApiResult(data: orderStream));
+    when(
+      () => mockTrackDriverUseCase.call(any()),
+    ).thenReturn(SuccessApiResult(data: driverStream));
 
     await cubit.loadUserOrders();
     cubit.trackDriver('d1');

@@ -70,10 +70,10 @@ class AuthRepoImpl implements AuthRepo {
     return ErrorApiResult(error: 'Unexpected error');
   }
 
-
   @override
   Future<ApiResult<ResetPasswordEntity>> resetPassword(
-      ResetPasswordRequest request) async {
+    ResetPasswordRequest request,
+  ) async {
     final result = await authDatasource.resetPassword(request);
 
     if (result is SuccessApiResult<ResetpasswordResponse>) {
@@ -91,7 +91,6 @@ class AuthRepoImpl implements AuthRepo {
 
     return ErrorApiResult(error: 'Unexpected error');
   }
-
 
   @override
   Future<ApiResult<LoginResponse>> login(String email, String password) async {
@@ -158,10 +157,8 @@ class AuthRepoImpl implements AuthRepo {
     }
   }
 
-
   @override
-  Future<ApiResult<ApplyResponseModel>> apply(
-      ApplyRequestModel request) async {
+  Future<ApiResult<ApplyResponseModel>> apply(ApplyRequestModel request) async {
     final result = await authDatasource.apply(request);
 
     if (result is SuccessApiResult<ApplyResponseModel>) {

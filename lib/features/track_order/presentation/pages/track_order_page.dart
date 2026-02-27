@@ -22,9 +22,7 @@ class _TrackOrderPageState extends State<TrackOrderPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Track Orders'),
-      ),
+      appBar: AppBar(title: const Text('Track Orders')),
       body: BlocBuilder<TrackOrderCubit, TrackOrderState>(
         builder: (context, state) {
           if (state.isLoading) {
@@ -41,9 +39,7 @@ class _TrackOrderPageState extends State<TrackOrderPage> {
           }
 
           if (state.orders.isEmpty) {
-            return const Center(
-              child: Text('No orders found'),
-            );
+            return const Center(child: Text('No orders found'));
           }
 
           return ListView.builder(
@@ -65,11 +61,10 @@ class _TrackOrderPageState extends State<TrackOrderPage> {
                   ),
                   trailing: const Icon(Icons.arrow_forward_ios),
                   onTap: () {
-                    if (order.driverId != null &&
-                        order.driverId!.isNotEmpty) {
-                      context
-                          .read<TrackOrderCubit>()
-                          .trackDriver(order.driverId!);
+                    if (order.driverId != null && order.driverId!.isNotEmpty) {
+                      context.read<TrackOrderCubit>().trackDriver(
+                        order.driverId!,
+                      );
 
                       _showDriverBottomSheet(context);
                     }
@@ -104,10 +99,7 @@ class _TrackOrderPageState extends State<TrackOrderPage> {
                 children: [
                   const Text(
                     'Driver Info',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 12),
                   Text('Driver ID: ${state.driver!.id}'),

@@ -7,15 +7,14 @@ import 'package:tracking_app/features/track_order/data/datasource/track_order_re
 import 'package:tracking_app/features/track_order/data/models/track_order_model.dart';
 import 'package:tracking_app/features/track_order/data/models/driver_model.dart';
 
-
 /// ---------------- MOCKS ----------------
 
 class MockFirebaseFirestore extends Mock implements FirebaseFirestore {}
+
 class MockCollectionReference extends Mock
     implements CollectionReference<Map<String, dynamic>> {}
 
-class MockQuery extends Mock
-    implements Query<Map<String, dynamic>> {}
+class MockQuery extends Mock implements Query<Map<String, dynamic>> {}
 
 class MockQuerySnapshot extends Mock
     implements QuerySnapshot<Map<String, dynamic>> {}
@@ -47,17 +46,15 @@ void main() {
       final mockSnapshot = MockQuerySnapshot();
       final mockDoc = MockQueryDocumentSnapshot();
 
-      when(() => mockFirestore.collection('orders'))
-          .thenReturn(mockCollection);
+      when(() => mockFirestore.collection('orders')).thenReturn(mockCollection);
 
-      when(() => mockCollection.where(any()))
-          .thenReturn(mockQuery);
+      when(() => mockCollection.where(any())).thenReturn(mockQuery);
 
-      when(() => mockQuery.snapshots())
-          .thenAnswer((_) => Stream.value(mockSnapshot));
+      when(
+        () => mockQuery.snapshots(),
+      ).thenAnswer((_) => Stream.value(mockSnapshot));
 
-      when(() => mockSnapshot.docs)
-          .thenReturn([mockDoc]);
+      when(() => mockSnapshot.docs).thenReturn([mockDoc]);
 
       when(() => mockDoc.id).thenReturn('1');
 
@@ -65,7 +62,7 @@ void main() {
         'status': 'delivered',
         'driver_id': 'd1',
         'total_price': 100,
-        'userAddress': {'user_id': 'u1'}
+        'userAddress': {'user_id': 'u1'},
       });
 
       final result = dataSource.trackOrder('u1');
@@ -82,8 +79,9 @@ void main() {
     });
 
     test('returns ErrorApiResult when firestore throws', () {
-      when(() => mockFirestore.collection('orders'))
-          .thenThrow(Exception('Firestore error'));
+      when(
+        () => mockFirestore.collection('orders'),
+      ).thenThrow(Exception('Firestore error'));
 
       final result = dataSource.trackOrder('u1');
 
@@ -97,21 +95,19 @@ void main() {
       final mockDocRef = MockDocumentReference();
       final mockSnapshot = MockDocumentSnapshot();
 
-      when(() => mockFirestore.collection('drivers'))
-          .thenReturn(mockCollection);
+      when(
+        () => mockFirestore.collection('drivers'),
+      ).thenReturn(mockCollection);
 
-      when(() => mockCollection.doc('d1'))
-          .thenReturn(mockDocRef);
+      when(() => mockCollection.doc('d1')).thenReturn(mockDocRef);
 
-      when(() => mockDocRef.snapshots())
-          .thenAnswer((_) => Stream.value(mockSnapshot));
+      when(
+        () => mockDocRef.snapshots(),
+      ).thenAnswer((_) => Stream.value(mockSnapshot));
 
       when(() => mockSnapshot.id).thenReturn('d1');
 
-      when(() => mockSnapshot.data()).thenReturn({
-        'lat': 30.0,
-        'lng': 31.0,
-      });
+      when(() => mockSnapshot.data()).thenReturn({'lat': 30.0, 'lng': 31.0});
 
       final result = dataSource.trackDriver('d1');
 
@@ -125,8 +121,9 @@ void main() {
     });
 
     test('returns ErrorApiResult if firestore throws', () {
-      when(() => mockFirestore.collection('drivers'))
-          .thenThrow(Exception('Error'));
+      when(
+        () => mockFirestore.collection('drivers'),
+      ).thenThrow(Exception('Error'));
 
       final result = dataSource.trackDriver('d1');
 
@@ -140,25 +137,19 @@ void main() {
       final mockDocRef = MockDocumentReference();
       final mockSnapshot = MockDocumentSnapshot();
 
-      when(() => mockFirestore.collection('orders'))
-          .thenReturn(mockCollection);
+      when(() => mockFirestore.collection('orders')).thenReturn(mockCollection);
 
-      when(() => mockCollection.doc('1'))
-          .thenReturn(mockDocRef);
+      when(() => mockCollection.doc('1')).thenReturn(mockDocRef);
 
-      when(() => mockDocRef.update(any()))
-          .thenAnswer((_) async {});
+      when(() => mockDocRef.update(any())).thenAnswer((_) async {});
 
-      when(() => mockDocRef.get())
-          .thenAnswer((_) async => mockSnapshot);
+      when(() => mockDocRef.get()).thenAnswer((_) async => mockSnapshot);
 
-      final result =
-          await dataSource.updateOrderStatus('1', 'delivered');
+      final result = await dataSource.updateOrderStatus('1', 'delivered');
 
       expect(result, mockSnapshot);
 
-      verify(() => mockDocRef.update({'status': 'delivered'}))
-          .called(1);
+      verify(() => mockDocRef.update({'status': 'delivered'})).called(1);
     });
   });
 }

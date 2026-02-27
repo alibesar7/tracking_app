@@ -23,8 +23,9 @@ void main() {
     final orders = [OrderEntity(id: 'o1', userId: 'u1', status: 'delivered')];
 
     test('returns SuccessApiResult with orders stream', () async {
-      when(() => mockRepo.trackOrder('u1'))
-          .thenReturn(SuccessApiResult(data: Stream.value(orders)));
+      when(
+        () => mockRepo.trackOrder('u1'),
+      ).thenReturn(SuccessApiResult(data: Stream.value(orders)));
 
       final result = useCase.call('u1');
 
@@ -36,8 +37,9 @@ void main() {
     });
 
     test('returns ErrorApiResult when repository fails', () {
-      when(() => mockRepo.trackOrder('u1'))
-          .thenReturn(ErrorApiResult(error: 'Network Error'));
+      when(
+        () => mockRepo.trackOrder('u1'),
+      ).thenReturn(ErrorApiResult(error: 'Network Error'));
 
       final result = useCase.call('u1');
 

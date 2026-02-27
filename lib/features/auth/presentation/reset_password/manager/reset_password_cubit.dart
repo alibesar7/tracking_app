@@ -9,7 +9,6 @@ import '../../../../../app/config/base_state/base_state.dart';
 import '../../../../../app/core/network/api_result.dart';
 import '../../../../../app/core/utils/validators_helper.dart';
 
-
 part 'reset_password_state.dart';
 
 @injectable

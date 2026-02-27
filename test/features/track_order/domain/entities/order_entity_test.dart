@@ -41,11 +41,7 @@ void main() {
       const status = 'pending';
 
       // Act
-      final order = OrderEntity(
-        id: id,
-        userId: userId,
-        status: status,
-      );
+      final order = OrderEntity(id: id, userId: userId, status: status);
 
       // Assert
       expect(order.id, id);

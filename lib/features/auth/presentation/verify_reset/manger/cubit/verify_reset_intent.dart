@@ -1,4 +1,5 @@
 part of 'verify_reset_cubit.dart';
+
 sealed class VerifyResetCodeIntents {
   const VerifyResetCodeIntents();
 }

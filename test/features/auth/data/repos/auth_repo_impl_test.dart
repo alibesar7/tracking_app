@@ -23,7 +23,8 @@ void main() {
   late MockAuthRemoteDataSource datasource;
   late AuthRepoImpl repo;
 
-  late MockAuthRemoteDataSource mockDataSource; // for login/changePassword tests
+  late MockAuthRemoteDataSource
+  mockDataSource; // for login/changePassword tests
   late AuthRepoImpl repoImp;
 
   setUpAll(() {
@@ -68,7 +69,10 @@ void main() {
     const email = "test@mail.com";
 
     test("should return SuccessApiResult when datasource succeeds", () async {
-      final fakeDto = ForgetpasswordResponse(message: "Email sent", info: "Check inbox");
+      final fakeDto = ForgetpasswordResponse(
+        message: "Email sent",
+        info: "Check inbox",
+      );
 
       when(datasource.forgetPassword(any)).thenAnswer(
         (_) async => SuccessApiResult<ForgetpasswordResponse>(data: fakeDto),
@@ -86,7 +90,8 @@ void main() {
 
     test("should return ErrorApiResult when datasource fails", () async {
       when(datasource.forgetPassword(any)).thenAnswer(
-        (_) async => ErrorApiResult<ForgetpasswordResponse>(error: "Network error"),
+        (_) async =>
+            ErrorApiResult<ForgetpasswordResponse>(error: "Network error"),
       );
 
       final result = await repo.forgetPassword(email);
@@ -138,10 +143,16 @@ void main() {
   // resetPassword
   // ============================================================
   group("resetPassword", () {
-    final request = ResetPasswordRequest(email: "test@mail.com", newPassword: "12345678");
+    final request = ResetPasswordRequest(
+      email: "test@mail.com",
+      newPassword: "12345678",
+    );
 
     test("should return SuccessApiResult when datasource succeeds", () async {
-      final fakeDto = ResetpasswordResponse(message: "Password reset", token: "abc123");
+      final fakeDto = ResetpasswordResponse(
+        message: "Password reset",
+        token: "abc123",
+      );
 
       when(datasource.resetPassword(request)).thenAnswer(
         (_) async => SuccessApiResult<ResetpasswordResponse>(data: fakeDto),
@@ -159,7 +170,8 @@ void main() {
 
     test("should return ErrorApiResult when datasource fails", () async {
       when(datasource.resetPassword(request)).thenAnswer(
-        (_) async => ErrorApiResult<ResetpasswordResponse>(error: "Server error"),
+        (_) async =>
+            ErrorApiResult<ResetpasswordResponse>(error: "Server error"),
       );
 
       final result = await repo.resetPassword(request);
@@ -179,63 +191,117 @@ void main() {
   final tLoginResponse = LoginResponse(token: 'token123', message: 'Success');
 
   group('AuthRepoImpl.login', () {
-    test('should return SuccessApiResult when remote data source call is successful', () async {
-      when(mockDataSource.login(any)).thenAnswer((_) async => SuccessApiResult(data: tLoginResponse));
+    test(
+      'should return SuccessApiResult when remote data source call is successful',
+      () async {
+        when(
+          mockDataSource.login(any),
+        ).thenAnswer((_) async => SuccessApiResult(data: tLoginResponse));
 
-      final result = await repoImp.login(tEmail, tPassword);
+        final result = await repoImp.login(tEmail, tPassword);
 
-      expect(result, isA<SuccessApiResult<LoginResponse>>());
-      expect((result as SuccessApiResult<LoginResponse>).data, tLoginResponse);
+        expect(result, isA<SuccessApiResult<LoginResponse>>());
+        expect(
+          (result as SuccessApiResult<LoginResponse>).data,
+          tLoginResponse,
+        );
 
-      verify(mockDataSource.login(any)).called(1);
-      verifyNoMoreInteractions(mockDataSource);
-    });
+        verify(mockDataSource.login(any)).called(1);
+        verifyNoMoreInteractions(mockDataSource);
+      },
+    );
 
-    test('should return ErrorApiResult when remote data source call fails', () async {
-      const tErrorMessage = 'An error occurred';
-      when(mockDataSource.login(any)).thenAnswer((_) async => ErrorApiResult(error: tErrorMessage));
+    test(
+      'should return ErrorApiResult when remote data source call fails',
+      () async {
+        const tErrorMessage = 'An error occurred';
+        when(
+          mockDataSource.login(any),
+        ).thenAnswer((_) async => ErrorApiResult(error: tErrorMessage));
 
-      final result = await repoImp.login(tEmail, tPassword);
+        final result = await repoImp.login(tEmail, tPassword);
 
-      expect(result, isA<ErrorApiResult<LoginResponse>>());
-      expect((result as ErrorApiResult<LoginResponse>).error, tErrorMessage);
+        expect(result, isA<ErrorApiResult<LoginResponse>>());
+        expect((result as ErrorApiResult<LoginResponse>).error, tErrorMessage);
 
-      verify(mockDataSource.login(any)).called(1);
-      verifyNoMoreInteractions(mockDataSource);
-    });
+        verify(mockDataSource.login(any)).called(1);
+        verifyNoMoreInteractions(mockDataSource);
+      },
+    );
   });
 
   // ============================================================
   // changePassword
   // ============================================================
   group("AuthRepoImpl.changePassword()", () {
-    test('should return ApiSuccess when changePassword datasource succeeds', () async {
-      final fakeDto = ChangePasswordDto(message: 'Success', token: 'fake_token', error: null);
+    test(
+      'should return ApiSuccess when changePassword datasource succeeds',
+      () async {
+        final fakeDto = ChangePasswordDto(
+          message: 'Success',
+          token: 'fake_token',
+          error: null,
+        );
 
-      when(mockDataSource.changePassword(password: anyNamed('password'), newPassword: anyNamed('newPassword')))
-          .thenAnswer((_) async => SuccessApiResult<ChangePasswordDto>(data: fakeDto));
+        when(
+          mockDataSource.changePassword(
+            password: anyNamed('password'),
+            newPassword: anyNamed('newPassword'),
+          ),
+        ).thenAnswer(
+          (_) async => SuccessApiResult<ChangePasswordDto>(data: fakeDto),
+        );
 
-      final result = await repoImp.changePassword(password: 'Mm@123456', newPassword: 'Mmmm@123')
-          as SuccessApiResult<ChangePasswordModel>;
+        final result =
+            await repoImp.changePassword(
+                  password: 'Mm@123456',
+                  newPassword: 'Mmmm@123',
+                )
+                as SuccessApiResult<ChangePasswordModel>;
 
-      expect(result, isA<SuccessApiResult<ChangePasswordModel>>());
-      expect(result.data.token, fakeDto.token);
-      expect(result.data.message, fakeDto.message);
+        expect(result, isA<SuccessApiResult<ChangePasswordModel>>());
+        expect(result.data.token, fakeDto.token);
+        expect(result.data.message, fakeDto.message);
 
-      verify(mockDataSource.changePassword(password: anyNamed('password'), newPassword: anyNamed('newPassword'))).called(1);
-    });
+        verify(
+          mockDataSource.changePassword(
+            password: anyNamed('password'),
+            newPassword: anyNamed('newPassword'),
+          ),
+        ).called(1);
+      },
+    );
 
-    test('should return ApiFailure when changePassword datasource throws exception', () async {
-      when(mockDataSource.changePassword(password: anyNamed('password'), newPassword: anyNamed('newPassword')))
-          .thenAnswer((_) async => ErrorApiResult<ChangePasswordDto>(error: 'Network error'));
+    test(
+      'should return ApiFailure when changePassword datasource throws exception',
+      () async {
+        when(
+          mockDataSource.changePassword(
+            password: anyNamed('password'),
+            newPassword: anyNamed('newPassword'),
+          ),
+        ).thenAnswer(
+          (_) async =>
+              ErrorApiResult<ChangePasswordDto>(error: 'Network error'),
+        );
 
-      final result = await repoImp.changePassword(password: 'Mm@123456', newPassword: 'Mmmm@123')
-          as ErrorApiResult<ChangePasswordModel>;
+        final result =
+            await repoImp.changePassword(
+                  password: 'Mm@123456',
+                  newPassword: 'Mmmm@123',
+                )
+                as ErrorApiResult<ChangePasswordModel>;
 
-      expect(result, isA<ErrorApiResult<ChangePasswordModel>>());
-      expect(result.error.toString(), contains("Network error"));
+        expect(result, isA<ErrorApiResult<ChangePasswordModel>>());
+        expect(result.error.toString(), contains("Network error"));
 
-      verify(mockDataSource.changePassword(password: anyNamed('password'), newPassword: anyNamed('newPassword'))).called(1);
-    });
+        verify(
+          mockDataSource.changePassword(
+            password: anyNamed('password'),
+            newPassword: anyNamed('newPassword'),
+          ),
+        ).called(1);
+      },
+    );
   });
 }

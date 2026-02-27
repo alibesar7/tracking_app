@@ -3,12 +3,9 @@ import 'package:tracking_app/features/auth/data/models/response/verifyreset_resp
 
 void main() {
   group("VerifyresetResponse", () {
-
     test("fromJson should parse correctly", () {
       // Arrange
-      final json = {
-        "status": "verified",
-      };
+      final json = {"status": "verified"};
 
       // Act
       final model = VerifyresetResponse.fromJson(json);
@@ -19,9 +16,7 @@ void main() {
 
     test("toJson should return correct map", () {
       // Arrange
-      final model = VerifyresetResponse(
-        status: "verified",
-      );
+      final model = VerifyresetResponse(status: "verified");
 
       // Act
       final json = model.toJson();
@@ -32,14 +27,10 @@ void main() {
 
     test("copyWith should override provided field", () {
       // Arrange
-      final model = VerifyresetResponse(
-        status: "pending",
-      );
+      final model = VerifyresetResponse(status: "pending");
 
       // Act
-      final updated = model.copyWith(
-        status: "verified",
-      );
+      final updated = model.copyWith(status: "verified");
 
       // Assert
       expect(updated.status, "verified");
@@ -53,6 +44,5 @@ void main() {
       final json = model.toJson();
       expect(json.containsKey("status"), true);
     });
-
   });
 }

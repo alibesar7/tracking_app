@@ -7,7 +7,7 @@ import 'package:tracking_app/features/auth/domain/repos/auth_repo.dart';
 class VerifyResetCodeUsecase {
   AuthRepo authRepo;
   VerifyResetCodeUsecase(this.authRepo);
-  Future <ApiResult<VerifyResetCodeEntity>>call(String code){
+  Future<ApiResult<VerifyResetCodeEntity>> call(String code) {
     return authRepo.verifyResetCode(code);
   }
 }

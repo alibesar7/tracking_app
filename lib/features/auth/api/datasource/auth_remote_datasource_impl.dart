@@ -27,27 +27,26 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   AuthRemoteDataSourceImpl(this.apiClient);
 
-
   @override
   Future<ApiResult<ForgetpasswordResponse>> forgetPassword(
-      ForgetPasswordRequest request) {
+    ForgetPasswordRequest request,
+  ) {
     return safeApiCall(call: () => apiClient.forgetPassword(request));
   }
 
-
   @override
   Future<ApiResult<VerifyresetResponse>> verifyResetCode(
-      VerifyResetRequest request) {
+    VerifyResetRequest request,
+  ) {
     return safeApiCall(call: () => apiClient.verifyResetCode(request));
   }
 
-
   @override
   Future<ApiResult<ResetpasswordResponse>> resetPassword(
-      ResetPasswordRequest request) {
+    ResetPasswordRequest request,
+  ) {
     return safeApiCall(call: () => apiClient.resetPassword(request));
   }
-
 
   @override
   Future<ApiResult<LoginResponse>> login(LoginRequest loginRequest) async {
@@ -60,7 +59,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         errorMessage = 'wrongEmailOrPassword';
       } else if (e.response?.data != null) {
         if (e.response!.data is Map<String, dynamic>) {
-          errorMessage = e.response!.data['message'] ?? e.message ?? 'unknownError';
+          errorMessage =
+              e.response!.data['message'] ?? e.message ?? 'unknownError';
         } else {
           errorMessage = e.message ?? 'unknownError';
         }
@@ -86,16 +86,15 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     );
   }
 
-
   @override
   Future<ApiResult<VehiclesResponse>> getAllVehicle() {
     return safeApiCall(call: () => apiClient.getAllVehicle());
   }
 
-
   @override
   Future<ApiResult<ApplyResponseModel>> apply(
-      ApplyRequestModel applyRequestModel) {
+    ApplyRequestModel applyRequestModel,
+  ) {
     return safeApiCall<ApplyResponseModel>(
       call: () async {
         final formData = FormData.fromMap({
@@ -118,7 +117,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
               "vehicleLicense",
               await MultipartFile.fromFile(
                 applyRequestModel.vehicleLicense!.path,
-                filename: applyRequestModel.vehicleLicense!.path.split('/').last,
+                filename: applyRequestModel.vehicleLicense!.path
+                    .split('/')
+                    .last,
               ),
             ),
           );
@@ -141,10 +142,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     );
   }
 
-
   @override
   Future<List<CountryModel>> getCountries() async {
-    final String response = await rootBundle.loadString('assets/data/country.json');
+    final String response = await rootBundle.loadString(
+      'assets/data/country.json',
+    );
     final List<dynamic> data = json.decode(response);
     return data.map((json) => CountryModel.fromJson(json)).toList();
   }

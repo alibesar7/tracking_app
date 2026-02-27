@@ -3,12 +3,8 @@ import 'package:tracking_app/features/track_order/data/models/driver_model.dart'
 
 void main() {
   group('DriverModel.fromFirestore', () {
-
     test('creates DriverModel correctly from map', () {
-      final data = {
-        'lat': 30.5,
-        'lng': 31.2,
-      };
+      final data = {'lat': 30.5, 'lng': 31.2};
 
       final model = DriverModel.fromFirestore('driver1', data);
 
@@ -18,10 +14,7 @@ void main() {
     });
 
     test('converts int to double', () {
-      final data = {
-        'lat': 30,
-        'lng': 31,
-      };
+      final data = {'lat': 30, 'lng': 31};
 
       final model = DriverModel.fromFirestore('driver2', data);
 
@@ -30,15 +23,12 @@ void main() {
     });
 
     test('throws error if lat is missing', () {
-      final data = {
-        'lng': 31,
-      };
+      final data = {'lng': 31};
 
       expect(
         () => DriverModel.fromFirestore('driver3', data),
         throwsA(isA<TypeError>()),
       );
     });
-
   });
 }

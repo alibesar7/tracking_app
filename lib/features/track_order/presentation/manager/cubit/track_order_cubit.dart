@@ -43,14 +43,25 @@ class TrackOrderCubit extends Cubit<TrackOrderState> {
       String payload = parts[1];
       payload = payload.replaceAll('-', '+').replaceAll('_', '/');
       switch (payload.length % 4) {
-        case 0: break;
-        case 2: payload += '=='; break;
-        case 3: payload += '='; break;
-        default: throw Exception('Illegal base64url string!');
+        case 0:
+          break;
+        case 2:
+          payload += '==';
+          break;
+        case 3:
+          payload += '=';
+          break;
+        default:
+          throw Exception('Illegal base64url string!');
       }
       final decoded = utf8.decode(base64Decode(payload));
       final Map<String, dynamic> data = jsonDecode(decoded);
-      userId = data['userId'] ?? data['id'] ?? data['user'] ?? data['driver'] ?? token;
+      userId =
+          data['userId'] ??
+          data['id'] ??
+          data['user'] ??
+          data['driver'] ??
+          token;
       print('DEBUG: Decoded ID from payload: $userId');
     } catch (e) {
       print('DEBUG: Token decode error: $e');

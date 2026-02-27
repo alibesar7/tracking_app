@@ -3,7 +3,6 @@ import 'package:tracking_app/features/auth/data/models/response/resetpassword_re
 
 void main() {
   group("ResetpasswordResponse", () {
-
     test("fromJson should parse correctly", () {
       // Arrange
       final json = {
@@ -42,9 +41,7 @@ void main() {
       );
 
       // Act
-      final updated = model.copyWith(
-        message: "New message",
-      );
+      final updated = model.copyWith(message: "New message");
 
       // Assert
       expect(updated.message, "New message");
@@ -61,6 +58,5 @@ void main() {
       expect(json.containsKey("message"), true);
       expect(json.containsKey("token"), true);
     });
-
   });
 }

@@ -31,8 +31,10 @@ void main() {
     const email = "test@mail.com";
 
     test("returns SuccessApiResult when repo succeeds", () async {
-      final entity =
-          ForgetPasswordEntitiy(message: "Email sent", info: "Check inbox");
+      final entity = ForgetPasswordEntitiy(
+        message: "Email sent",
+        info: "Check inbox",
+      );
 
       when(mockRepo.forgetPassword(email)).thenAnswer(
         (_) async => SuccessApiResult<ForgetPasswordEntitiy>(data: entity),

@@ -10,7 +10,6 @@ import 'package:tracking_app/features/auth/domain/usecase/resertpassword_usecase
 
 import 'forgetpassword_usecase_test.mocks.dart';
 
-
 @GenerateMocks([AuthRepo])
 void main() {
   late MockAuthRepo mockRepo;
@@ -36,8 +35,10 @@ void main() {
     );
 
     test("returns SuccessApiResult when repo succeeds", () async {
-      final entity =
-          ResetPasswordEntity(token: "abc123", message: "Password reset");
+      final entity = ResetPasswordEntity(
+        token: "abc123",
+        message: "Password reset",
+      );
 
       when(mockRepo.resetPassword(request)).thenAnswer(
         (_) async => SuccessApiResult<ResetPasswordEntity>(data: entity),
@@ -53,8 +54,7 @@ void main() {
 
     test("returns ErrorApiResult when repo fails", () async {
       when(mockRepo.resetPassword(request)).thenAnswer(
-        (_) async =>
-            ErrorApiResult<ResetPasswordEntity>(error: "Server error"),
+        (_) async => ErrorApiResult<ResetPasswordEntity>(error: "Server error"),
       );
 
       final result = await usecase.call(request);

@@ -17,7 +17,7 @@ abstract class AuthRepo {
     ResetPasswordRequest request,
   );
 
-    Future<ApiResult<List<VehicleModel>>> getAllVehicles();
+  Future<ApiResult<List<VehicleModel>>> getAllVehicles();
   Future<ApiResult<List<CountryEntity>>> getCountries();
   Future<ApiResult<ApplyResponseModel>> apply(
     ApplyRequestModel applyRequestModel,
@@ -29,4 +29,3 @@ abstract class AuthRepo {
     String? newPassword,
   });
 }
-

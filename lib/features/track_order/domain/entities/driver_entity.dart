@@ -3,9 +3,5 @@ class DriverEntity {
   final double lat;
   final double lng;
 
-  DriverEntity({
-    required this.id,
-    required this.lat,
-    required this.lng,
-  });
+  DriverEntity({required this.id, required this.lat, required this.lng});
 }

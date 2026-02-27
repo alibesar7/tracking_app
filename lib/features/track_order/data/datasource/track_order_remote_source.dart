@@ -6,5 +6,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 abstract class TrackOrderRemoteDataSource {
   ApiResult<Stream<List<TrackOrderModel>>> trackOrder(String userId);
   ApiResult<Stream<DriverModel>> trackDriver(String driverId);
-  Future<DocumentSnapshot<Map<String, dynamic>>> updateOrderStatus(String orderId, String status);
+  Future<DocumentSnapshot<Map<String, dynamic>>> updateOrderStatus(
+    String orderId,
+    String status,
+  );
 }

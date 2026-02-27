@@ -62,7 +62,10 @@ class _LoginscreenbodyState extends State<Loginscreenbody> {
               ),
               onPressed: () => Navigator.of(context).pop(),
             ),
-            title: Text(LocaleKeys.login.tr(), style: AppStyles.black24SemiBold),
+            title: Text(
+              LocaleKeys.login.tr(),
+              style: AppStyles.black24SemiBold,
+            ),
             centerTitle: false,
           ),
           body: SafeArea(

@@ -23,8 +23,9 @@ void main() {
     final driver = DriverEntity(id: 'd1', lat: 10.0, lng: 20.0);
 
     test('returns SuccessApiResult with driver stream', () async {
-      when(() => mockRepo.trackOrderWithDriver('d1'))
-          .thenReturn(SuccessApiResult(data: Stream.value(driver)));
+      when(
+        () => mockRepo.trackOrderWithDriver('d1'),
+      ).thenReturn(SuccessApiResult(data: Stream.value(driver)));
 
       final result = useCase.call('d1');
 
@@ -37,8 +38,9 @@ void main() {
     });
 
     test('returns ErrorApiResult when repository fails', () {
-      when(() => mockRepo.trackOrderWithDriver('d1'))
-          .thenReturn(ErrorApiResult(error: 'Driver not found'));
+      when(
+        () => mockRepo.trackOrderWithDriver('d1'),
+      ).thenReturn(ErrorApiResult(error: 'Driver not found'));
 
       final result = useCase.call('d1');
 

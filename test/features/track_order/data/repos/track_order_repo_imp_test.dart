@@ -31,9 +31,9 @@ void main() {
         totalPrice: '100',
       );
 
-      when(() => mockRemote.trackOrder('u1')).thenReturn(
-        SuccessApiResult(data: Stream.value([model])),
-      );
+      when(
+        () => mockRemote.trackOrder('u1'),
+      ).thenReturn(SuccessApiResult(data: Stream.value([model])));
 
       final result = repo.trackOrder('u1');
 
@@ -47,9 +47,9 @@ void main() {
     });
 
     test('returns ErrorApiResult if remote fails', () {
-      when(() => mockRemote.trackOrder('u1')).thenReturn(
-        ErrorApiResult(error: 'Network Error'),
-      );
+      when(
+        () => mockRemote.trackOrder('u1'),
+      ).thenReturn(ErrorApiResult(error: 'Network Error'));
 
       final result = repo.trackOrder('u1');
 
@@ -62,9 +62,9 @@ void main() {
     test('returns SuccessApiResult with mapped DriverEntity', () async {
       final model = DriverModel(id: 'd1', lat: 10.0, lng: 20.0);
 
-      when(() => mockRemote.trackDriver('d1')).thenReturn(
-        SuccessApiResult(data: Stream.value(model)),
-      );
+      when(
+        () => mockRemote.trackDriver('d1'),
+      ).thenReturn(SuccessApiResult(data: Stream.value(model)));
 
       final result = repo.trackOrderWithDriver('d1');
 
@@ -78,9 +78,9 @@ void main() {
     });
 
     test('returns ErrorApiResult if remote fails', () {
-      when(() => mockRemote.trackDriver('d1')).thenReturn(
-        ErrorApiResult(error: 'Driver not found'),
-      );
+      when(
+        () => mockRemote.trackDriver('d1'),
+      ).thenReturn(ErrorApiResult(error: 'Driver not found'));
 
       final result = repo.trackOrderWithDriver('d1');
 
@@ -91,8 +91,9 @@ void main() {
 
   group('updateOrderStatus', () {
     test('calls remoteDataSource.updateOrderStatus', () async {
-      when(() => mockRemote.updateOrderStatus('o1', 'delivered'))
-          .thenAnswer((_) async =>MockDocumentSnapshot());
+      when(
+        () => mockRemote.updateOrderStatus('o1', 'delivered'),
+      ).thenAnswer((_) async => MockDocumentSnapshot());
 
       await repo.updateOrderStatus('o1', 'delivered');
 

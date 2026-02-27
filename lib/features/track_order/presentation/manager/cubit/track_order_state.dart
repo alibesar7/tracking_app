@@ -1,4 +1,5 @@
 part of 'track_order_cubit.dart';
+
 class TrackOrderState extends Equatable {
   final List<OrderEntity> orders;
   final DriverEntity? driver;
