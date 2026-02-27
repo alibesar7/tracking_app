@@ -11,24 +11,26 @@ class TrackOrderRemoteDataSourceImpl implements TrackOrderRemoteDataSource {
 
   TrackOrderRemoteDataSourceImpl(this.firestore);
   @override
-  ApiResult<Stream<TrackOrderModel>> trackOrder(String orderId) {
+  ApiResult<Stream<List<TrackOrderModel>>> trackOrder(String userId) {
     try {
       final stream = firestore
           .collection('orders')
-          .doc(orderId)
+          .where(
+            Filter.or(
+              Filter('userAddress.user_id', isEqualTo: userId),
+              Filter('driver_id', isEqualTo: userId),
+            ),
+          )
           .snapshots()
           .map((snapshot) {
-            final data = snapshot.data();
-            if (data == null) {
-              throw Exception("Order not found");
-            }
-            return TrackOrderModel.fromFirestore(snapshot.id, data);
+            return snapshot.docs
+                .map((doc) => TrackOrderModel.fromFirestore(doc.id, doc.data()))
+                .toList();
           });
-      return SuccessApiResult<Stream<TrackOrderModel>>(data: stream);
+      return SuccessApiResult<Stream<List<TrackOrderModel>>>(data: stream);
     } catch (e) {
-      return ErrorApiResult<Stream<TrackOrderModel>>(error: e.toString());
+      return ErrorApiResult<Stream<List<TrackOrderModel>>>(error: e.toString());
     }
-    ;
   }
 
   @override

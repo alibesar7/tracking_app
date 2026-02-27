@@ -71,4 +71,5 @@ class DefaultFirebaseOptions {
     authDomain: 'elevate-flower-app.firebaseapp.com',
     storageBucket: 'elevate-flower-app.firebasestorage.app',
   );
+
 }

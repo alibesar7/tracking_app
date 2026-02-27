@@ -9,6 +9,6 @@ class TrackOrderUseCase {
 
   TrackOrderUseCase(this.repository);
 
- ApiResult<Stream<List<OrderEntity>>>  call(orderId) =>
-      repository.trackOrder(orderId);
+  ApiResult<Stream<List<OrderEntity>>> call(String userId) =>
+      repository.trackOrder(userId);
 }

@@ -17,56 +17,44 @@ class TrackOrderRepoImpl implements TrackOrderRepo {
   ApiResult<Stream<List<OrderEntity>>> trackOrder(String userId) {
     final result = remoteDataSource.trackOrder(userId);
 
-    if (result is SuccessApiResult<Stream<List<TrackOrderModel>>>) {
-      final successResult = result as SuccessApiResult<Stream<List<TrackOrderModel>>>;
-      final entityStream = successResult.data.map(
-        (models) => models
-            .map(
-              (model) => OrderEntity(
-                id: model.id,
-                userId: model.userId,
-                status: model.status,
-                driverId: model.driverId,
-                totalPrice: model.totalPrice,
-              ),
-            )
-            .toList(),
-      );
+    return switch (result) {
+      SuccessApiResult() => SuccessApiResult(
+          data: (result.data as Stream<List<TrackOrderModel>>).map(
+            (models) => models
+                .map(
+                  (model) => OrderEntity(
+                    id: model.id,
+                    userId: model.userId,
+                    status: model.status,
+                    driverId: model.driverId,
+                    totalPrice: model.totalPrice,
+                  ),
+                )
+                .toList(),
+          ),
+        ),
 
-      return SuccessApiResult(data: entityStream);
-    }
-
-    if (result is ErrorApiResult<Stream<List<TrackOrderModel>>>) {
-      final errorResult = result as ErrorApiResult<Stream<List<TrackOrderModel>>>;
-      return ErrorApiResult(error: errorResult.error);
-    }
-
-    throw Exception("Unhandled ApiResult type");
+      ErrorApiResult() => ErrorApiResult(error: result.error),
+    };
   }
 
   @override
   ApiResult<Stream<DriverEntity>> trackOrderWithDriver(String driverId) {
     final result = remoteDataSource.trackDriver(driverId);
 
-    if (result is SuccessApiResult<Stream<DriverModel>>) {
-      final successResult = result as SuccessApiResult<Stream<DriverModel>>;
-      final entityStream = successResult.data.map(
-        (model) => DriverEntity(
-          id: model.id,
-          lat: model.lat,
-          lng: model.lng,
+    return switch (result) {
+      SuccessApiResult() => SuccessApiResult(
+          data: (result.data as Stream<DriverModel>).map(
+            (model) => DriverEntity(
+              id: model.id,
+              lat: model.lat,
+              lng: model.lng,
+            ),
+          ),
         ),
-      );
 
-      return SuccessApiResult(data: entityStream);
-    }
-
-    if (result is ErrorApiResult<Stream<DriverModel>>) {
-      final errorResult = result as ErrorApiResult<Stream<DriverModel>>;
-      return ErrorApiResult(error: errorResult.error);
-    }
-
-    throw Exception("Unhandled ApiResult type");
+      ErrorApiResult() => ErrorApiResult(error: result.error),
+    };
   }
 
   @override
