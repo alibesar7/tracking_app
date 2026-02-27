@@ -5,9 +5,9 @@ import 'package:tracking_app/features/driver_orders_details/domain/repos/order_d
 
 @injectable
 class GetOrderDetailsUsecase {
-  OrderDetailsRepo repo;
-  GetOrderDetailsUsecase({required this.repo});
+  OrderDetailsRepo _repo;
+  GetOrderDetailsUsecase({required OrderDetailsRepo repo}) : _repo = repo;
 
   ApiResult<Stream<OrderModel>> call(String orderId) =>
-      repo.getOrderDetails(orderId);
+      _repo.getOrderDetails(orderId);
 }

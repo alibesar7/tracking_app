@@ -248,5 +248,14 @@
   "pickupAddress": "Pickup address",
   "floweryStore": "Flowery Store",
   "userAddress": "User address",
-  "arrivedAtPickupPoint": "Arrived at pickup point"
+  "arrivedAtPickupPoint": "Arrived at pickup point",
+  "startDelivery": "Start delivery",
+  "arriverAtDestination": "Arrived at destination",
+  "confirmDelivery": "Confirm delivery",
+  "deliveryConfirmed": "Delivery confirmed",
+  "orderCompleted": "Order completed",
+  "accepted": "Accepted",
+  "pickedUp": "Picked up",
+  "outForDelivery": "Out for delivery",
+  "arrived": "Arrived"
 }

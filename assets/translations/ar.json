@@ -245,5 +245,14 @@
   "pickupAddress": "عنوان الاستلام",
   "floweryStore": "متجر فلوري",
   "userAddress": "عنوان المستخدم",
-  "arrivedAtPickupPoint": "وصلت الى نقطة الالتقاء"
+  "arrivedAtPickupPoint": "وصلت الى نقطة الالتقاء",
+  "startDelivery": "بدء التوصيل",
+  "arriverAtDestination": "وصلت إلى نقطة التسليم",
+  "confirmDelivery": "تأكيد التسليم",
+  "deliveryConfirmed": "تم تأكيد التسليم",
+  "orderCompleted": "تم إكمال الطلب",
+  "accepted": "مقبول",
+  "pickedUp": "تم الاستلام",
+  "outForDelivery": "في الطريق للتسليم",
+  "arrived": "وصلت"
 }

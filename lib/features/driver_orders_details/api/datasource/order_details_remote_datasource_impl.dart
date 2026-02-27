@@ -6,13 +6,14 @@ import 'package:tracking_app/features/driver_orders_details/data/models/orders_d
 
 @Injectable(as: OrderDetailsRemoteDatasource)
 class OrderDetailsRemoteDatasourceImpl implements OrderDetailsRemoteDatasource {
-  final FirebaseFirestore firestore;
-  OrderDetailsRemoteDatasourceImpl({required this.firestore});
+  final FirebaseFirestore _firestore;
+  OrderDetailsRemoteDatasourceImpl({required FirebaseFirestore firestore})
+    : _firestore = firestore;
 
   @override
   ApiResult<Stream<OrderDto>> getOrderStream(String orderId) {
     try {
-      final stream = firestore
+      final stream = _firestore
           .collection('orders')
           .doc(orderId)
           .snapshots()

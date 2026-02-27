@@ -8,12 +8,12 @@ import 'package:tracking_app/features/driver_orders_details/domain/repos/order_d
 
 @Injectable(as: OrderDetailsRepo)
 class OrderDetailsRepoImpl implements OrderDetailsRepo {
-  final OrderDetailsRemoteDatasource remoteDataSource;
-  OrderDetailsRepoImpl(this.remoteDataSource);
+  final OrderDetailsRemoteDatasource _remoteDataSource;
+  OrderDetailsRepoImpl(this._remoteDataSource);
 
   @override
   ApiResult<Stream<OrderModel>> getOrderDetails(String orderId) {
-    final result = remoteDataSource.getOrderStream(orderId);
+    final result = _remoteDataSource.getOrderStream(orderId);
 
     switch (result) {
       case SuccessApiResult<Stream<OrderDto>>():
