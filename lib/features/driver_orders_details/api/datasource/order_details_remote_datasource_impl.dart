@@ -17,10 +17,8 @@ class OrderDetailsRemoteDatasourceImpl implements OrderDetailsRemoteDatasource {
           .collection('orders')
           .doc(orderId)
           .snapshots()
+          .where((snapshot) => snapshot.exists && snapshot.data() != null)
           .map((snapshot) {
-            if (!snapshot.exists || snapshot.data() == null) {
-              throw Exception("Document does not exist!");
-            }
             return OrderDto.fromJson(
               snapshot.data() as Map<String, dynamic>,
               snapshot.id,
