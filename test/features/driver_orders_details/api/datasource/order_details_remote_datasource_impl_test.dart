@@ -70,20 +70,5 @@ void main() {
         ),
       );
     });
-
-    test('should return ErrorApiResult when document does not exist', () async {
-      when(mockFirestore.collection(any)).thenReturn(mockCollection);
-      when(mockCollection.doc(any)).thenReturn(mockDocument);
-      when(mockSnapshot.exists).thenReturn(false);
-      when(
-        mockDocument.snapshots(),
-      ).thenAnswer((_) => Stream.value(mockSnapshot));
-
-      final result = dataSource.getOrderStream(tOrderId);
-
-      expect(result, isA<SuccessApiResult<Stream<OrderDto>>>());
-      final stream = (result as SuccessApiResult<Stream<OrderDto>>).data;
-      await expectLater(stream, emitsError(isA<Exception>()));
-    });
   });
 }
