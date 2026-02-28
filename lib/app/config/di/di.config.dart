@@ -65,6 +65,29 @@ import '../../../features/driver_orders_details/domain/usecases/get_order_detail
     as _i1045;
 import '../../../features/driver_orders_details/presentation/manager/order_details_cubit.dart'
     as _i375;
+import '../../../features/home/api/driverOrderDataS_imp.dart' as _i495;
+import '../../../features/home/data/datascourse/driverOrderDatascource.dart'
+    as _i743;
+import '../../../features/home/data/repo/driverOrderRepo_impl.dart' as _i1020;
+import '../../../features/home/domain/repo/driverOrderRepo.dart' as _i499;
+import '../../../features/home/domain/usecase/getdriverOrderUsecase.dart'
+    as _i858;
+import '../../../features/home/domain/usecase/upload_driver_fire_data_use_case.dart'
+    as _i329;
+import '../../../features/home/domain/usecase/upload_order_fire_data_use_case.dart'
+    as _i233;
+import '../../../features/home/presentation/manger/driverorderCubit.dart'
+    as _i573;
+import '../../../features/my_orders/api/datasource/my_orders_remote_data_source_imp.dart'
+    as _i583;
+import '../../../features/my_orders/data/datasource/my_orders_remote_data_source.dart'
+    as _i466;
+import '../../../features/my_orders/data/repo/my_orders_repo_imp.dart' as _i754;
+import '../../../features/my_orders/domain/repo/my_orders_repo.dart' as _i919;
+import '../../../features/my_orders/domain/usecases/get_order_use_case.dart'
+    as _i335;
+import '../../../features/my_orders/presentation/manager/my_orders_cubit.dart'
+    as _i156;
 import '../../../features/profile/api/profile_lacal_datasource_imp.dart'
     as _i495;
 import '../../../features/profile/api/profile_remote_datasource_imp.dart'
@@ -103,8 +126,22 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i783.CountryLocalDataSource>(
       () => _i783.CountryLocalDataSourceImpl(),
     );
+    gh.lazySingleton<_i974.FirebaseFirestore>(
+      () => networkModule.firestore,
+      instanceName: 'firestore',
+    );
     gh.lazySingleton<_i361.Dio>(
       () => networkModule.dio(gh<_i603.AuthStorage>()),
+    );
+    gh.factory<_i329.UploadDriverFireDataUseCase>(
+      () => _i329.UploadDriverFireDataUseCase(
+        gh<_i974.FirebaseFirestore>(instanceName: 'firestore'),
+      ),
+    );
+    gh.factory<_i233.UploadOrderFireDataUseCase>(
+      () => _i233.UploadOrderFireDataUseCase(
+        gh<_i974.FirebaseFirestore>(instanceName: 'firestore'),
+      ),
     );
     gh.lazySingleton<_i697.ProfileLocalDataSource>(
       () => _i495.ProfileLocalDataSourceImpl(gh<_i603.AuthStorage>()),
@@ -117,11 +154,23 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i890.ApiClient>(
       () => networkModule.authApiClient(gh<_i361.Dio>()),
     );
+    gh.factory<_i466.MyOrdersRemoteDataSource>(
+      () => _i583.MyOrdersRemoteDataSourceImp(gh<_i890.ApiClient>()),
+    );
     gh.factory<_i313.OrderDetailsRepo>(
       () => _i55.OrderDetailsRepoImpl(gh<_i114.OrderDetailsRemoteDatasource>()),
     );
+    gh.factory<_i919.MyOrdersRepo>(
+      () => _i754.MyOrdersRepoImpl(gh<_i466.MyOrdersRemoteDataSource>()),
+    );
+    gh.factory<_i335.GetOrderUseCase>(
+      () => _i335.GetOrderUseCase(gh<_i919.MyOrdersRepo>()),
+    );
     gh.factory<_i1045.GetOrderDetailsUsecase>(
       () => _i1045.GetOrderDetailsUsecase(repo: gh<_i313.OrderDetailsRepo>()),
+    );
+    gh.factory<_i743.DriverOrderDataSource>(
+      () => _i495.DriverOrderDataSourceImpl(gh<_i890.ApiClient>()),
     );
     gh.factory<_i943.ProfileRemoteDatasource>(
       () => _i899.ProfileRemoteDatasourceImp(gh<_i890.ApiClient>()),
@@ -131,6 +180,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i712.AuthRepo>(
       () => _i566.AuthRepoImpl(gh<_i708.AuthRemoteDataSource>()),
+    );
+    gh.factory<_i375.OrderDetailsCubit>(
+      () => _i375.OrderDetailsCubit(gh<_i1045.GetOrderDetailsUsecase>()),
     );
     gh.factory<_i991.ChangePasswordUsecase>(
       () => _i991.ChangePasswordUsecase(gh<_i712.AuthRepo>()),
@@ -151,9 +203,18 @@ extension GetItInjectableX on _i174.GetIt {
         email,
       ),
     );
+    gh.factory<_i156.MyOrdersCubit>(
+      () => _i156.MyOrdersCubit(
+        gh<_i335.GetOrderUseCase>(),
+        gh<_i603.AuthStorage>(),
+      ),
+    );
     gh.factoryParam<_i378.ResetPasswordCubit, String, dynamic>(
       (email, _) =>
           _i378.ResetPasswordCubit(email, gh<_i294.ResetPasswordUsecase>()),
+    );
+    gh.factory<_i499.DriverOrderRepo>(
+      () => _i1020.DriverOrderRepositoryImpl(gh<_i743.DriverOrderDataSource>()),
     );
     gh.factory<_i863.ProfileRepo>(
       () => _i1048.ProfileRepoImpl(
@@ -173,8 +234,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i75.LoginUseCase>(
       () => _i75.LoginUseCase(gh<_i712.AuthRepo>()),
     );
-    gh.factory<_i375.OrderDetailsCubit>(
-      () => _i375.OrderDetailsCubit(gh<_i1045.GetOrderDetailsUsecase>()),
     gh.factory<_i27.LogoutUseCase>(
       () => _i27.LogoutUseCase(gh<_i712.AuthRepo>()),
     );
@@ -189,6 +248,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i769.ForgetPasswordUsecase>(),
         gh<_i603.AuthStorage>(),
       ),
+    );
+    gh.factory<_i858.GetDriverOrdersUseCase>(
+      () => _i858.GetDriverOrdersUseCase(gh<_i499.DriverOrderRepo>()),
     );
     gh.factory<_i377.ApplyCubit>(
       () => _i377.ApplyCubit(
@@ -212,6 +274,15 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i810.LoginCubit>(
       () => _i810.LoginCubit(gh<_i75.LoginUseCase>(), gh<_i603.AuthStorage>()),
+    );
+    gh.factory<_i573.DriverOrderCubit>(
+      () => _i573.DriverOrderCubit(
+        gh<_i858.GetDriverOrdersUseCase>(),
+        gh<_i603.AuthStorage>(),
+        gh<_i329.UploadDriverFireDataUseCase>(),
+        gh<_i233.UploadOrderFireDataUseCase>(),
+        gh<_i499.DriverOrderRepo>(),
+      ),
     );
     gh.factory<_i603.ProfileCubit>(
       () => _i603.ProfileCubit(

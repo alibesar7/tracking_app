@@ -186,12 +186,12 @@ abstract class LocaleKeys {
   static const failed_to_save_address = 'failed_to_save_address';
   static const addNewAddress = 'addNewAddress';
   static const savedAddress = 'savedAddress';
-  static const discount = 'discount';
   static const sortBy = 'sortBy';
   static const lowestPrice = 'lowestPrice';
   static const highestPrice = 'highestPrice';
   static const newest = 'newest';
   static const oldest = 'oldest';
+  static const discount = 'discount';
   static const filter = 'filter';
   static const active = 'active';
   static const completed = 'completed';
@@ -253,4 +253,20 @@ abstract class LocaleKeys {
   static const floweryStore = 'floweryStore';
   static const userAddress = 'userAddress';
   static const arrivedAtPickupPoint = 'arrivedAtPickupPoint';
+  static const startDelivery = 'startDelivery';
+  static const arriverAtDestination = 'arriverAtDestination';
+  static const confirmDelivery = 'confirmDelivery';
+  static const deliveryConfirmed = 'deliveryConfirmed';
+  static const orderCompleted = 'orderCompleted';
+  static const accepted = 'accepted';
+  static const pickedUp = 'pickedUp';
+  static const outForDelivery = 'outForDelivery';
+  static const arrived = 'arrived';
+  static const driverOrderTitle = 'driverOrderTitle';
+  static const unknownStore = 'unknownStore';
+  static const noAddress = 'noAddress';
+  static const accept = 'accept';
+  static const reject = 'reject';
+  static const noPendingOrders = 'noPendingOrders';
+  static const floweryRider = 'floweryRider';
 }

@@ -113,6 +113,7 @@
   "no_products_found": "No products found",
   "change_language": "Change Language",
   "arabic": "Arabic",
+  "english": "English",
   "initialSearchMsg": "Search For Any Product You Want",
   "welcomeMessage": "Welcome to Flowery Shop",
   "home": "Home",
@@ -181,7 +182,6 @@
   "addNewAddress": "Add New Address",
   "savedAddress": "Saved Address",
   "recipient_phone": "Recipient phone",
-  "english": "English",
   "sortBy": "Sort By",
   "lowestPrice": "Lowest Price",
   "highestPrice": "Highest Price",
@@ -257,5 +257,12 @@
   "accepted": "Accepted",
   "pickedUp": "Picked up",
   "outForDelivery": "Out for delivery",
-  "arrived": "Arrived"
+  "arrived": "Arrived",
+  "driverOrderTitle": "Flower order",
+  "unknownStore": "Unknown Store",
+  "noAddress": "No address",
+  "accept": "Accept",
+  "reject": "Reject",
+  "noPendingOrders": "No pending orders",
+  "floweryRider": "Flowery Rider"
 }

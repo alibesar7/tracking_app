@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:tracking_app/app/config/auth_storage/auth_storage.dart';
 import 'package:tracking_app/app/config/network/interceptor.dart';
 import 'package:injectable/injectable.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import '../../core/api_manger/api_client.dart';
@@ -37,4 +38,8 @@ abstract class NetworkModule {
 
   @lazySingleton
   ApiClient authApiClient(Dio dio) => ApiClient(dio);
+
+  @lazySingleton
+  @Named('firestore')
+  FirebaseFirestore get firestore => FirebaseFirestore.instance;
 }

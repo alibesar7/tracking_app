@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:tracking_app/app/config/auth_storage/auth_storage.dart';
@@ -19,28 +17,19 @@ class OrderDetailsCubit extends Cubit<OrderDetailsStates> {
 
   OrderDetailsCubit(this._getOrderDetailsUsecase) : super(OrderDetailsStates());
 
-  Future<void> loadUserData() async {
-    final userJson = await _authStorage.getUserJson();
-
-    if (userJson != null) {
-      final userMap = jsonDecode(userJson);
-      //  final orderId = userMap['orderDetails']?['orderId'] as String?;
-      final orderId = '696ae30ce364ef61404760df';
-      if (orderId != null && orderId.isNotEmpty) {
-        getOrderDetails(orderId);
-      } else {
-        debugPrint('Order ID not found in user data');
-      }
-    }
-  }
-
-  void getOrderDetails(String orderId) async {
+  void getOrderDetails() async {
     emit(state.copyWith(data: Resource.loading()));
     _subscription?.cancel();
-    final result = _getOrderDetailsUsecase.call(orderId);
 
-    switch (result) {
-      case SuccessApiResult<Stream<OrderModel>>():
+    try {
+      final orderId = await _authStorage.getOrderId();
+      if (orderId == null || orderId.isEmpty) {
+        emit(state.copyWith(data: Resource.error('Order ID not found')));
+        return;
+      }
+      final result = _getOrderDetailsUsecase.call(orderId);
+
+      if (result is SuccessApiResult<Stream<OrderModel>>) {
         _subscription = result.data.listen(
           (order) {
             emit(state.copyWith(data: Resource.success(order)));
@@ -49,8 +38,15 @@ class OrderDetailsCubit extends Cubit<OrderDetailsStates> {
             emit(state.copyWith(data: Resource.error(error.toString())));
           },
         );
-      case ErrorApiResult<Stream<OrderModel>>(error: final errorMessage):
-        emit(state.copyWith(data: Resource.error(errorMessage)));
+      } else if (result is ErrorApiResult<Stream<OrderModel>>) {
+        emit(state.copyWith(data: Resource.error(result.error)));
+      }
+    } catch (e) {
+      emit(
+        state.copyWith(
+          data: Resource.error("Error retrieving order details: $e"),
+        ),
+      );
     }
   }
 

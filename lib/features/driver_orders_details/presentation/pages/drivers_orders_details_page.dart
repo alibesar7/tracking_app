@@ -36,7 +36,7 @@ class DriversOrdersDetailsPage extends StatelessWidget {
         ),
       ),
       body: BlocProvider<OrderDetailsCubit>(
-        create: (context) => getIt<OrderDetailsCubit>()..loadUserData(),
+        create: (context) => getIt<OrderDetailsCubit>()..getOrderDetails(),
         child: BlocBuilder<OrderDetailsCubit, OrderDetailsStates>(
           builder: (context, state) {
             if (state.data?.status == Status.loading) {

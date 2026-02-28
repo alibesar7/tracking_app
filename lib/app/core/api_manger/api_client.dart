@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:retrofit/dio.dart';
 import 'package:tracking_app/app/core/values/app_endpoint_strings.dart';
 import 'package:tracking_app/features/auth/data/model/response/change_password_dto.dart';
 import 'package:tracking_app/features/auth/data/model/request/LoginRequest.dart';
@@ -13,12 +12,14 @@ import 'package:tracking_app/features/auth/data/models/request/verifyreset_reque
 import 'package:tracking_app/features/auth/data/models/response/forgetpassword_response.dart';
 import 'package:tracking_app/features/auth/data/models/response/resetpassword_response.dart';
 import 'package:tracking_app/features/auth/data/models/response/verifyreset_response.dart';
+import 'package:tracking_app/features/my_orders/data/models/response/my_order_response.dart';
 import '../../../features/auth/data/models/response/apply_response_model.dart';
 import '../../../features/auth/data/models/response/vehicles_response_model.dart';
 import 'package:tracking_app/app/core/values/api_constants.dart';
 import 'package:tracking_app/features/profile/data/models/requests/edit_profile_request.dart';
 import 'package:tracking_app/features/profile/data/models/responses/edit_profile_response.dart';
 import '../../../features/auth/data/models/response/logout_response_dto/logout_response_dto.dart';
+import 'package:tracking_app/features/home/data/model/response/orderRespons.dart';
 part 'api_client.g.dart';
 
 @RestApi(baseUrl: AppEndpointString.baseUrl)
@@ -74,4 +75,16 @@ abstract class ApiClient {
   Future<HttpResponse<EditProfileResponse>> getProfile({
     @Header(ApiConstants.authorization) required String token,
   });
+
+  @GET(AppEndpointString.mydriverOrders)
+  Future<HttpResponse<MyOrderResponse>> getAllOrders({
+    @Header("Authorization") required String token,
+    @Query("limit") int? limit,
+    @Query("page") int? page,
+  });
+
+  @GET(AppEndpointString.mydriverOrders)
+  Future<HttpResponse<OrderResponse>> getPendingOrders(
+    @Header("Authorization") String token,
+  );
 }
