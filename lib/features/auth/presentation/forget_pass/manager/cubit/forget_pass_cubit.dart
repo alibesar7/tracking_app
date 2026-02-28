@@ -22,7 +22,7 @@ class ForgetPasswordCubit extends Cubit<ForgetPasswordState> {
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
 
-  void doIntent(ForgetPasswordIntents intent) {
+  Future<void> doIntent(ForgetPasswordIntents intent) async {
     switch (intent) {
       case FormChangedIntent():
         _validateForm();
@@ -39,8 +39,8 @@ class ForgetPasswordCubit extends Cubit<ForgetPasswordState> {
   }
 
   Future<void> _submitForgetPassword() async {
-    final isValid = formKey.currentState?.validate() ?? false;
-    if (!isValid) return;
+    // final isValid = formKey.currentState?.validate() ?? false;
+    if (!state.isFormValid) return;
 
     emit(state.copyWith(resource: Resource.loading()));
 
