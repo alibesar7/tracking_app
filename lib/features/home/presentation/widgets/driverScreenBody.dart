@@ -1,7 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:tracking_app/app/config/auth_storage/auth_storage.dart';
 import 'package:tracking_app/app/config/base_state/base_state.dart';
+import 'package:tracking_app/app/config/di/di.dart';
+import 'package:tracking_app/app/core/router/route_names.dart';
 import 'package:tracking_app/features/home/presentation/manger/driverorderCubit.dart';
 import 'package:tracking_app/features/home/presentation/manger/driverorderIntent.dart';
 import 'package:tracking_app/features/home/presentation/manger/driverorderStates.dart';
@@ -49,10 +53,14 @@ class _DriverOrderBodyState extends State<DriverOrderBody> {
               itemBuilder: (context, index) {
                 return DriverOrderItem(
                   order: orders[index],
-                  onAccept: () {
+                  onAccept: () async {
+                    final order = orders[index];
+                    await getIt<AuthStorage>().saveOrderId(order.id.toString());
+                    debugPrint('<<<< Saved Order ID: ${order.id}');
                     context.read<DriverOrderCubit>().onIntent(
                       AcceptOrder(orders[index]),
                     );
+                    context.push(RouteNames.ordersDetailsPage);
                   },
                   onReject: () {
                     context.read<DriverOrderCubit>().onIntent(
