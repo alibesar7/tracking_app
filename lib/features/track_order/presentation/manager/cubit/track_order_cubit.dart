@@ -9,6 +9,7 @@ import 'package:tracking_app/features/track_order/domain/entities/order_entity.d
 import 'package:tracking_app/features/track_order/domain/entities/driver_entity.dart';
 import 'package:tracking_app/features/track_order/domain/usecases/track_order_usecase.dart';
 import 'package:tracking_app/features/track_order/domain/usecases/driver_usecase.dart';
+import 'package:tracking_app/features/track_order/domain/usecases/update_state_usecase.dart';
 import 'package:tracking_app/features/track_order/domain/repos/track_order_repo.dart';
 
 part 'track_order_state.dart';
@@ -17,13 +18,18 @@ part 'track_order_state.dart';
 class TrackOrderCubit extends Cubit<TrackOrderState> {
   final TrackOrderUseCase trackOrderUseCase;
   final TrackDriverUseCase driverUseCase;
+  final UpdateOrderStatusUseCase updateOrderStatusUseCase;
   final AuthStorage authStorage;
 
   StreamSubscription<List<OrderEntity>>? _ordersSubscription;
   StreamSubscription<DriverEntity>? _driverSubscription;
 
-  TrackOrderCubit(this.trackOrderUseCase, this.driverUseCase, this.authStorage)
-    : super(const TrackOrderState());
+  TrackOrderCubit(
+    this.trackOrderUseCase,
+    this.driverUseCase,
+    this.updateOrderStatusUseCase,
+    this.authStorage,
+  ) : super(const TrackOrderState());
 
   Future<void> loadUserOrders() async {
     emit(state.copyWith(isLoading: true, error: null));
@@ -98,6 +104,16 @@ class TrackOrderCubit extends Cubit<TrackOrderState> {
         (driver) => emit(state.copyWith(driver: driver)),
         onError: (error) => emit(state.copyWith(error: error.toString())),
       );
+    }
+  }
+
+  Future<void> updateOrderStatus(String orderId, String status) async {
+    emit(state.copyWith(isLoading: true, error: null));
+    try {
+      await updateOrderStatusUseCase(orderId, status);
+      emit(state.copyWith(isLoading: false));
+    } catch (e) {
+      emit(state.copyWith(isLoading: false, error: e.toString()));
     }
   }
 

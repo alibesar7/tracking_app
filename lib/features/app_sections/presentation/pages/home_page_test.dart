@@ -11,6 +11,8 @@ class HomePageTest extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.green,
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           ElevatedButton(
             onPressed: () {

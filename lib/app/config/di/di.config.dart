@@ -63,6 +63,8 @@ import '../../../features/track_order/domain/usecases/driver_usecase.dart'
     as _i866;
 import '../../../features/track_order/domain/usecases/track_order_usecase.dart'
     as _i810;
+import '../../../features/track_order/domain/usecases/update_state_usecase.dart'
+    as _i499;
 import '../../../features/track_order/presentation/manager/cubit/track_order_cubit.dart'
     as _i364;
 import '../../core/api_manger/api_client.dart' as _i890;
@@ -102,15 +104,19 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i810.TrackOrderUseCase>(
       () => _i810.TrackOrderUseCase(gh<_i1042.TrackOrderRepo>()),
     );
+    gh.factory<_i499.UpdateOrderStatusUseCase>(
+      () => _i499.UpdateOrderStatusUseCase(gh<_i1042.TrackOrderRepo>()),
+    );
+    gh.lazySingleton<_i890.ApiClient>(
+      () => networkModule.authApiClient(gh<_i361.Dio>()),
+    );
     gh.factory<_i364.TrackOrderCubit>(
       () => _i364.TrackOrderCubit(
         gh<_i810.TrackOrderUseCase>(),
         gh<_i866.TrackDriverUseCase>(),
+        gh<_i499.UpdateOrderStatusUseCase>(),
         gh<_i603.AuthStorage>(),
       ),
-    );
-    gh.lazySingleton<_i890.ApiClient>(
-      () => networkModule.authApiClient(gh<_i361.Dio>()),
     );
     gh.factory<_i708.AuthRemoteDataSource>(
       () => _i777.AuthRemoteDataSourceImpl(gh<_i890.ApiClient>()),

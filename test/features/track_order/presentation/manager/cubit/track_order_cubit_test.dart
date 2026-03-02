@@ -7,28 +7,35 @@ import 'package:tracking_app/features/track_order/domain/entities/order_entity.d
 import 'package:tracking_app/features/track_order/domain/entities/driver_entity.dart';
 import 'package:tracking_app/features/track_order/domain/usecases/track_order_usecase.dart';
 import 'package:tracking_app/features/track_order/domain/usecases/driver_usecase.dart';
+import 'package:tracking_app/features/track_order/domain/usecases/update_state_usecase.dart';
 import 'package:tracking_app/features/track_order/presentation/manager/cubit/track_order_cubit.dart';
 
 class MockTrackOrderUseCase extends Mock implements TrackOrderUseCase {}
 
 class MockTrackDriverUseCase extends Mock implements TrackDriverUseCase {}
 
+class MockUpdateOrderStatusUseCase extends Mock
+    implements UpdateOrderStatusUseCase {}
+
 class MockAuthStorage extends Mock implements AuthStorage {}
 
 void main() {
   late MockTrackOrderUseCase mockTrackOrderUseCase;
   late MockTrackDriverUseCase mockTrackDriverUseCase;
+  late MockUpdateOrderStatusUseCase mockUpdateOrderStatusUseCase;
   late MockAuthStorage mockAuthStorage;
   late TrackOrderCubit cubit;
 
   setUp(() {
     mockTrackOrderUseCase = MockTrackOrderUseCase();
     mockTrackDriverUseCase = MockTrackDriverUseCase();
+    mockUpdateOrderStatusUseCase = MockUpdateOrderStatusUseCase();
     mockAuthStorage = MockAuthStorage();
 
     cubit = TrackOrderCubit(
       mockTrackOrderUseCase,
       mockTrackDriverUseCase,
+      mockUpdateOrderStatusUseCase,
       mockAuthStorage,
     );
   });

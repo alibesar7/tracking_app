@@ -59,6 +59,16 @@ class TrackOrderRemoteDataSourceImpl implements TrackOrderRemoteDataSource {
     try {
       await firestore.collection('orders').doc(orderId).update({
         'status': status,
+        'updatedAt': FieldValue.serverTimestamp(),
+      });
+
+      await firestore.collection('notification').add({
+        'title': 'Order Status Updated',
+        'description': 'Order $orderId status changed to $status',
+        'orderId': orderId,
+        'status': status,
+        'createdAt': FieldValue.serverTimestamp(),
+        'targetApp': 'flower_shop',
       });
 
       return await firestore.collection('orders').doc(orderId).get();
