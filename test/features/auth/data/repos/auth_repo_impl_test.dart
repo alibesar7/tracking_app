@@ -245,6 +245,7 @@ void main() {
 
         when(
           mockDataSource.changePassword(
+            token: ('fake_token'),
             password: anyNamed('password'),
             newPassword: anyNamed('newPassword'),
           ),
@@ -254,6 +255,7 @@ void main() {
 
         final result =
             await repoImp.changePassword(
+                  token: 'fake_token',
                   password: 'Mm@123456',
                   newPassword: 'Mmmm@123',
                 )
@@ -262,9 +264,9 @@ void main() {
         expect(result, isA<SuccessApiResult<ChangePasswordModel>>());
         expect(result.data.token, fakeDto.token);
         expect(result.data.message, fakeDto.message);
-
         verify(
           mockDataSource.changePassword(
+            token: ('fake_token'),
             password: anyNamed('password'),
             newPassword: anyNamed('newPassword'),
           ),
@@ -277,6 +279,7 @@ void main() {
       () async {
         when(
           mockDataSource.changePassword(
+            token: ('fake_token'),
             password: anyNamed('password'),
             newPassword: anyNamed('newPassword'),
           ),
@@ -287,6 +290,7 @@ void main() {
 
         final result =
             await repoImp.changePassword(
+                  token: 'fake_token',
                   password: 'Mm@123456',
                   newPassword: 'Mmmm@123',
                 )
@@ -294,9 +298,9 @@ void main() {
 
         expect(result, isA<ErrorApiResult<ChangePasswordModel>>());
         expect(result.error.toString(), contains("Network error"));
-
         verify(
           mockDataSource.changePassword(
+            token: ('fake_token'),
             password: anyNamed('password'),
             newPassword: anyNamed('newPassword'),
           ),

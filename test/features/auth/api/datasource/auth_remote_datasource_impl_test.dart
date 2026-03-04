@@ -15,7 +15,6 @@ import 'package:tracking_app/features/auth/data/models/request/verifyreset_reque
 import 'package:tracking_app/features/auth/data/models/response/forgetpassword_response.dart';
 import 'package:tracking_app/features/auth/data/models/response/resetpassword_response.dart';
 import 'package:tracking_app/features/auth/data/models/response/verifyreset_response.dart';
-
 import 'auth_remote_datasource_impl_test.mocks.dart';
 
 @GenerateMocks([ApiClient])
@@ -29,6 +28,12 @@ void main() {
     mockApiClient = MockApiClient();
     authRemoteDataSourceImpl = AuthRemoteDataSourceImpl(mockApiClient);
     dataSource = AuthRemoteDataSourceImpl(mockApiClient);
+    provideDummy<ApiResult<ChangePasswordDto>>(
+      SuccessApiResult<ChangePasswordDto>(data: ChangePasswordDto()),
+    );
+    provideDummy<ApiResult<ChangePasswordDto>>(
+      ErrorApiResult<ChangePasswordDto>(error: ''),
+    );
   });
 
   final forgetPasswordRequest = ForgetPasswordRequest(
@@ -264,21 +269,25 @@ void main() {
       final fakeDto = ChangePasswordDto(
         message: 'Success',
         token: 'fake_token',
-        error: 'error',
+        error: null,
       );
       final fakeResponse = HttpResponse(
         fakeDto,
         Response(
-          requestOptions: RequestOptions(path: '/drivers/change-password'),
+          requestOptions: RequestOptions(path: '/change-password'),
           statusCode: 200,
         ),
       );
       when(
-        mockApiClient.changePassword(any),
+        mockApiClient.changePassword(
+          token: 'Bearer fake_token',
+          body: {'password': 'Mm@123456', 'newPassword': "Mmmmmm@1"},
+        ),
       ).thenAnswer((_) async => fakeResponse);
 
       final result =
           await dataSource.changePassword(
+                token: 'fake_token',
                 password: 'Mm@123456',
                 newPassword: "Mmmmmm@1",
               )
@@ -287,25 +296,40 @@ void main() {
       expect(result, isA<SuccessApiResult<ChangePasswordDto>>());
       expect(result.data.token, fakeDto.token);
       expect(result.data.message, fakeDto.message);
-      verify(mockApiClient.changePassword(any)).called(1);
+      verify(
+        mockApiClient.changePassword(
+          token: 'Bearer fake_token',
+          body: {'password': 'Mm@123456', 'newPassword': "Mmmmmm@1"},
+        ),
+      ).called(1);
     });
 
     test(
       'should return ApiFailure when change password throws exception',
       () async {
         when(
-          mockApiClient.changePassword(any),
+          mockApiClient.changePassword(
+            token: anyNamed('token'),
+            body: anyNamed('body'),
+          ),
         ).thenThrow(Exception('Network error'));
+
         final result =
             await dataSource.changePassword(
-                  password: 'Mm@123456',
-                  newPassword: "Mmmmmm@1",
+                  token: 'fake_token',
+                  password: 'Mariam@123',
+                  newPassword: "Mariam@1234",
                 )
                 as ErrorApiResult<ChangePasswordDto>;
 
         expect(result, isA<ErrorApiResult<ChangePasswordDto>>());
         expect(result.error.toString(), contains("Network error"));
-        verify(mockApiClient.changePassword(any)).called(1);
+        verify(
+          mockApiClient.changePassword(
+            token: 'Bearer fake_token',
+            body: {'password': 'Mariam@123', 'newPassword': "Mariam@1234"},
+          ),
+        ).called(1);
       },
     );
   });

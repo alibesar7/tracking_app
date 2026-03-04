@@ -110,13 +110,13 @@ void main() {
   group('updateOrderStatus', () {
     test('calls remoteDataSource.updateOrderStatus', () async {
       when(
-        () => mockRemote.updateOrderStatus('o1', 'delivered', 'token1'),
+        () => mockRemote.updateOrderStatus('o1', 'delivered',),
       ).thenAnswer((_) async => MockDocumentSnapshot());
 
-      await repo.updateOrderStatus('o1', 'delivered', 'token1');
+      await repo.updateOrderStatus('o1', 'delivered',);
 
       verify(
-        () => mockRemote.updateOrderStatus('o1', 'delivered', 'token1'),
+        () => mockRemote.updateOrderStatus('o1', 'delivered', ),
       ).called(1);
     });
   });

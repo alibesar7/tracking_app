@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tracking_app/features/Onboarding/presentation/pages/onboardingScreen.dart';
 import 'package:tracking_app/features/auth/domain/repos/auth_repo.dart';

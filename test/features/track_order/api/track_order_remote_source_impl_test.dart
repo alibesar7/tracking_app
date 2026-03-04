@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:tracking_app/app/config/auth_storage/auth_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tracking_app/app/core/network/api_result.dart';
 import 'package:tracking_app/features/track_order/api/track_order_remote_source_impl.dart';
@@ -9,6 +10,8 @@ import 'package:tracking_app/features/track_order/data/models/driver_model.dart'
 /// ---------------- MOCKS ----------------
 
 class MockFirebaseFirestore extends Mock implements FirebaseFirestore {}
+
+class MockAuthStorage extends Mock implements AuthStorage {}
 
 class MockCollectionReference extends Mock
     implements CollectionReference<Map<String, dynamic>> {}
@@ -31,6 +34,7 @@ class MockDocumentSnapshot extends Mock
 
 void main() {
   late MockFirebaseFirestore mockFirestore;
+  late MockAuthStorage mockAuthStorage;
   late TrackOrderRemoteDataSourceImpl dataSource;
 
   setUpAll(() {
@@ -39,7 +43,8 @@ void main() {
 
   setUp(() {
     mockFirestore = MockFirebaseFirestore();
-    dataSource = TrackOrderRemoteDataSourceImpl(mockFirestore);
+    mockAuthStorage = MockAuthStorage();
+    dataSource = TrackOrderRemoteDataSourceImpl(mockFirestore, mockAuthStorage);
   });
 
   group('trackOrder', () {
@@ -164,11 +169,7 @@ void main() {
         () => mockNotificationCollection.add(any()),
       ).thenAnswer((_) async => mockDocRef);
 
-      final result = await dataSource.updateOrderStatus(
-        '1',
-        'delivered',
-        'token1',
-      );
+      final result = await dataSource.updateOrderStatus('1', 'delivered');
 
       expect(result, mockSnapshot);
 

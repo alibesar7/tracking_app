@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tracking_app/app/core/router/route_names.dart';
 import 'package:tracking_app/features/track_order/presentation/manager/cubit/track_order_cubit.dart';
-import 'package:tracking_app/features/track_order/domain/entities/order_entity.dart';
 import 'package:tracking_app/app/core/ui_helper/color/colors.dart';
 import 'package:tracking_app/generated/locale_keys.g.dart';
 import 'package:tracking_app/features/track_order/presentation/pages/driver_header.dart';

@@ -138,7 +138,7 @@ class _ApplyScreenState extends State<ApplyScreen> {
                         labelText: LocaleKeys.country.tr(),
                         border: const OutlineInputBorder(),
                       ),
-                      value: _selectedCountry,
+                      initialValue: _selectedCountry,
                       items: state.countries.map((country) {
                         return DropdownMenuItem<String>(
                           value: country.isoCode,
@@ -191,7 +191,7 @@ class _ApplyScreenState extends State<ApplyScreen> {
                         labelText: LocaleKeys.vehicleType.tr(),
                         border: const OutlineInputBorder(),
                       ),
-                      value: _selectedVehicleType,
+                      initialValue: _selectedVehicleType,
                       items: state.vehicles
                           .where((element) => element.id != null)
                           .map(

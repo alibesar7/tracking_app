@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:injectable/injectable.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:dio/dio.dart';
-import 'package:dio/src/form_data.dart';
 import 'package:tracking_app/app/core/api_manger/api_client.dart';
 import 'package:tracking_app/app/core/network/api_result.dart';
 import 'package:tracking_app/app/core/network/safe_api_call.dart';
@@ -15,6 +14,7 @@ import 'package:tracking_app/features/auth/data/models/request/verifyreset_reque
 import 'package:tracking_app/features/auth/data/models/request/apply_request_model.dart';
 import 'package:tracking_app/features/auth/data/model/response/change_password_dto.dart';
 import 'package:tracking_app/features/auth/data/models/response/forgetpassword_response.dart';
+import 'package:tracking_app/features/auth/data/models/response/logout_response_dto/logout_response_dto.dart';
 import 'package:tracking_app/features/auth/data/models/response/resetpassword_response.dart';
 import 'package:tracking_app/features/auth/data/models/response/verifyreset_response.dart';
 import 'package:tracking_app/features/auth/data/models/response/apply_response_model.dart';
@@ -75,14 +75,17 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<ApiResult<ChangePasswordDto>> changePassword({
+    required String token,
     String? password,
     String? newPassword,
   }) {
     return safeApiCall<ChangePasswordDto>(
-      call: () => apiClient.changePassword({
-        "password": password,
-        "newPassword": newPassword,
-      }),
+      call: () async {
+        return apiClient.changePassword(
+          token: "Bearer $token",
+          body: {"password": password, "newPassword": newPassword},
+        );
+      },
     );
   }
 
@@ -149,5 +152,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     );
     final List<dynamic> data = json.decode(response);
     return data.map((json) => CountryModel.fromJson(json)).toList();
+  }
+
+  @override
+  Future<ApiResult<LogoutResponseDto>> logout(String token) {
+    return safeApiCall(call: () => apiClient.logout(token));
   }
 }

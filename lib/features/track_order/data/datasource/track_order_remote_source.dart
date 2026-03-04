@@ -9,6 +9,5 @@ abstract class TrackOrderRemoteDataSource {
   Future<DocumentSnapshot<Map<String, dynamic>>> updateOrderStatus(
     String orderId,
     String status,
-    String token,
   );
 }

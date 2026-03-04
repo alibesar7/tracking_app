@@ -134,8 +134,8 @@ void main() {
       'emits isLoading then success',
       build: () {
         when(
-          () => mockUpdateOrderStatusUseCase.call(any(), any(), any()),
-        ).thenAnswer((_) async => null);
+          () => mockUpdateOrderStatusUseCase.call(any(), any()),
+        ).thenAnswer((_) async {});
         return TrackOrderCubit(
           mockTrackOrderUseCase,
           mockTrackDriverUseCase,
@@ -143,7 +143,7 @@ void main() {
           mockAuthStorage,
         );
       },
-      act: (cubit) => cubit.updateOrderStatus('o1', 'Delivered', 'token'),
+      act: (cubit) => cubit.updateOrderStatus('o1', 'Delivered'),
       expect: () => [
         const TrackOrderState(isLoading: true),
         const TrackOrderState(isLoading: false),

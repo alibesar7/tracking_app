@@ -136,20 +136,14 @@ void main() {
   });
 
   testWidgets('Shows SnackBar on Status.success', (tester) async {
-    when(cubit.state).thenReturn(
-      ChangePasswordStates(
-        isFormValid: true,
-        data: Resource(status: Status.success),
-      ),
+    final initialState = ChangePasswordStates(data: Resource.loading());
+    final successState = ChangePasswordStates(
+      data: Resource.success(null),
+      isFormValid: true,
     );
-    when(cubit.stream).thenAnswer(
-      (_) => Stream.value(
-        ChangePasswordStates(
-          isFormValid: true,
-          data: Resource(status: Status.success),
-        ),
-      ),
-    );
+
+    when(cubit.state).thenReturn(initialState);
+    when(cubit.stream).thenAnswer((_) => Stream.value(successState));
 
     final testRouter = GoRouter(
       initialLocation: '/change_password',
@@ -167,37 +161,26 @@ void main() {
 
     await tester.pumpWidget(MaterialApp.router(routerConfig: testRouter));
     await tester.pump();
+    await tester.pumpAndSettle();
 
-    expect(find.text(LocaleKeys.passwordUpdated), findsOneWidget);
+    expect(find.text(LocaleKeys.passwordUpdated.tr()), findsOneWidget);
+    expect(find.text('Login Page'), findsOneWidget);
   });
 
   testWidgets('Shows Error Dialog on Status.error', (tester) async {
-    when(cubit.state).thenReturn(
-      ChangePasswordStates(
-        isFormValid: true,
-        data: Resource(status: Status.error),
-      ),
+    final initialState = ChangePasswordStates();
+    final errorState = ChangePasswordStates(
+      data: Resource.error('Wrong Password'),
+      isFormValid: true,
     );
-    when(cubit.stream).thenAnswer(
-      (_) => Stream.value(
-        ChangePasswordStates(
-          isFormValid: true,
-          data: Resource(status: Status.error),
-        ),
-      ),
-    );
+
+    when(cubit.state).thenReturn(initialState);
+    when(cubit.stream).thenAnswer((_) => Stream.value(errorState));
 
     await tester.pumpWidget(buildTestableWidget());
     await tester.pump();
+    await tester.pumpAndSettle();
 
-    expect(find.text(LocaleKeys.an_error_occurred), findsOneWidget);
+    expect(find.text('Wrong Password'), findsOneWidget);
   });
 }
-
-/*
-
-  //    when(cubit.state).thenReturn(ChangePasswordStates());
-    // when(cubit.stream)
-    //     .thenAnswer((_) => const Stream.empty()); 
-
-    */

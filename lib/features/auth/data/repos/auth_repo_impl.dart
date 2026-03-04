@@ -6,17 +6,20 @@ import 'package:tracking_app/features/auth/data/mappers/change_password_dto_mapp
 import 'package:tracking_app/features/auth/data/model/request/LoginRequest.dart';
 import 'package:tracking_app/features/auth/data/model/response/LoginResponse.dart';
 import 'package:tracking_app/features/auth/data/model/response/change_password_dto.dart';
+
 import 'package:tracking_app/features/auth/data/models/request/apply_request_model.dart';
 import 'package:tracking_app/features/auth/data/models/request/forget_password_request.dart';
 import 'package:tracking_app/features/auth/data/models/request/resetpassword_request.dart';
+import 'package:tracking_app/features/auth/data/models/response/logout_response_dto/logout_response_dto.dart';
+import 'package:tracking_app/features/auth/data/models/response/vehicles_response_model.dart';
+import 'package:tracking_app/features/auth/domain/entities/country_entity.dart';
 import 'package:tracking_app/features/auth/data/models/request/verifyreset_request.dart';
 import 'package:tracking_app/features/auth/data/models/response/apply_response_model.dart';
 import 'package:tracking_app/features/auth/data/models/response/forgetpassword_response.dart';
 import 'package:tracking_app/features/auth/data/models/response/resetpassword_response.dart';
 import 'package:tracking_app/features/auth/data/models/response/vehicle_model.dart';
-import 'package:tracking_app/features/auth/data/models/response/vehicles_response_model.dart';
 import 'package:tracking_app/features/auth/data/models/response/verifyreset_response.dart';
-import 'package:tracking_app/features/auth/domain/entities/country_entity.dart';
+
 import 'package:tracking_app/features/auth/domain/models/change_password_model.dart';
 import 'package:tracking_app/features/auth/domain/models/forgetpassword_entitiy.dart';
 import 'package:tracking_app/features/auth/domain/models/resetpassword_entity.dart';
@@ -110,10 +113,12 @@ class AuthRepoImpl implements AuthRepo {
 
   @override
   Future<ApiResult<ChangePasswordModel>> changePassword({
+    required String token,
     String? password,
     String? newPassword,
   }) async {
     final response = await authDatasource.changePassword(
+      token: token,
       password: password,
       newPassword: newPassword,
     );
@@ -170,5 +175,17 @@ class AuthRepoImpl implements AuthRepo {
     }
 
     return ErrorApiResult(error: 'Unknown error');
+  }
+
+  @override
+  Future<ApiResult<LogoutResponseDto>> logout(String token) async {
+    final result = await authDatasource.logout(token);
+    if (result is SuccessApiResult<LogoutResponseDto>) {
+      return SuccessApiResult<LogoutResponseDto>(data: result.data);
+    }
+    if (result is ErrorApiResult<LogoutResponseDto>) {
+      return ErrorApiResult<LogoutResponseDto>(error: result.error);
+    }
+    return ErrorApiResult<LogoutResponseDto>(error: 'Unexpected error');
   }
 }

@@ -1,8 +1,6 @@
 import 'package:injectable/injectable.dart';
 import 'package:tracking_app/app/core/network/api_result.dart';
 import 'package:tracking_app/features/track_order/data/datasource/track_order_remote_source.dart';
-import 'package:tracking_app/features/track_order/data/models/driver_model.dart';
-import 'package:tracking_app/features/track_order/data/models/track_order_model.dart';
 import 'package:tracking_app/features/track_order/domain/entities/driver_entity.dart';
 import 'package:tracking_app/features/track_order/domain/entities/order_entity.dart';
 import 'package:tracking_app/features/track_order/domain/repos/track_order_repo.dart';
@@ -19,7 +17,7 @@ class TrackOrderRepoImpl implements TrackOrderRepo {
 
     return switch (result) {
       SuccessApiResult() => SuccessApiResult(
-        data: (result.data as Stream<List<TrackOrderModel>>).map(
+        data: (result.data).map(
           (models) => models
               .map(
                 (model) => OrderEntity(
@@ -49,7 +47,7 @@ class TrackOrderRepoImpl implements TrackOrderRepo {
 
     return switch (result) {
       SuccessApiResult() => SuccessApiResult(
-        data: (result.data as Stream<DriverModel>).map(
+        data: (result.data).map(
           (model) => DriverEntity(
             id: model.id,
             lat: model.lat,
@@ -66,7 +64,7 @@ class TrackOrderRepoImpl implements TrackOrderRepo {
   }
 
   @override
-  Future<void> updateOrderStatus(String orderId, String status, String token) {
-    return remoteDataSource.updateOrderStatus(orderId, status, token);
+  Future<void> updateOrderStatus(String orderId, String status) {
+    return remoteDataSource.updateOrderStatus(orderId, status);
   }
 }

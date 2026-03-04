@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:tracking_app/features/auth/data/models/response/vechicles_entity.dart';
 import 'package:tracking_app/features/auth/data/models/response/vehicle_model.dart';
 
 import 'metadata_model.dart';

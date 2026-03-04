@@ -7,11 +7,13 @@ import 'package:tracking_app/features/auth/domain/repos/auth_repo.dart';
 class ChangePasswordUsecase {
   AuthRepo authRepo;
   ChangePasswordUsecase(this.authRepo);
-  Future<ApiResult<ChangePasswordModel>> call(
+  Future<ApiResult<ChangePasswordModel>> call({
+    required String token,
     String? password,
     String? newPassword,
-  ) {
+  }) {
     return authRepo.changePassword(
+      token: token,
       password: password,
       newPassword: newPassword,
     );
