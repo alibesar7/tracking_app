@@ -6,5 +6,5 @@ import 'package:tracking_app/features/track_order/domain/entities/order_entity.d
 abstract class TrackOrderRepo {
   ApiResult<Stream<List<OrderEntity>>> trackOrder(String userId);
   ApiResult<Stream<DriverEntity>> trackOrderWithDriver(String driverId);
-  Future<void> updateOrderStatus(String orderId, String status);
+  Future<void> updateOrderStatus(String orderId, String status, String token);
 }

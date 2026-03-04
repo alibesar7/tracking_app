@@ -28,6 +28,11 @@ class TrackOrderRepoImpl implements TrackOrderRepo {
                   status: model.status,
                   driverId: model.driverId,
                   totalPrice: model.totalPrice,
+                  pickupAddress: model.pickupAddress,
+                  pickupName: model.pickupName,
+                  userAddress: model.userAddress,
+                  userName: model.userName,
+                  deviceToken: model.deviceToken,
                 ),
               )
               .toList(),
@@ -45,7 +50,14 @@ class TrackOrderRepoImpl implements TrackOrderRepo {
     return switch (result) {
       SuccessApiResult() => SuccessApiResult(
         data: (result.data as Stream<DriverModel>).map(
-          (model) => DriverEntity(id: model.id, lat: model.lat, lng: model.lng),
+          (model) => DriverEntity(
+            id: model.id,
+            lat: model.lat,
+            lng: model.lng,
+            name: model.name,
+            phone: model.phone,
+            deviceToken: model.deviceToken,
+          ),
         ),
       ),
 
@@ -54,7 +66,7 @@ class TrackOrderRepoImpl implements TrackOrderRepo {
   }
 
   @override
-  Future<void> updateOrderStatus(String orderId, String status) {
-    return remoteDataSource.updateOrderStatus(orderId, status);
+  Future<void> updateOrderStatus(String orderId, String status, String token) {
+    return remoteDataSource.updateOrderStatus(orderId, status, token);
   }
 }

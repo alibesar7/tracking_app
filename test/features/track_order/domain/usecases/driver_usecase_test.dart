@@ -1,5 +1,3 @@
-// test/features/track_order/domain/usecases/track_driver_usecase_test.dart
-
 import 'dart:async';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -20,7 +18,14 @@ void main() {
   });
 
   group('TrackDriverUseCase', () {
-    final driver = DriverEntity(id: 'd1', lat: 10.0, lng: 20.0);
+    const driver = DriverEntity(
+      id: 'd1',
+      lat: 10.0,
+      lng: 20.0,
+      name: 'John',
+      phone: '12345',
+      deviceToken: 'token123',
+    );
 
     test('returns SuccessApiResult with driver stream', () async {
       when(
@@ -35,6 +40,7 @@ void main() {
       expect(d.id, 'd1');
       expect(d.lat, 10.0);
       expect(d.lng, 20.0);
+      expect(d, driver); // Check equality since it's Equatable
     });
 
     test('returns ErrorApiResult when repository fails', () {

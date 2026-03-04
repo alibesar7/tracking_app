@@ -1,0 +1,424 @@
+﻿00:00 +0: loading C:/flutter_projects/tracking_app/test/features/app_sections/presentation/manager/app_section_cubit_test.dart
+00:00 +0: C:/flutter_projects/tracking_app/test/features/app_sections/presentation/manager/app_section_cubit_test.dart: App section cubit emits index 0 when updateIndex(0) is called
+00:00 +1: C:/flutter_projects/tracking_app/test/features/app_sections/presentation/manager/app_section_cubit_test.dart: App section cubit emits index 1 when updateIndex(1) is called
+00:00 +2: C:/flutter_projects/tracking_app/test/features/app_sections/presentation/manager/app_section_cubit_test.dart: App section cubit emits index 2 when updateIndex(2) is called
+00:00 +3: C:/flutter_projects/tracking_app/test/features/app_sections/presentation/manager/app_section_cubit_test.dart: App section cubit does not emit when updating with the same index
+00:00 +4: C:/flutter_projects/tracking_app/test/features/app_sections/presentation/manager/app_section_cubit_test.dart: App section cubit emits correct states when updateIndex is called multiple times
+00:01 +5: C:/flutter_projects/tracking_app/test/features/app_sections/presentation/widgets/app_section_view_test.dart: (setUpAll)
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Localization initialized[0m
+00:01 +5: C:/flutter_projects/tracking_app/test/features/app_sections/presentation/widgets/app_section_view_test.dart: AppSectionsView Widget Test should show Home page by default
+00:02 +6: C:/flutter_projects/tracking_app/test/features/app_sections/presentation/widgets/app_section_view_test.dart: AppSectionsView Widget Test should show Home page by default
+00:02 +7: C:/flutter_projects/tracking_app/test/features/app_sections/presentation/widgets/app_section_view_test.dart: AppSectionsView Widget Test should show Home page by default
+00:02 +8: C:/flutter_projects/tracking_app/test/features/app_sections/presentation/widgets/app_section_view_test.dart: AppSectionsView Widget Test should show Home page by default
+00:02 +9: C:/flutter_projects/tracking_app/test/features/app_sections/presentation/widgets/app_section_view_test.dart: AppSectionsView Widget Test should show Home page by default
+00:02 +10: C:/flutter_projects/tracking_app/test/features/app_sections/presentation/widgets/app_section_view_test.dart: AppSectionsView Widget Test should show Home page by default
+00:02 +11: C:/flutter_projects/tracking_app/test/features/app_sections/presentation/widgets/app_section_view_test.dart: AppSectionsView Widget Test should show Home page by default
+00:02 +12: C:/flutter_projects/tracking_app/test/features/app_sections/presentation/widgets/app_section_view_test.dart: AppSectionsView Widget Test should show Home page by default
+00:02 +13: C:/flutter_projects/tracking_app/test/features/app_sections/presentation/widgets/app_section_view_test.dart: AppSectionsView Widget Test should show Home page by default
+00:02 +14: C:/flutter_projects/tracking_app/test/features/app_sections/presentation/widgets/app_section_view_test.dart: AppSectionsView Widget Test should show Home page by default
+00:02 +15: C:/flutter_projects/tracking_app/test/features/app_sections/presentation/widgets/app_section_view_test.dart: AppSectionsView Widget Test should show Home page by default
+00:02 +16: C:/flutter_projects/tracking_app/test/features/app_sections/presentation/widgets/app_section_view_test.dart: AppSectionsView Widget Test should show Home page by default
+00:02 +17: C:/flutter_projects/tracking_app/test/features/app_sections/presentation/widgets/app_section_view_test.dart: AppSectionsView Widget Test should show Home page by default
+00:03 +18: C:/flutter_projects/tracking_app/test/features/app_sections/presentation/widgets/app_section_view_test.dart: AppSectionsView Widget Test should show Home page by default
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Start[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Init state[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Build[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Init Localization Delegate[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Init provider[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [home] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [orders] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [profile] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [home] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [orders] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [profile] not found[0m
+00:03 +19: C:/flutter_projects/tracking_app/test/features/app_sections/presentation/widgets/app_section_view_test.dart: AppSectionsView Widget Test should navigate to Orders page when tapping Orders
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Start[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Init state[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Build[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Init Localization Delegate[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Init provider[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [home] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [orders] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [profile] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [home] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [orders] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [profile] not found[0m
+00:03 +20: C:/flutter_projects/tracking_app/test/features/app_sections/presentation/widgets/app_section_view_test.dart: AppSectionsView Widget Test should navigate to Profile page when tapping Profile
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Start[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Init state[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Build[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Init Localization Delegate[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Init provider[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [home] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [orders] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [profile] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [home] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [orders] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [profile] not found[0m
+00:03 +21: C:/flutter_projects/tracking_app/test/features/app_sections/presentation/widgets/app_section_view_test.dart: (tearDownAll)
+00:03 +21: C:/flutter_projects/tracking_app/test/features/auth/data/model/request/LoginRequest_test.dart: LoginRequest should be a subclass of LoginRequest entity
+00:03 +22: C:/flutter_projects/tracking_app/test/features/auth/data/model/request/LoginRequest_test.dart: LoginRequest fromJson should return a valid model
+00:03 +23: C:/flutter_projects/tracking_app/test/features/auth/data/model/request/LoginRequest_test.dart: LoginRequest toJson should return a JSON map containing proper data
+00:04 +24: C:/flutter_projects/tracking_app/test/features/auth/data/model/response/change_password_dto_test.dart: ChangePasswordDto Json serialization fromJson should parse correctly
+00:04 +25: C:/flutter_projects/tracking_app/test/features/auth/data/model/response/change_password_dto_test.dart: ChangePasswordDto Json serialization toJson should parse correctly
+00:05 +26: C:/flutter_projects/tracking_app/test/features/auth/data/model/response/LoginResponse_test.dart: LoginResponse should be a subclass of LoginResponse entity
+00:05 +27: C:/flutter_projects/tracking_app/test/features/auth/data/model/response/LoginResponse_test.dart: LoginResponse fromJson should return a valid model
+00:05 +28: C:/flutter_projects/tracking_app/test/features/auth/data/model/response/LoginResponse_test.dart: LoginResponse toJson should return a JSON map containing proper data
+00:05 +29: C:/flutter_projects/tracking_app/test/features/auth/data/models/response/forgetpassword_response_test.dart: ForgetpasswordResponse fromJson should parse correctly
+00:05 +30: C:/flutter_projects/tracking_app/test/features/auth/data/models/response/forgetpassword_response_test.dart: ForgetpasswordResponse toJson should return correct map
+00:05 +31: C:/flutter_projects/tracking_app/test/features/auth/data/models/response/forgetpassword_response_test.dart: ForgetpasswordResponse copyWith should override only provided fields
+00:05 +32: C:/flutter_projects/tracking_app/test/features/auth/data/models/response/forgetpassword_response_test.dart: ForgetpasswordResponse should handle null values correctly
+00:06 +33: C:/flutter_projects/tracking_app/test/features/auth/data/models/response/resetpassword_response_test.dart: ResetpasswordResponse fromJson should parse correctly
+00:06 +34: C:/flutter_projects/tracking_app/test/features/auth/data/models/response/resetpassword_response_test.dart: ResetpasswordResponse toJson should return correct map
+00:06 +35: C:/flutter_projects/tracking_app/test/features/auth/data/models/response/resetpassword_response_test.dart: ResetpasswordResponse copyWith should override only provided fields
+00:06 +36: C:/flutter_projects/tracking_app/test/features/auth/data/models/response/resetpassword_response_test.dart: ResetpasswordResponse should handle null values
+00:06 +37: C:/flutter_projects/tracking_app/test/features/auth/data/models/response/verifyreset_response_test.dart: VerifyresetResponse fromJson should parse correctly
+00:06 +38: C:/flutter_projects/tracking_app/test/features/auth/data/models/response/verifyreset_response_test.dart: VerifyresetResponse toJson should return correct map
+00:06 +39: C:/flutter_projects/tracking_app/test/features/auth/data/models/response/verifyreset_response_test.dart: VerifyresetResponse copyWith should override provided field
+00:06 +40: C:/flutter_projects/tracking_app/test/features/auth/data/models/response/verifyreset_response_test.dart: VerifyresetResponse should handle null values
+00:07 +41: C:/flutter_projects/tracking_app/test/features/auth/data/repos/auth_repo_impl_test.dart: (setUpAll)
+00:07 +41: C:/flutter_projects/tracking_app/test/features/auth/data/repos/auth_repo_impl_test.dart: forgetPassword should return SuccessApiResult when datasource succeeds
+00:07 +42: C:/flutter_projects/tracking_app/test/features/auth/data/repos/auth_repo_impl_test.dart: forgetPassword should return ErrorApiResult when datasource fails
+00:07 +43: C:/flutter_projects/tracking_app/test/features/auth/data/repos/auth_repo_impl_test.dart: verifyResetCode should return SuccessApiResult when datasource succeeds
+00:07 +44: C:/flutter_projects/tracking_app/test/features/auth/data/repos/auth_repo_impl_test.dart: verifyResetCode should return ErrorApiResult when datasource fails
+00:07 +45: C:/flutter_projects/tracking_app/test/features/auth/data/repos/auth_repo_impl_test.dart: resetPassword should return SuccessApiResult when datasource succeeds
+00:07 +46: C:/flutter_projects/tracking_app/test/features/auth/data/repos/auth_repo_impl_test.dart: resetPassword should return ErrorApiResult when datasource fails
+00:07 +47: C:/flutter_projects/tracking_app/test/features/auth/data/repos/auth_repo_impl_test.dart: AuthRepoImpl.login should return SuccessApiResult when remote data source call is successful
+00:07 +48: C:/flutter_projects/tracking_app/test/features/auth/data/repos/auth_repo_impl_test.dart: AuthRepoImpl.login should return ErrorApiResult when remote data source call fails
+00:07 +49: C:/flutter_projects/tracking_app/test/features/auth/data/repos/auth_repo_impl_test.dart: AuthRepoImpl.changePassword() should return ApiSuccess when changePassword datasource succeeds
+00:07 +50: C:/flutter_projects/tracking_app/test/features/auth/data/repos/auth_repo_impl_test.dart: AuthRepoImpl.changePassword() should return ApiFailure when changePassword datasource throws exception
+00:07 +51: C:/flutter_projects/tracking_app/test/features/auth/data/repos/auth_repo_impl_test.dart: (tearDownAll)
+00:07 +51: C:/flutter_projects/tracking_app/test/features/auth/domain/models/change_password_model_test.dart: ChangePasswordModel should create instance with correct values
+00:08 +52: C:/flutter_projects/tracking_app/test/features/auth/domain/usecase/apply_usecase_test.dart: ApplyUseCase - (setUpAll)
+00:08 +52: C:/flutter_projects/tracking_app/test/features/auth/domain/usecase/apply_usecase_test.dart: ApplyUseCase - should return SuccessApiResult when apply succeeds
+00:08 +53: C:/flutter_projects/tracking_app/test/features/auth/domain/usecase/apply_usecase_test.dart: ApplyUseCase - should return ErrorApiResult when apply fails
+00:08 +54: C:/flutter_projects/tracking_app/test/features/auth/domain/usecase/apply_usecase_test.dart: ApplyUseCase - should call repository apply method with correct parameters
+00:08 +55: C:/flutter_projects/tracking_app/test/features/auth/domain/usecase/apply_usecase_test.dart: ApplyUseCase - (tearDownAll)
+00:08 +55: C:/flutter_projects/tracking_app/test/features/auth/domain/usecase/change_password_usecase_test.dart: (setUpAll)
+00:08 +55: C:/flutter_projects/tracking_app/test/features/auth/domain/usecase/change_password_usecase_test.dart: ChangePasswordUseCase returns SuccessApiResult when repos returns success
+00:08 +56: C:/flutter_projects/tracking_app/test/features/auth/domain/usecase/change_password_usecase_test.dart: ChangePasswordUseCase returns ErrorApiResult when repos returns error
+00:08 +57: C:/flutter_projects/tracking_app/test/features/auth/domain/usecase/change_password_usecase_test.dart: (tearDownAll)
+00:09 +57: C:/flutter_projects/tracking_app/test/features/auth/domain/usecase/forgetpassword_usecase_test.dart: (setUpAll)
+00:09 +57: C:/flutter_projects/tracking_app/test/features/auth/domain/usecase/forgetpassword_usecase_test.dart: ForgetPasswordUsecase returns SuccessApiResult when repo succeeds
+00:09 +58: C:/flutter_projects/tracking_app/test/features/auth/domain/usecase/forgetpassword_usecase_test.dart: ForgetPasswordUsecase returns ErrorApiResult when repo fails
+00:09 +59: C:/flutter_projects/tracking_app/test/features/auth/domain/usecase/forgetpassword_usecase_test.dart: (tearDownAll)
+00:09 +59: C:/flutter_projects/tracking_app/test/features/auth/domain/usecase/get_all_vehicles_usecase_test.dart: GetAllVehiclesUseCase - should return SuccessApiResult when getAllVehicles succeeds
+00:09 +60: C:/flutter_projects/tracking_app/test/features/auth/domain/usecase/get_all_vehicles_usecase_test.dart: GetAllVehiclesUseCase - should return ErrorApiResult when getAllVehicles fails
+00:09 +61: C:/flutter_projects/tracking_app/test/features/auth/domain/usecase/get_all_vehicles_usecase_test.dart: GetAllVehiclesUseCase - should call repository getAllVehicles method
+00:09 +62: C:/flutter_projects/tracking_app/test/features/auth/domain/usecase/get_all_vehicles_usecase_test.dart: GetAllVehiclesUseCase - should return empty list when no vehicles available
+00:09 +63: C:/flutter_projects/tracking_app/test/features/auth/domain/usecase/get_all_vehicles_usecase_test.dart: GetAllVehiclesUseCase - should handle vehicles with null ids
+00:10 +64: C:/flutter_projects/tracking_app/test/features/auth/domain/usecase/get_countries_usecase_test.dart: GetCountriesUseCase - should return SuccessApiResult when getCountries succeeds
+00:10 +65: C:/flutter_projects/tracking_app/test/features/auth/domain/usecase/get_countries_usecase_test.dart: GetCountriesUseCase - should return ErrorApiResult when getCountries fails
+00:10 +66: C:/flutter_projects/tracking_app/test/features/auth/domain/usecase/get_countries_usecase_test.dart: GetCountriesUseCase - should call repository getCountries method
+00:10 +67: C:/flutter_projects/tracking_app/test/features/auth/domain/usecase/get_countries_usecase_test.dart: GetCountriesUseCase - should return empty list when no countries available
+00:10 +68: C:/flutter_projects/tracking_app/test/features/auth/domain/usecase/login_usecase_test.dart: (setUpAll)
+00:10 +68: C:/flutter_projects/tracking_app/test/features/auth/domain/usecase/login_usecase_test.dart: LoginUseCase should return SuccessApiResult when repo call is successful
+00:10 +69: C:/flutter_projects/tracking_app/test/features/auth/domain/usecase/login_usecase_test.dart: LoginUseCase should return ErrorApiResult when repo call fails
+00:10 +70: C:/flutter_projects/tracking_app/test/features/auth/domain/usecase/login_usecase_test.dart: (tearDownAll)
+00:10 +70: C:/flutter_projects/tracking_app/test/features/auth/domain/usecase/resertpassword_usecase_test.dart: (setUpAll)
+00:10 +70: C:/flutter_projects/tracking_app/test/features/auth/domain/usecase/resertpassword_usecase_test.dart: ResetPasswordUsecase returns SuccessApiResult when repo succeeds
+00:10 +71: C:/flutter_projects/tracking_app/test/features/auth/domain/usecase/resertpassword_usecase_test.dart: ResetPasswordUsecase returns ErrorApiResult when repo fails
+00:10 +72: C:/flutter_projects/tracking_app/test/features/auth/domain/usecase/resertpassword_usecase_test.dart: (tearDownAll)
+00:11 +72: C:/flutter_projects/tracking_app/test/features/auth/domain/usecase/verifyreaset_usecase_test.dart: (setUpAll)
+00:11 +72: C:/flutter_projects/tracking_app/test/features/auth/domain/usecase/verifyreaset_usecase_test.dart: VerifyResetCodeUsecase returns SuccessApiResult when repo succeeds
+00:11 +73: C:/flutter_projects/tracking_app/test/features/auth/domain/usecase/verifyreaset_usecase_test.dart: VerifyResetCodeUsecase returns ErrorApiResult when repo fails
+00:11 +74: C:/flutter_projects/tracking_app/test/features/auth/domain/usecase/verifyreaset_usecase_test.dart: (tearDownAll)
+00:11 +74: C:/flutter_projects/tracking_app/test/features/auth/presentation/apply/manager/apply_cubit_test.dart: ApplyCubit - GetCountriesIntent emits [loading, success] when GetCountriesIntent succeeds
+00:12 +75: C:/flutter_projects/tracking_app/test/features/auth/presentation/apply/manager/apply_cubit_test.dart: ApplyCubit - GetCountriesIntent emits [loading, failure] when GetCountriesIntent fails
+00:12 +76: C:/flutter_projects/tracking_app/test/features/auth/presentation/apply/manager/apply_cubit_test.dart: ApplyCubit - GetVehiclesIntent emits [loading, success] when GetVehiclesIntent succeeds
+00:12 +77: C:/flutter_projects/tracking_app/test/features/auth/presentation/apply/manager/apply_cubit_test.dart: ApplyCubit - GetVehiclesIntent emits [loading, failure] when GetVehiclesIntent fails
+00:12 +78: C:/flutter_projects/tracking_app/test/features/auth/presentation/apply/manager/apply_cubit_test.dart: ApplyCubit - SubmitApplyIntent (setUpAll)
+00:12 +78: C:/flutter_projects/tracking_app/test/features/auth/presentation/apply/manager/apply_cubit_test.dart: ApplyCubit - SubmitApplyIntent emits [loading, success] when SubmitApplyIntent succeeds
+00:12 +79: C:/flutter_projects/tracking_app/test/features/auth/presentation/apply/manager/apply_cubit_test.dart: ApplyCubit - SubmitApplyIntent emits [loading, failure] when SubmitApplyIntent fails
+00:12 +80: C:/flutter_projects/tracking_app/test/features/auth/presentation/apply/manager/apply_cubit_test.dart: ApplyCubit - SubmitApplyIntent (tearDownAll)
+00:12 +80: C:/flutter_projects/tracking_app/test/features/auth/presentation/apply/manager/apply_cubit_test.dart: ApplyCubit - initial state is correct
+00:13 +81: loading C:/flutter_projects/tracking_app/test/features/auth/presentation/apply/view/apply_screen_test.dart
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Localization initialized[0m
+00:13 +81: C:/flutter_projects/tracking_app/test/features/auth/presentation/apply/view/apply_screen_test.dart: ApplySuccessScreen Widget Tests - should display success message
+00:14 +82: C:/flutter_projects/tracking_app/test/features/auth/presentation/apply/view/apply_screen_test.dart: ApplySuccessScreen Widget Tests - should display success message
+00:14 +83: C:/flutter_projects/tracking_app/test/features/auth/presentation/apply/view/apply_screen_test.dart: ApplySuccessScreen Widget Tests - should display success message
+00:14 +84: C:/flutter_projects/tracking_app/test/features/auth/presentation/apply/view/apply_screen_test.dart: ApplySuccessScreen Widget Tests - should display success message
+00:14 +85: C:/flutter_projects/tracking_app/test/features/auth/presentation/apply/view/apply_screen_test.dart: ApplySuccessScreen Widget Tests - should display success message
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Start[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Init state[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Build[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Init Localization Delegate[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Init provider[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [applicationSubmitted] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [congratulationsMessage] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [reviewMessage] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [backToLogin] not found[0m
+Found texts: [applicationSubmitted, congratulationsMessage, reviewMessage, backToLogin]
+00:15 +86: C:/flutter_projects/tracking_app/test/features/auth/presentation/apply/view/apply_screen_test.dart: ApplySuccessScreen Widget Tests - should display back to login button
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Start[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Init state[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Build[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Init Localization Delegate[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Init provider[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [applicationSubmitted] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [congratulationsMessage] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [reviewMessage] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [backToLogin] not found[0m
+00:15 +87: C:/flutter_projects/tracking_app/test/features/auth/presentation/apply/view/apply_screen_test.dart: ApplySuccessScreen Widget Tests - should display success icon
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Start[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Init state[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Build[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Init Localization Delegate[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Init provider[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [applicationSubmitted] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [congratulationsMessage] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [reviewMessage] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [backToLogin] not found[0m
+00:15 +88: C:/flutter_projects/tracking_app/test/features/auth/presentation/apply/view/apply_screen_test.dart: ApplySuccessScreen Widget Tests - should navigate when back button is tapped
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Start[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Init state[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Build[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Init Localization Delegate[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Init provider[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [applicationSubmitted] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [congratulationsMessage] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [reviewMessage] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [backToLogin] not found[0m
+00:15 +89: C:/flutter_projects/tracking_app/test/features/auth/presentation/login/pages/loginScreen_test.dart: LoginScreen renders correctly
+00:15 +90: C:/flutter_projects/tracking_app/test/features/auth/presentation/login/pages/loginScreen_test.dart: LoginScreen renders correctly
+00:15 +91: C:/flutter_projects/tracking_app/test/features/auth/presentation/login/pages/loginScreen_test.dart: LoginScreen renders correctly
+00:15 +92: C:/flutter_projects/tracking_app/test/features/auth/presentation/login/pages/loginScreen_test.dart: LoginScreen renders correctly
+00:15 +93: C:/flutter_projects/tracking_app/test/features/auth/presentation/login/pages/loginScreen_test.dart: LoginScreen renders correctly
+00:15 +94: C:/flutter_projects/tracking_app/test/features/auth/presentation/login/pages/loginScreen_test.dart: LoginScreen renders correctly
+00:15 +95: C:/flutter_projects/tracking_app/test/features/auth/presentation/login/pages/loginScreen_test.dart: LoginScreen renders correctly
+00:15 +96: C:/flutter_projects/tracking_app/test/features/auth/presentation/login/pages/loginScreen_test.dart: LoginScreen renders correctly
+00:15 +97: C:/flutter_projects/tracking_app/test/features/auth/presentation/login/pages/loginScreen_test.dart: LoginScreen renders correctly
+00:15 +98: C:/flutter_projects/tracking_app/test/features/auth/presentation/login/pages/loginScreen_test.dart: LoginScreen renders correctly
+00:15 +99: C:/flutter_projects/tracking_app/test/features/auth/presentation/login/pages/loginScreen_test.dart: LoginScreen renders correctly
+00:15 +100: C:/flutter_projects/tracking_app/test/features/auth/presentation/login/pages/loginScreen_test.dart: LoginScreen renders correctly
+00:15 +101: C:/flutter_projects/tracking_app/test/features/auth/presentation/login/pages/loginScreen_test.dart: LoginScreen renders correctly
+00:15 +102: C:/flutter_projects/tracking_app/test/features/auth/presentation/login/pages/loginScreen_test.dart: LoginScreen renders correctly
+00:15 +102: C:/flutter_projects/tracking_app/test/features/auth/presentation/reset_password/manager/change_password_cubit_test.dart: Form Validation emits isFormValid = false when confirm password does not match
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [passwordsDoNotMatch] not found[0m
+00:15 +103: C:/flutter_projects/tracking_app/test/features/auth/presentation/login/pages/loginScreen_test.dart: LoginScreen renders correctly
+00:15 +103: C:/flutter_projects/tracking_app/test/features/auth/presentation/reset_password/manager/change_password_cubit_test.dart: Form Validation emits isFormValid = false when any password is invalid
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [passwordLengthInvalid] not found[0m
+00:15 +104: C:/flutter_projects/tracking_app/test/features/auth/presentation/login/pages/loginScreen_test.dart: LoginScreen renders correctly
+00:16 +104: C:/flutter_projects/tracking_app/test/features/auth/presentation/reset_password/pages/change_password_page_test.dart: (setUpAll)
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Localization initialized[0m
+00:16 +104: C:/flutter_projects/tracking_app/test/features/auth/presentation/login/pages/loginScreen_test.dart: LoginScreen renders correctly
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [login] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [email] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [enterEmail] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [password] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [enterPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [rememberMe] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [forgotPasswordTitle] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [login] not found[0m
+00:16 +105: C:/flutter_projects/tracking_app/test/features/auth/presentation/reset_password/pages/change_password_page_test.dart: renders all password fields
+00:17 +105: C:/flutter_projects/tracking_app/test/features/auth/presentation/login/pages/loginScreen_test.dart: Enters text into email and password fields
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [login] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [email] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [enterEmail] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [password] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [enterPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [rememberMe] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [forgotPasswordTitle] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [login] not found[0m
+00:17 +106: C:/flutter_projects/tracking_app/test/features/auth/presentation/reset_password/pages/change_password_page_test.dart: renders all password fields
+00:17 +106: C:/flutter_projects/tracking_app/test/features/Onboarding/presentation/pages/onboardingScreen_test.dart: (setUpAll)
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Localization initialized[0m
+00:17 +106: C:/flutter_projects/tracking_app/test/features/auth/presentation/reset_password/pages/change_password_page_test.dart: renders all password fields
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Start[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Init state[0m
+[32m[≡ƒîÄ Easy Localization] [INFO] Start locale loaded en[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Build[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Init Localization Delegate[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Init provider[0m
+00:18 +107: C:/flutter_projects/tracking_app/test/features/auth/presentation/reset_password/pages/change_password_page_test.dart: renders all password fields
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [resetPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [currentPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [currentPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [newPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [newPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [confirmPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [confirmPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [update] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [currentPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [currentPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [newPassword] not found[0m
+00:18 +108: C:/flutter_projects/tracking_app/test/features/auth/presentation/reset_password/pages/change_password_page_test.dart: renders all password fields
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [newPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [confirmPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [confirmPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [update] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [newPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [newPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [newPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [newPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [newPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [newPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [newPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [newPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [newPassword] not found[0m
+00:18 +109: C:/flutter_projects/tracking_app/test/features/Onboarding/presentation/pages/onboardingScreen_test.dart: Onboardingscreen Widget Test renders all UI elements correctly
+00:18 +110: C:/flutter_projects/tracking_app/test/features/Onboarding/presentation/pages/onboardingScreen_test.dart: Onboardingscreen Widget Test renders all UI elements correctly
+00:18 +111: C:/flutter_projects/tracking_app/test/features/Onboarding/presentation/pages/onboardingScreen_test.dart: Onboardingscreen Widget Test renders all UI elements correctly
+00:18 +112: C:/flutter_projects/tracking_app/test/features/Onboarding/presentation/pages/onboardingScreen_test.dart: Onboardingscreen Widget Test renders all UI elements correctly
+00:18 +112: C:/flutter_projects/tracking_app/test/features/auth/presentation/reset_password/pages/change_password_page_test.dart: Toggling visibility icon changes obscureText property
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Start[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Init state[0m
+[32m[≡ƒîÄ Easy Localization] [INFO] Start locale loaded en[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Build[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Init Localization Delegate[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Init provider[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [resetPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [currentPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [currentPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [newPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [newPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [confirmPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [confirmPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [update] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [currentPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [currentPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [newPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [newPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [confirmPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [confirmPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [update] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [currentPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [currentPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [newPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [newPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [confirmPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [confirmPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [update] not found[0m
+00:18 +113: C:/flutter_projects/tracking_app/test/features/Onboarding/presentation/pages/onboardingScreen_test.dart: Onboardingscreen Widget Test renders all UI elements correctly
+00:18 +113 -1: C:/flutter_projects/tracking_app/test/features/Onboarding/presentation/pages/onboardingScreen_test.dart: Onboardingscreen Widget Test renders all UI elements correctly
+00:18 +113 -1: C:/flutter_projects/tracking_app/test/features/track_order/data/models/driver_model_test.dart: DriverModel.fromFirestore creates DriverModel correctly from map [E]
+  Expected: <30.5>
+    Actual: <0.0>
+  
+  package:matcher                                                    expect
+  package:flutter_test/src/widget_tester.dart 473:18                 expect
+  test\features\track_order\data\models\driver_model_test.dart 12:7  main.<fn>.<fn>
+  
+00:18 +113 -2: C:/flutter_projects/tracking_app/test/features/Onboarding/presentation/pages/onboardingScreen_test.dart: Onboardingscreen Widget Test renders all UI elements correctly
+00:18 +113 -2: C:/flutter_projects/tracking_app/test/features/track_order/data/models/driver_model_test.dart: DriverModel.fromFirestore converts int to double [E]
+  Expected: <30.0>
+    Actual: <0.0>
+  
+  package:matcher                                                    expect
+  package:flutter_test/src/widget_tester.dart 473:18                 expect
+  test\features\track_order\data\models\driver_model_test.dart 21:7  main.<fn>.<fn>
+  
+00:18 +113 -3: C:/flutter_projects/tracking_app/test/features/Onboarding/presentation/pages/onboardingScreen_test.dart: Onboardingscreen Widget Test renders all UI elements correctly
+00:18 +113 -3: C:/flutter_projects/tracking_app/test/features/track_order/data/models/driver_model_test.dart: DriverModel.fromFirestore throws error if lat is missing [E]
+  Expected: throws <Instance of 'TypeError'>
+    Actual: <Closure: () => DriverModel>
+     Which: returned <Instance of 'DriverModel'>
+  
+  package:matcher                                                    expect
+  package:flutter_test/src/widget_tester.dart 473:18                 expect
+  test\features\track_order\data\models\driver_model_test.dart 28:7  main.<fn>.<fn>
+  
+00:18 +113 -3: C:/flutter_projects/tracking_app/test/features/auth/presentation/reset_password/pages/change_password_page_test.dart: Typing in text fields triggers Cubit intents
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Start[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Init state[0m
+[32m[≡ƒîÄ Easy Localization] [INFO] Start locale loaded en[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Build[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Init Localization Delegate[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Init provider[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [resetPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [currentPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [currentPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [newPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [newPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [confirmPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [confirmPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [update] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [currentPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [currentPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [newPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [newPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [confirmPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [confirmPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [update] not found[0m
+00:18 +114 -3: C:/flutter_projects/tracking_app/test/features/Onboarding/presentation/pages/onboardingScreen_test.dart: Onboardingscreen Widget Test renders all UI elements correctly
+00:19 +115 -3: C:/flutter_projects/tracking_app/test/features/Onboarding/presentation/pages/onboardingScreen_test.dart: Onboardingscreen Widget Test renders all UI elements correctly
+00:19 +116 -3: C:/flutter_projects/tracking_app/test/features/Onboarding/presentation/pages/onboardingScreen_test.dart: Onboardingscreen Widget Test renders all UI elements correctly
+00:19 +117 -3: C:/flutter_projects/tracking_app/test/features/Onboarding/presentation/pages/onboardingScreen_test.dart: Onboardingscreen Widget Test renders all UI elements correctly
+00:19 +118 -3: C:/flutter_projects/tracking_app/test/features/Onboarding/presentation/pages/onboardingScreen_test.dart: Onboardingscreen Widget Test renders all UI elements correctly
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Start[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Init state[0m
+[32m[≡ƒîÄ Easy Localization] [INFO] Start locale loaded en[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Build[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Init Localization Delegate[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Init provider[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Load Localization Delegate[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Build[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Init Localization Delegate[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Init provider[0m
+00:19 +119 -3: C:/flutter_projects/tracking_app/test/features/auth/presentation/reset_password/pages/change_password_page_test.dart: Shows SnackBar on Status.success
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [resetPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [currentPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [currentPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [newPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [newPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [confirmPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [confirmPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [update] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [passwordUpdated] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [resetPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [currentPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [currentPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [newPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [newPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [confirmPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [confirmPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [update] not found[0m
+00:19 +120 -3: C:/flutter_projects/tracking_app/test/features/auth/presentation/reset_password/pages/change_password_page_test.dart: Shows Error Dialog on Status.error
+00:19 +121 -3: C:/flutter_projects/tracking_app/test/features/auth/presentation/reset_password/pages/change_password_page_test.dart: Shows Error Dialog on Status.error
+00:19 +122 -3: C:/flutter_projects/tracking_app/test/features/auth/presentation/reset_password/pages/change_password_page_test.dart: Shows Error Dialog on Status.error
+00:19 +123 -3: C:/flutter_projects/tracking_app/test/features/auth/presentation/reset_password/pages/change_password_page_test.dart: Shows Error Dialog on Status.error
+00:19 +124 -3: C:/flutter_projects/tracking_app/test/features/auth/presentation/reset_password/pages/change_password_page_test.dart: Shows Error Dialog on Status.error
+00:19 +125 -3: C:/flutter_projects/tracking_app/test/features/auth/presentation/reset_password/pages/change_password_page_test.dart: Shows Error Dialog on Status.error
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Start[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Init state[0m
+[32m[≡ƒîÄ Easy Localization] [INFO] Start locale loaded en[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Build[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Init Localization Delegate[0m
+[90m[≡ƒîÄ Easy Localization] [DEBUG] Init provider[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [resetPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [currentPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [currentPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [newPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [newPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [confirmPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [confirmPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [update] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [an_error_occurred] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [ok] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [currentPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [currentPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [newPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [newPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [confirmPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [confirmPassword] not found[0m
+[34m[≡ƒîÄ Easy Localization] [WARNING] Localization key [update] not found[0m
+00:19 +126 -3: C:/flutter_projects/tracking_app/test/features/auth/presentation/reset_password/pages/change_password_page_test.dart: (tearDownAll)
+00:19 +126 -3: C:/flutter_projects/tracking_app/test/features/track_order/domain/entities/driver_entity_test.dart: DriverEntity should create a DriverEntity with correct values
+00:19 +127 -3: C:/flutter_projects/tracking_app/test/features/track_order/domain/entities/driver_entity_test.dart: DriverEntity should support value equality
+00:20 +128 -3: C:/flutter_projects/tracking_app/test/features/track_order/domain/entities/order_entity_test.dart: OrderEntity should create an OrderEntity with all fields
+00:20 +129 -3: C:/flutter_projects/tracking_app/test/features/track_order/domain/entities/order_entity_test.dart: OrderEntity should create an OrderEntity with only required fields
+00:20 +130 -3: C:/flutter_projects/tracking_app/test/features/track_order/domain/usecases/driver_usecase_test.dart: TrackDriverUseCase returns SuccessApiResult with driver stream
+00:20 +131 -3: C:/flutter_projects/tracking_app/test/features/track_order/domain/usecases/driver_usecase_test.dart: TrackDriverUseCase returns ErrorApiResult when repository fails
+00:21 +132 -3: C:/flutter_projects/tracking_app/test/features/track_order/domain/usecases/track_order_usecase_test.dart: TrackOrderUseCase returns SuccessApiResult with orders stream
+00:21 +133 -3: C:/flutter_projects/tracking_app/test/features/track_order/domain/usecases/track_order_usecase_test.dart: TrackOrderUseCase returns ErrorApiResult when repository fails
+00:21 +134 -3: C:/flutter_projects/tracking_app/test/features/track_order/presentation/manager/cubit/track_order_cubit_test.dart: loadUserOrders emits error if token is null
+DEBUG: loadUserOrders called with string length: null
+00:21 +135 -3: C:/flutter_projects/tracking_app/test/features/track_order/presentation/manager/cubit/track_order_cubit_test.dart: loadUserOrders emits orders when SuccessApiResult is returned
+DEBUG: loadUserOrders called with string length: 17
+DEBUG: Token decode error: Exception: Illegal base64url string!
+DEBUG: Successfully subscribed to track orders stream
+DEBUG: Stream emitted new orders list. Count: 1
+00:21 +136 -3: C:/flutter_projects/tracking_app/test/features/track_order/presentation/manager/cubit/track_order_cubit_test.dart: trackDriver emits driver when SuccessApiResult is returned
+00:21 +137 -3: C:/flutter_projects/tracking_app/test/features/track_order/presentation/manager/cubit/track_order_cubit_test.dart: trackDriver emits error if stream has error
+00:21 +138 -3: C:/flutter_projects/tracking_app/test/features/track_order/presentation/manager/cubit/track_order_cubit_test.dart: updateOrderStatus emits isLoading then success
+00:21 +139 -3: Some tests failed.

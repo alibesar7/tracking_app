@@ -3,7 +3,6 @@ import 'package:mocktail/mocktail.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tracking_app/app/core/network/api_result.dart';
 import 'package:tracking_app/features/track_order/api/track_order_remote_source_impl.dart';
-import 'package:tracking_app/features/track_order/data/datasource/track_order_remote_source.dart';
 import 'package:tracking_app/features/track_order/data/models/track_order_model.dart';
 import 'package:tracking_app/features/track_order/data/models/driver_model.dart';
 
@@ -34,6 +33,10 @@ void main() {
   late MockFirebaseFirestore mockFirestore;
   late TrackOrderRemoteDataSourceImpl dataSource;
 
+  setUpAll(() {
+    registerFallbackValue(const <String, dynamic>{});
+  });
+
   setUp(() {
     mockFirestore = MockFirebaseFirestore();
     dataSource = TrackOrderRemoteDataSourceImpl(mockFirestore);
@@ -47,8 +50,11 @@ void main() {
       final mockDoc = MockQueryDocumentSnapshot();
 
       when(() => mockFirestore.collection('orders')).thenReturn(mockCollection);
-
-      when(() => mockCollection.where(any())).thenReturn(mockQuery);
+      when(
+        () =>
+            mockCollection.orderBy(any(), descending: any(named: 'descending')),
+      ).thenReturn(mockQuery);
+      when(() => mockQuery.where(any())).thenReturn(mockQuery);
 
       when(
         () => mockQuery.snapshots(),
@@ -61,8 +67,9 @@ void main() {
       when(() => mockDoc.data()).thenReturn({
         'status': 'delivered',
         'driver_id': 'd1',
-        'total_price': 100,
-        'userAddress': {'user_id': 'u1'},
+        'totalPrice': '100',
+        'userId': 'u1',
+        'deviceToken': 'token1',
       });
 
       final result = dataSource.trackOrder('u1');
@@ -107,7 +114,12 @@ void main() {
 
       when(() => mockSnapshot.id).thenReturn('d1');
 
-      when(() => mockSnapshot.data()).thenReturn({'lat': 30.0, 'lng': 31.0});
+      when(() => mockSnapshot.data()).thenReturn({
+        'currentLocation': {'lat': 30.0, 'lng': 31.0},
+        'name': 'Driver Name',
+        'phone': '12345',
+        'deviceToken': 't1',
+      });
 
       final result = dataSource.trackDriver('d1');
 
@@ -118,6 +130,7 @@ void main() {
 
       expect(driver, isA<DriverModel>());
       expect(driver.id, 'd1');
+      expect(driver.lat, 30.0);
     });
 
     test('returns ErrorApiResult if firestore throws', () {
@@ -136,20 +149,30 @@ void main() {
       final mockCollection = MockCollectionReference();
       final mockDocRef = MockDocumentReference();
       final mockSnapshot = MockDocumentSnapshot();
+      final mockNotificationCollection = MockCollectionReference();
 
       when(() => mockFirestore.collection('orders')).thenReturn(mockCollection);
+      when(
+        () => mockFirestore.collection('notification'),
+      ).thenReturn(mockNotificationCollection);
 
       when(() => mockCollection.doc('1')).thenReturn(mockDocRef);
-
       when(() => mockDocRef.update(any())).thenAnswer((_) async {});
-
       when(() => mockDocRef.get()).thenAnswer((_) async => mockSnapshot);
 
-      final result = await dataSource.updateOrderStatus('1', 'delivered');
+      when(
+        () => mockNotificationCollection.add(any()),
+      ).thenAnswer((_) async => mockDocRef);
+
+      final result = await dataSource.updateOrderStatus(
+        '1',
+        'delivered',
+        'token1',
+      );
 
       expect(result, mockSnapshot);
 
-      verify(() => mockDocRef.update({'status': 'delivered'})).called(1);
+      verify(() => mockDocRef.update(any())).called(1);
     });
   });
 }

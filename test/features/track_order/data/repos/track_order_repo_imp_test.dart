@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:tracking_app/app/core/network/api_result.dart';
@@ -8,9 +9,10 @@ import 'package:tracking_app/features/track_order/domain/entities/driver_entity.
 import 'package:tracking_app/features/track_order/domain/entities/order_entity.dart';
 import 'package:tracking_app/features/track_order/data/datasource/track_order_remote_source.dart';
 
-import '../../api/track_order_remote_source_impl_test.dart';
-
 class MockRemoteDataSource extends Mock implements TrackOrderRemoteDataSource {}
+
+class MockDocumentSnapshot extends Mock
+    implements DocumentSnapshot<Map<String, dynamic>> {}
 
 void main() {
   late MockRemoteDataSource mockRemote;
@@ -29,6 +31,11 @@ void main() {
         driverId: 'd1',
         status: 'delivered',
         totalPrice: '100',
+        pickupAddress: 'p1',
+        pickupName: 'pn',
+        userAddress: 'u1',
+        userName: 'un',
+        deviceToken: 'token1',
       );
 
       when(
@@ -42,8 +49,10 @@ void main() {
       final list = await (result as SuccessApiResult).data.first;
 
       expect(list.length, 1);
+      expect(list.first, isA<OrderEntity>());
       expect(list.first.id, 'o1');
       expect(list.first.userId, 'u1');
+      expect(list.first.status, 'delivered');
     });
 
     test('returns ErrorApiResult if remote fails', () {
@@ -60,7 +69,14 @@ void main() {
 
   group('trackOrderWithDriver', () {
     test('returns SuccessApiResult with mapped DriverEntity', () async {
-      final model = DriverModel(id: 'd1', lat: 10.0, lng: 20.0);
+      final model = DriverModel(
+        id: 'd1',
+        lat: 10.0,
+        lng: 20.0,
+        name: 'Driver Name',
+        phone: '12345678',
+        deviceToken: 'token1',
+      );
 
       when(
         () => mockRemote.trackDriver('d1'),
@@ -72,9 +88,11 @@ void main() {
 
       final driver = await (result as SuccessApiResult).data.first;
 
+      expect(driver, isA<DriverEntity>());
       expect(driver.id, 'd1');
       expect(driver.lat, 10.0);
       expect(driver.lng, 20.0);
+      expect(driver.name, 'Driver Name');
     });
 
     test('returns ErrorApiResult if remote fails', () {
@@ -92,12 +110,14 @@ void main() {
   group('updateOrderStatus', () {
     test('calls remoteDataSource.updateOrderStatus', () async {
       when(
-        () => mockRemote.updateOrderStatus('o1', 'delivered'),
+        () => mockRemote.updateOrderStatus('o1', 'delivered', 'token1'),
       ).thenAnswer((_) async => MockDocumentSnapshot());
 
-      await repo.updateOrderStatus('o1', 'delivered');
+      await repo.updateOrderStatus('o1', 'delivered', 'token1');
 
-      verify(() => mockRemote.updateOrderStatus('o1', 'delivered')).called(1);
+      verify(
+        () => mockRemote.updateOrderStatus('o1', 'delivered', 'token1'),
+      ).called(1);
     });
   });
 }

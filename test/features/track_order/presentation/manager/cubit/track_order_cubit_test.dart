@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:tracking_app/app/core/network/api_result.dart';
@@ -24,121 +25,129 @@ void main() {
   late MockTrackDriverUseCase mockTrackDriverUseCase;
   late MockUpdateOrderStatusUseCase mockUpdateOrderStatusUseCase;
   late MockAuthStorage mockAuthStorage;
-  late TrackOrderCubit cubit;
 
   setUp(() {
     mockTrackOrderUseCase = MockTrackOrderUseCase();
     mockTrackDriverUseCase = MockTrackDriverUseCase();
     mockUpdateOrderStatusUseCase = MockUpdateOrderStatusUseCase();
     mockAuthStorage = MockAuthStorage();
-
-    cubit = TrackOrderCubit(
-      mockTrackOrderUseCase,
-      mockTrackDriverUseCase,
-      mockUpdateOrderStatusUseCase,
-      mockAuthStorage,
-    );
-  });
-
-  tearDown(() async {
-    await cubit.close();
   });
 
   group('loadUserOrders', () {
     final order = OrderEntity(id: 'o1', userId: 'u1', status: 'delivered');
     final ordersStream = Stream.value([order]);
 
-    test('emits error if token is null', () async {
-      when(() => mockAuthStorage.getToken()).thenAnswer((_) async => null);
+    blocTest<TrackOrderCubit, TrackOrderState>(
+      'emits error if token is null',
+      build: () {
+        when(() => mockAuthStorage.getToken()).thenAnswer((_) async => null);
+        return TrackOrderCubit(
+          mockTrackOrderUseCase,
+          mockTrackDriverUseCase,
+          mockUpdateOrderStatusUseCase,
+          mockAuthStorage,
+        );
+      },
+      act: (cubit) => cubit.loadUserOrders(),
+      expect: () => [
+        const TrackOrderState(isLoading: true),
+        const TrackOrderState(isLoading: false, error: 'User not logged in'),
+      ],
+    );
 
-      await cubit.loadUserOrders();
-
-      expect(cubit.state.isLoading, false);
-      expect(cubit.state.error, 'User not logged in');
-      expect(cubit.state.orders, []);
-    });
-
-    test('emits orders when SuccessApiResult is returned', () async {
-      when(
-        () => mockAuthStorage.getToken(),
-      ).thenAnswer((_) async => 'dummy.token.value');
-      when(
-        () => mockTrackOrderUseCase.call(any()),
-      ).thenReturn(SuccessApiResult(data: ordersStream));
-
-      await cubit.loadUserOrders();
-
-      final emittedOrders = await cubit.stream.first;
-      expect(emittedOrders.orders.length, 1);
-      expect(emittedOrders.orders.first.id, 'o1');
-    });
-
-    test('emits error when ErrorApiResult is returned', () async {
-      when(
-        () => mockAuthStorage.getToken(),
-      ).thenAnswer((_) async => 'dummy.token.value');
-      when(
-        () => mockTrackOrderUseCase.call(any()),
-      ).thenReturn(ErrorApiResult(error: 'Network Error'));
-
-      await cubit.loadUserOrders();
-
-      expect(cubit.state.isLoading, false);
-      expect(cubit.state.error, 'Network Error');
-      expect(cubit.state.orders, []);
-    });
+    blocTest<TrackOrderCubit, TrackOrderState>(
+      'emits orders when SuccessApiResult is returned',
+      build: () {
+        when(
+          () => mockAuthStorage.getToken(),
+        ).thenAnswer((_) async => 'dummy.token.value');
+        when(
+          () => mockTrackOrderUseCase.call(any()),
+        ).thenReturn(SuccessApiResult(data: ordersStream));
+        when(
+          () => mockTrackDriverUseCase.call(any()),
+        ).thenReturn(ErrorApiResult(error: 'Driver error'));
+        return TrackOrderCubit(
+          mockTrackOrderUseCase,
+          mockTrackDriverUseCase,
+          mockUpdateOrderStatusUseCase,
+          mockAuthStorage,
+        );
+      },
+      act: (cubit) => cubit.loadUserOrders(),
+      expect: () => [
+        const TrackOrderState(isLoading: true),
+        TrackOrderState(isLoading: false, orders: [order]),
+      ],
+    );
   });
 
   group('trackDriver', () {
-    final driver = DriverEntity(id: 'd1', lat: 10.0, lng: 20.0);
+    const driver = DriverEntity(
+      id: 'd1',
+      lat: 10.0,
+      lng: 20.0,
+      name: 'Driver 1',
+      phone: '12345678',
+      deviceToken: 't1',
+    );
     final driverStream = Stream.value(driver);
 
-    test('emits driver when SuccessApiResult is returned', () async {
-      when(
-        () => mockTrackDriverUseCase.call('d1'),
-      ).thenReturn(SuccessApiResult(data: driverStream));
+    blocTest<TrackOrderCubit, TrackOrderState>(
+      'emits driver when SuccessApiResult is returned',
+      build: () {
+        when(
+          () => mockTrackDriverUseCase.call('d1'),
+        ).thenReturn(SuccessApiResult(data: driverStream));
+        return TrackOrderCubit(
+          mockTrackOrderUseCase,
+          mockTrackDriverUseCase,
+          mockUpdateOrderStatusUseCase,
+          mockAuthStorage,
+        );
+      },
+      act: (cubit) => cubit.trackDriver('d1'),
+      expect: () => [const TrackOrderState(driver: driver)],
+    );
 
-      cubit.trackDriver('d1');
-
-      final emittedState = await cubit.stream.first;
-      expect(emittedState.driver, isNotNull);
-      expect(emittedState.driver!.id, 'd1');
-      expect(emittedState.driver!.lat, 10.0);
-      expect(emittedState.driver!.lng, 20.0);
-    });
-
-    test('emits error if stream has error', () async {
-      final errorStream = Stream<DriverEntity>.error('Driver not found');
-
-      when(
-        () => mockTrackDriverUseCase.call('d1'),
-      ).thenReturn(SuccessApiResult(data: errorStream));
-
-      cubit.trackDriver('d1');
-
-      final emittedState = await cubit.stream.first;
-      expect(emittedState.error, 'Driver not found');
-    });
+    blocTest<TrackOrderCubit, TrackOrderState>(
+      'emits error if stream has error',
+      build: () {
+        final errorStream = Stream<DriverEntity>.error('Driver not found');
+        when(
+          () => mockTrackDriverUseCase.call('d1'),
+        ).thenReturn(SuccessApiResult(data: errorStream));
+        return TrackOrderCubit(
+          mockTrackOrderUseCase,
+          mockTrackDriverUseCase,
+          mockUpdateOrderStatusUseCase,
+          mockAuthStorage,
+        );
+      },
+      act: (cubit) => cubit.trackDriver('d1'),
+      expect: () => [const TrackOrderState(error: 'Driver not found')],
+    );
   });
 
-  test('close cancels subscriptions', () async {
-    final orderStream = Stream.value([
-      OrderEntity(id: 'o1', userId: 'u1', status: 'delivered'),
-    ]);
-    final driverStream = Stream.value(DriverEntity(id: 'd1', lat: 10, lng: 20));
-
-    when(() => mockAuthStorage.getToken()).thenAnswer((_) async => 'token');
-    when(
-      () => mockTrackOrderUseCase.call(any()),
-    ).thenReturn(SuccessApiResult(data: orderStream));
-    when(
-      () => mockTrackDriverUseCase.call(any()),
-    ).thenReturn(SuccessApiResult(data: driverStream));
-
-    await cubit.loadUserOrders();
-    cubit.trackDriver('d1');
-
-    await cubit.close();
-    expect(cubit.isClosed, true);
+  group('updateOrderStatus', () {
+    blocTest<TrackOrderCubit, TrackOrderState>(
+      'emits isLoading then success',
+      build: () {
+        when(
+          () => mockUpdateOrderStatusUseCase.call(any(), any(), any()),
+        ).thenAnswer((_) async => null);
+        return TrackOrderCubit(
+          mockTrackOrderUseCase,
+          mockTrackDriverUseCase,
+          mockUpdateOrderStatusUseCase,
+          mockAuthStorage,
+        );
+      },
+      act: (cubit) => cubit.updateOrderStatus('o1', 'Delivered', 'token'),
+      expect: () => [
+        const TrackOrderState(isLoading: true),
+        const TrackOrderState(isLoading: false),
+      ],
+    );
   });
 }

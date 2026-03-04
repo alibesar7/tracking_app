@@ -74,6 +74,8 @@ class TrackOrderCubit extends Cubit<TrackOrderState> {
       userId = token;
     }
 
+    trackDriver(userId); // Track driver self info
+
     final result = trackOrderUseCase(userId);
 
     if (result is SuccessApiResult<Stream<List<OrderEntity>>>) {
@@ -107,10 +109,14 @@ class TrackOrderCubit extends Cubit<TrackOrderState> {
     }
   }
 
-  Future<void> updateOrderStatus(String orderId, String status) async {
+  Future<void> updateOrderStatus(
+    String orderId,
+    String status,
+    String token,
+  ) async {
     emit(state.copyWith(isLoading: true, error: null));
     try {
-      await updateOrderStatusUseCase(orderId, status);
+      await updateOrderStatusUseCase(orderId, status, token);
       emit(state.copyWith(isLoading: false));
     } catch (e) {
       emit(state.copyWith(isLoading: false, error: e.toString()));

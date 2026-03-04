@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tracking_app/app/core/router/route_names.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -10,7 +11,7 @@ class ProfilePage extends StatelessWidget {
       body: Center(
         child: ElevatedButton(
           onPressed: () {
-            Navigator.pushNamed(context, RouteNames.trackOrder);
+            context.push(RouteNames.trackOrder);
           },
           child: const Text("Track Order"),
         ),

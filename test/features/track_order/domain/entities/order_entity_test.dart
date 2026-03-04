@@ -10,8 +10,10 @@ void main() {
       const status = 'delivered';
       const driverId = 'd1';
       const totalPrice = '100';
-      const address = '123 Street';
-      const name = 'John Doe';
+      const pickupAddress = 'Store Street';
+      const pickupName = 'Flower Shop';
+      const userAddress = 'Home Avenue';
+      const userName = 'John Doe';
 
       // Act
       final order = OrderEntity(
@@ -20,8 +22,10 @@ void main() {
         status: status,
         driverId: driverId,
         totalPrice: totalPrice,
-        address: address,
-        name: name,
+        pickupAddress: pickupAddress,
+        pickupName: pickupName,
+        userAddress: userAddress,
+        userName: userName,
       );
 
       // Assert
@@ -30,8 +34,10 @@ void main() {
       expect(order.status, status);
       expect(order.driverId, driverId);
       expect(order.totalPrice, totalPrice);
-      expect(order.address, address);
-      expect(order.name, name);
+      expect(order.pickupAddress, pickupAddress);
+      expect(order.pickupName, pickupName);
+      expect(order.userAddress, userAddress);
+      expect(order.userName, userName);
     });
 
     test('should create an OrderEntity with only required fields', () {
@@ -49,8 +55,10 @@ void main() {
       expect(order.status, status);
       expect(order.driverId, isNull);
       expect(order.totalPrice, isNull);
-      expect(order.address, isNull);
-      expect(order.name, isNull);
+      expect(order.pickupAddress, isNull);
+      expect(order.pickupName, isNull);
+      expect(order.userAddress, isNull);
+      expect(order.userName, isNull);
     });
   });
 }

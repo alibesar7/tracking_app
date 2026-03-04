@@ -4,6 +4,11 @@ class TrackOrderModel {
   final String status;
   final String totalPrice;
   final String userId;
+  final String pickupAddress;
+  final String pickupName;
+  final String userAddress;
+  final String userName;
+  final String deviceToken;
 
   TrackOrderModel({
     required this.driverId,
@@ -11,6 +16,11 @@ class TrackOrderModel {
     required this.status,
     required this.totalPrice,
     required this.userId,
+    required this.pickupAddress,
+    required this.pickupName,
+    required this.userAddress,
+    required this.userName,
+    required this.deviceToken,
   });
 
   factory TrackOrderModel.fromFirestore(String id, Map<String, dynamic> data) {
@@ -39,12 +49,32 @@ class TrackOrderModel {
       parsedTotal = safeString(data['totalPrice']);
     }
 
+    dynamic pickupAddr = data['pickupAddress'];
+    String pAddr = '';
+    String pName = '';
+    if (pickupAddr is Map) {
+      pAddr = safeString(pickupAddr['address'] ?? pickupAddr['adress']);
+      pName = safeString(pickupAddr['name']);
+    }
+
+    String uAddr = '';
+    String uName = '';
+    if (userAddress is Map) {
+      uAddr = safeString(userAddress['address'] ?? userAddress['adress']);
+      uName = safeString(userAddress['name']);
+    }
+
     return TrackOrderModel(
       id: id,
       driverId: safeString(data['driver_id'] ?? data['driverId']),
       status: parsedStatus,
       totalPrice: parsedTotal,
       userId: parsedUserId,
+      pickupAddress: pAddr,
+      pickupName: pName,
+      userAddress: uAddr,
+      userName: uName,
+      deviceToken: safeString(data['deviceToken']),
     );
   }
 }

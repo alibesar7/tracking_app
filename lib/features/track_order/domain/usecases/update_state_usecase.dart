@@ -7,8 +7,8 @@ class UpdateOrderStatusUseCase {
 
   UpdateOrderStatusUseCase(this.repository);
 
-  Future<void> call(String orderId, String status) {
-    return repository.updateOrderStatus(orderId, status);
+  Future<void> call(String orderId, String status, String token) {
+    return repository.updateOrderStatus(orderId, status, token);
   }
 }
   

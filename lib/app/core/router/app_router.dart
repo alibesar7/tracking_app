@@ -25,7 +25,6 @@ final GoRouter appRouter = GoRouter(
       path: RouteNames.changePassword,
       builder: (context, state) => const ChangePasswordPage(),
     ),
-
     GoRoute(
       path: RouteNames.onboarding,
       builder: (context, state) => const Onboardingscreen(),
@@ -64,7 +63,6 @@ final GoRouter appRouter = GoRouter(
         child: const ForgetPasswordPage(),
       ),
     ),
-
     GoRoute(
       path: RouteNames.resetPassword,
       builder: (context, state) => BlocProvider(
@@ -73,19 +71,13 @@ final GoRouter appRouter = GoRouter(
       ),
     ),
     GoRoute(
-      path: RouteNames.profile,
-      builder: (context, state) => const ProfilePage(),
-    ),
-
-    GoRoute(
       path: RouteNames.trackOrder,
       builder: (context, state) => BlocProvider(
         create: (_) => getIt<TrackOrderCubit>(),
-        child: TrackOrderPage(),
+        child: const TrackOrderPage(),
       ),
     ),
   ],
-
   redirect: (context, state) async {
     final token = await getIt<AuthStorage>().getToken();
     final rememberMe = await getIt<AuthStorage>().getRememberMe();

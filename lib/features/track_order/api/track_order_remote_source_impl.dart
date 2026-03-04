@@ -15,12 +15,7 @@ class TrackOrderRemoteDataSourceImpl implements TrackOrderRemoteDataSource {
     try {
       final stream = firestore
           .collection('orders')
-          .where(
-            Filter.or(
-              Filter('userAddress.user_id', isEqualTo: userId),
-              Filter('driver_id', isEqualTo: userId),
-            ),
-          )
+          .orderBy('updatedAt', descending: true)
           .snapshots()
           .map((snapshot) {
             return snapshot.docs
@@ -55,6 +50,7 @@ class TrackOrderRemoteDataSourceImpl implements TrackOrderRemoteDataSource {
   Future<DocumentSnapshot<Map<String, dynamic>>> updateOrderStatus(
     String orderId,
     String status,
+    String token,
   ) async {
     try {
       await firestore.collection('orders').doc(orderId).update({
@@ -69,6 +65,7 @@ class TrackOrderRemoteDataSourceImpl implements TrackOrderRemoteDataSource {
         'status': status,
         'createdAt': FieldValue.serverTimestamp(),
         'targetApp': 'flower_shop',
+        'deviceToken': token,
       });
 
       return await firestore.collection('orders').doc(orderId).get();
