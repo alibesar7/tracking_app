@@ -3,6 +3,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_marker_widgets/google_maps_marker_widgets.dart';
 import 'package:tracking_app/app/core/ui_helper/color/colors.dart';
 import 'package:tracking_app/features/driver_orders_details/presentation/widgets/custom_marker_widget.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 
 class LocationPage extends StatefulWidget {
   const LocationPage({super.key});
@@ -17,18 +20,45 @@ class _LocationPageState extends State<LocationPage> {
   final LatLng myLocation = LatLng(31.2515108, 29.9842777);
   final LatLng destination = LatLng(31.1923215, 29.9162657);
 
-  Set<Polyline> polylines = {
-    Polyline(
-      polylineId: PolylineId("route"),
-      points: [LatLng(31.2515108, 29.9842777), LatLng(31.1923215, 29.9162657)],
-      color: Colors.pink,
-      width: 2,
-    ),
-  };
+  Set<Polyline> polylines = {};
+
   @override
   void initState() {
     super.initState();
     _addMarkers();
+    _getRealRoute();
+  }
+
+  Future<void> _getRealRoute() async {
+    final url =
+        'https://router.project-osrm.org/route/v1/driving/${myLocation.longitude},${myLocation.latitude};${destination.longitude},${destination.latitude}?overview=full&geometries=polyline';
+    final response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+
+      if (data['code'] == 'Ok') {
+        String encodedPolyline = data['routes'][0]['geometry'];
+
+        List<PointLatLng> result = PolylinePoints.decodePolyline(
+          encodedPolyline,
+        );
+
+        List<LatLng> polylineCoordinates = result
+            .map((point) => LatLng(point.latitude, point.longitude))
+            .toList();
+
+        setState(() {
+          polylines = {
+            Polyline(
+              polylineId: const PolylineId("real_route"),
+              color: Colors.pink,
+              width: 5,
+              points: polylineCoordinates,
+            ),
+          };
+        });
+      }
+    }
   }
 
   void _addMarkers() {
