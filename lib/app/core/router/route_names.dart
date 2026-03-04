@@ -16,4 +16,5 @@ abstract class RouteNames {
   static const ordersDetailsPage = "/ordersDetails";
   static const myOrders = "/myOrders";
   static const orderDetails = "/orderDetails";
+  static const locationPage = "/locationPage";
 }

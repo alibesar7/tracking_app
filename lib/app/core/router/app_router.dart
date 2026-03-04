@@ -5,6 +5,7 @@ import 'package:tracking_app/app/core/router/route_names.dart';
 import 'package:tracking_app/features/Onboarding/presentation/pages/onboardingScreen.dart';
 import 'package:tracking_app/features/app_sections/presentation/pages/app_sections.dart';
 import 'package:tracking_app/features/driver_orders_details/presentation/pages/drivers_orders_details_page.dart';
+import 'package:tracking_app/features/driver_orders_details/presentation/pages/location_page.dart';
 import 'package:tracking_app/features/profile/data/models/driver_model.dart';
 import 'package:tracking_app/features/profile/presentation/pages/edit_driver_profile_page.dart';
 import 'package:tracking_app/features/profile/presentation/pages/edit_vehicle_page.dart';
@@ -109,6 +110,11 @@ final GoRouter appRouter = GoRouter(
         final order = state.extra as OrderEntity;
         return OrderDetailsPage(order: order);
       },
+    ),
+
+    GoRoute(
+      path: RouteNames.locationPage,
+      builder: (context, state) => LocationPage(),
     ),
   ],
 );
