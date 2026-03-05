@@ -261,5 +261,9 @@
   "accept": "قبول",
   "reject": "رفض",
   "noPendingOrders": "لا توجد طلبات معلقة",
-  "floweryRider": "سائق فلاوري"
+  "floweryRider": "سائق فلاوري",
+  "btnArrivedAtPickupPoint": "وصلت الى نقطة الالتقاء",
+  "btnStartDeliver": "بدء التوصيل",
+  "btnArrivedToUser": "وصلت إلى المستخدم",
+  "btnDeliveredToUser": "تم التوصيل للمستخدم"
 }

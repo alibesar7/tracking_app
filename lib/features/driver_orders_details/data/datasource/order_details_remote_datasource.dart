@@ -3,4 +3,8 @@ import 'package:tracking_app/features/driver_orders_details/data/models/orders_d
 
 abstract class OrderDetailsRemoteDatasource {
   ApiResult<Stream<OrderDto>> getOrderStream(String orderId);
+  Future<ApiResult<void>> updateOrderState({
+    required String orderId,
+    required String state,
+  });
 }

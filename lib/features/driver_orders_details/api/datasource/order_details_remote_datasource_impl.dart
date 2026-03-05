@@ -29,4 +29,29 @@ class OrderDetailsRemoteDatasourceImpl implements OrderDetailsRemoteDatasource {
       return ErrorApiResult<Stream<OrderDto>>(error: e.toString());
     }
   }
+
+  @override
+  Future<ApiResult<void>> updateOrderState({
+    required String orderId,
+    required String state,
+  }) async {
+    try {
+      final querySnapshot = await _firestore
+          .collection('orders')
+          .where('orderId', isEqualTo: orderId)
+          .get();
+      if (querySnapshot.docs.isNotEmpty) {
+        await querySnapshot.docs.first.reference.update({
+          'oder_dt.status': state,
+        });
+      } else {
+        await _firestore.collection('orders').doc(orderId).update({
+          'oder_dt.status': state,
+        });
+      }
+      return SuccessApiResult<void>(data: null);
+    } catch (e) {
+      return ErrorApiResult<void>(error: e.toString());
+    }
+  }
 }

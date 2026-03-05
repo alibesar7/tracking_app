@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:tracking_app/generated/locale_keys.g.dart';
 
 enum OrderStatus {
+  pending,
   accepted,
   pickup,
   outForDelivery,
@@ -12,11 +13,14 @@ enum OrderStatus {
 
   static OrderStatus fromString(String? status) {
     switch (status?.toLowerCase()) {
+      case 'pending':
+        return OrderStatus.pending;
       case 'accepted':
         return OrderStatus.accepted;
+      case 'picked':
       case 'pickup':
         return OrderStatus.pickup;
-      case 'out_for_delivery':
+      case 'out for delivery':
         return OrderStatus.outForDelivery;
       case 'arrived':
         return OrderStatus.arrived;
@@ -32,6 +36,7 @@ enum OrderStatus {
 extension OrderStatusX on OrderStatus {
   int get step {
     switch (this) {
+      case OrderStatus.pending:
       case OrderStatus.accepted:
         return 1;
       case OrderStatus.pickup:
@@ -49,23 +54,25 @@ extension OrderStatusX on OrderStatus {
 
   String get buttonTextKey {
     switch (this) {
+      case OrderStatus.pending:
       case OrderStatus.accepted:
-        return LocaleKeys.arrivedAtPickupPoint.tr();
+        return LocaleKeys.btnArrivedAtPickupPoint.tr();
       case OrderStatus.pickup:
-        return LocaleKeys.startDelivery.tr();
+        return LocaleKeys.btnStartDeliver.tr();
       case OrderStatus.outForDelivery:
-        return LocaleKeys.arriverAtDestination.tr();
+        return LocaleKeys.btnArrivedToUser.tr();
       case OrderStatus.arrived:
-        return LocaleKeys.confirmDelivery.tr();
+        return LocaleKeys.btnDeliveredToUser.tr();
       case OrderStatus.delivered:
         return LocaleKeys.orderCompleted.tr();
       case OrderStatus.unknown:
-        return LocaleKeys.arrivedAtPickupPoint;
+        return LocaleKeys.btnArrivedAtPickupPoint.tr();
     }
   }
 
   String get statusTextKey {
     switch (this) {
+      case OrderStatus.pending:
       case OrderStatus.accepted:
         return LocaleKeys.accepted.tr();
       case OrderStatus.pickup:

@@ -146,8 +146,15 @@ class DriversOrdersDetailsPage extends StatelessWidget {
                       width: double.infinity,
                       height: 55,
                       child: CustomButton(
-                        isEnabled: true,
-                        onPressed: () {},
+                        isEnabled: status != OrderStatus.delivered,
+                        onPressed: () {
+                          if (status != OrderStatus.delivered &&
+                              order != null) {
+                            context.read<OrderDetailsCubit>().updateOrderState(
+                              order.orderDetails.status,
+                            );
+                          }
+                        },
                         isLoading: false,
                         text: status.buttonTextKey.tr(),
                       ),

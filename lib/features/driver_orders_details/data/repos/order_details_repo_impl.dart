@@ -5,6 +5,7 @@ import 'package:tracking_app/features/driver_orders_details/data/mapper/order_dt
 import 'package:tracking_app/features/driver_orders_details/data/models/orders_dto.dart';
 import 'package:tracking_app/features/driver_orders_details/domain/models/orders_model.dart';
 import 'package:tracking_app/features/driver_orders_details/domain/repos/order_details_repo.dart';
+import 'package:tracking_app/features/driver_orders_details/domain/usecases/update_order_state_usecase.dart';
 
 @Injectable(as: OrderDetailsRepo)
 class OrderDetailsRepoImpl implements OrderDetailsRepo {
@@ -23,5 +24,15 @@ class OrderDetailsRepoImpl implements OrderDetailsRepo {
       case ErrorApiResult<Stream<OrderDto>>():
         return ErrorApiResult<Stream<OrderModel>>(error: result.error);
     }
+  }
+
+  @override
+  Future<ApiResult<void>> updateOrderState(
+    UpdateOrderStateParams params,
+  ) async {
+    return _remoteDataSource.updateOrderState(
+      orderId: params.orderId,
+      state: params.state,
+    );
   }
 }
