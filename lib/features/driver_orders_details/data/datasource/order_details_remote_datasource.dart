@@ -11,4 +11,9 @@ abstract class OrderDetailsRemoteDatasource {
     required String title,
     required String des,
   });
+  Future<ApiResult<void>> sendDeviceNotification({
+    required String userId,
+    required String title,
+    required String body,
+  });
 }

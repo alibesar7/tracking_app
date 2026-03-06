@@ -4,11 +4,13 @@ import 'package:tracking_app/features/driver_orders_details/data/datasource/orde
 import 'package:tracking_app/features/driver_orders_details/data/mapper/order_dto_mapper.dart';
 import 'package:tracking_app/features/driver_orders_details/data/models/orders_dto.dart';
 import 'package:tracking_app/features/driver_orders_details/domain/models/notcicationModel.dart';
+import 'package:tracking_app/features/driver_orders_details/domain/models/notficationDevice.dart';
 import 'package:tracking_app/features/driver_orders_details/domain/models/orderStates.dart';
 import 'package:tracking_app/features/driver_orders_details/domain/models/orders_model.dart';
 import 'package:tracking_app/features/driver_orders_details/domain/repos/order_details_repo.dart';
 import 'package:tracking_app/features/driver_orders_details/domain/usecases/update_order_state_usecase.dart';
 import 'package:tracking_app/features/driver_orders_details/domain/usecases/push_notification_usecase.dart';
+import 'package:tracking_app/features/driver_orders_details/domain/usecases/send_device_notification_usecase.dart';
 
 @Injectable(as: OrderDetailsRepo)
 class OrderDetailsRepoImpl implements OrderDetailsRepo {
@@ -46,6 +48,17 @@ class OrderDetailsRepoImpl implements OrderDetailsRepo {
     return _remoteDataSource.pushNotification(
       title: params.title,
       des: params.des,
+    );
+  }
+
+  @override
+  Future<ApiResult<void>> sendDeviceNotification(
+    SendDeviceNotificationParams params,
+  ) async {
+    return _remoteDataSource.sendDeviceNotification(
+      userId: params.userId,
+      title: params.title,
+      body: params.body,
     );
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dio/dio.dart';
 import 'package:tracking_app/app/core/network/api_result.dart';
 import 'package:tracking_app/features/driver_orders_details/api/datasource/order_details_remote_datasource_impl.dart';
 import 'package:tracking_app/features/driver_orders_details/data/models/orders_dto.dart';
@@ -12,6 +13,7 @@ import 'order_details_remote_datasource_impl_test.mocks.dart';
   CollectionReference,
   DocumentReference,
   DocumentSnapshot,
+  Dio,
 ])
 void main() {
   late OrderDetailsRemoteDatasourceImpl dataSource;
@@ -19,6 +21,7 @@ void main() {
   late MockCollectionReference<Map<String, dynamic>> mockCollection;
   late MockDocumentReference<Map<String, dynamic>> mockDocument;
   late MockDocumentSnapshot<Map<String, dynamic>> mockSnapshot;
+  late MockDio mockDio;
 
   const String tOrderId = 'pxkMaEmWYVuvV5jkW0JK';
 
@@ -27,8 +30,12 @@ void main() {
     mockCollection = MockCollectionReference();
     mockDocument = MockDocumentReference();
     mockSnapshot = MockDocumentSnapshot();
+    mockDio = MockDio();
 
-    dataSource = OrderDetailsRemoteDatasourceImpl(firestore: mockFirestore);
+    dataSource = OrderDetailsRemoteDatasourceImpl(
+      firestore: mockFirestore,
+      dio: mockDio,
+    );
   });
   group('getOrderStream', () {
     final tOrderJson = {

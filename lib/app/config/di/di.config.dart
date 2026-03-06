@@ -65,6 +65,8 @@ import '../../../features/driver_orders_details/domain/usecases/get_order_detail
     as _i1045;
 import '../../../features/driver_orders_details/domain/usecases/push_notification_usecase.dart'
     as _i809;
+import '../../../features/driver_orders_details/domain/usecases/send_device_notification_usecase.dart'
+    as _i44;
 import '../../../features/driver_orders_details/domain/usecases/update_order_state_usecase.dart'
     as _i727;
 import '../../../features/driver_orders_details/presentation/manager/order_details_cubit.dart'
@@ -147,13 +149,14 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i974.FirebaseFirestore>(instanceName: 'firestore'),
       ),
     );
-    gh.lazySingleton<_i697.ProfileLocalDataSource>(
-      () => _i495.ProfileLocalDataSourceImpl(gh<_i603.AuthStorage>()),
-    );
     gh.factory<_i114.OrderDetailsRemoteDatasource>(
       () => _i860.OrderDetailsRemoteDatasourceImpl(
         firestore: gh<_i974.FirebaseFirestore>(),
+        dio: gh<_i361.Dio>(),
       ),
+    );
+    gh.lazySingleton<_i697.ProfileLocalDataSource>(
+      () => _i495.ProfileLocalDataSourceImpl(gh<_i603.AuthStorage>()),
     );
     gh.lazySingleton<_i890.ApiClient>(
       () => networkModule.authApiClient(gh<_i361.Dio>()),
@@ -178,6 +181,11 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i809.PushNotificationUsecase>(
       () => _i809.PushNotificationUsecase(repo: gh<_i313.OrderDetailsRepo>()),
+    );
+    gh.factory<_i44.SendDeviceNotificationUsecase>(
+      () => _i44.SendDeviceNotificationUsecase(
+        repo: gh<_i313.OrderDetailsRepo>(),
+      ),
     );
     gh.factory<_i743.DriverOrderDataSource>(
       () => _i495.DriverOrderDataSourceImpl(gh<_i890.ApiClient>()),
@@ -208,6 +216,7 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i1045.GetOrderDetailsUsecase>(),
         gh<_i727.UpdateOrderStateUsecase>(),
         gh<_i809.PushNotificationUsecase>(),
+        gh<_i44.SendDeviceNotificationUsecase>(),
       ),
     );
     gh.factoryParam<_i466.VerifyResetCodeCubit, String, dynamic>(

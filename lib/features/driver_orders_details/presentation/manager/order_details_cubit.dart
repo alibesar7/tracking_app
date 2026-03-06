@@ -6,9 +6,11 @@ import 'package:tracking_app/app/config/base_state/base_state.dart';
 import 'package:tracking_app/app/config/di/di.dart';
 import 'package:tracking_app/app/core/network/api_result.dart';
 import 'package:tracking_app/features/driver_orders_details/domain/models/notcicationModel.dart';
+import 'package:tracking_app/features/driver_orders_details/domain/models/notficationDevice.dart';
 import 'package:tracking_app/features/driver_orders_details/domain/models/orderStates.dart';
 import 'package:tracking_app/features/driver_orders_details/domain/models/orders_model.dart';
 import 'package:tracking_app/features/driver_orders_details/domain/usecases/push_notification_usecase.dart';
+import 'package:tracking_app/features/driver_orders_details/domain/usecases/send_device_notification_usecase.dart';
 import '../../domain/usecases/get_order_details_usecase.dart';
 import '../../domain/usecases/update_order_state_usecase.dart';
 import 'order_details_intents.dart';
@@ -19,6 +21,7 @@ class OrderDetailsCubit extends Cubit<OrderDetailsStates> {
   final GetOrderDetailsUsecase _getOrderDetailsUsecase;
   final UpdateOrderStateUsecase _updateOrderStateUsecase;
   final PushNotificationUsecase _pushNotificationUsecase;
+  final SendDeviceNotificationUsecase _sendDeviceNotificationUsecase;
   StreamSubscription? _subscription;
   final _authStorage = getIt<AuthStorage>();
 
@@ -26,6 +29,7 @@ class OrderDetailsCubit extends Cubit<OrderDetailsStates> {
     this._getOrderDetailsUsecase,
     this._updateOrderStateUsecase,
     this._pushNotificationUsecase,
+    this._sendDeviceNotificationUsecase,
   ) : super(OrderDetailsStates());
 
   void onIntent(OrderDetailsIntent intent) {
@@ -80,12 +84,23 @@ class OrderDetailsCubit extends Cubit<OrderDetailsStates> {
     );
 
     if (result is SuccessApiResult<void>) {
+      final title = 'Order Update';
+      final body = 'Your order is now $nextState';
+
       await _pushNotificationUsecase(
-        PushNotificationParams(
-          title: 'Order Update',
-          des: 'Your order is now $nextState',
-        ),
+        PushNotificationParams(title: title, des: body),
       );
+
+      // Send actual FCM push to device token
+      if (state.data?.data?.userId != null) {
+        await _sendDeviceNotificationUsecase(
+          SendDeviceNotificationParams(
+            userId: state.data!.data!.userId,
+            title: title,
+            body: body,
+          ),
+        );
+      }
     }
   }
 
