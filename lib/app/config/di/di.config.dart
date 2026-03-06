@@ -63,6 +63,8 @@ import '../../../features/driver_orders_details/domain/repos/order_details_repo.
     as _i313;
 import '../../../features/driver_orders_details/domain/usecases/get_order_details_usecase.dart'
     as _i1045;
+import '../../../features/driver_orders_details/domain/usecases/push_notification_usecase.dart'
+    as _i809;
 import '../../../features/driver_orders_details/domain/usecases/update_order_state_usecase.dart'
     as _i727;
 import '../../../features/driver_orders_details/presentation/manager/order_details_cubit.dart'
@@ -174,6 +176,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i727.UpdateOrderStateUsecase>(
       () => _i727.UpdateOrderStateUsecase(repo: gh<_i313.OrderDetailsRepo>()),
     );
+    gh.factory<_i809.PushNotificationUsecase>(
+      () => _i809.PushNotificationUsecase(repo: gh<_i313.OrderDetailsRepo>()),
+    );
     gh.factory<_i743.DriverOrderDataSource>(
       () => _i495.DriverOrderDataSourceImpl(gh<_i890.ApiClient>()),
     );
@@ -186,12 +191,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i712.AuthRepo>(
       () => _i566.AuthRepoImpl(gh<_i708.AuthRemoteDataSource>()),
     );
-    gh.factory<_i375.OrderDetailsCubit>(
-      () => _i375.OrderDetailsCubit(
-        gh<_i1045.GetOrderDetailsUsecase>(),
-        gh<_i727.UpdateOrderStateUsecase>(),
-      ),
-    );
     gh.factory<_i991.ChangePasswordUsecase>(
       () => _i991.ChangePasswordUsecase(gh<_i712.AuthRepo>()),
     );
@@ -203,6 +202,13 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i112.VerifyResetCodeUsecase>(
       () => _i112.VerifyResetCodeUsecase(gh<_i712.AuthRepo>()),
+    );
+    gh.factory<_i375.OrderDetailsCubit>(
+      () => _i375.OrderDetailsCubit(
+        gh<_i1045.GetOrderDetailsUsecase>(),
+        gh<_i727.UpdateOrderStateUsecase>(),
+        gh<_i809.PushNotificationUsecase>(),
+      ),
     );
     gh.factoryParam<_i466.VerifyResetCodeCubit, String, dynamic>(
       (email, _) => _i466.VerifyResetCodeCubit(

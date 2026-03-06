@@ -7,4 +7,8 @@ abstract class OrderDetailsRemoteDatasource {
     required String orderId,
     required String state,
   });
+  Future<ApiResult<void>> pushNotification({
+    required String title,
+    required String des,
+  });
 }

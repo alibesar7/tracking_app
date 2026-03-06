@@ -54,4 +54,20 @@ class OrderDetailsRemoteDatasourceImpl implements OrderDetailsRemoteDatasource {
       return ErrorApiResult<void>(error: e.toString());
     }
   }
+
+  @override
+  Future<ApiResult<void>> pushNotification({
+    required String title,
+    required String des,
+  }) async {
+    try {
+      await _firestore.collection('notification').add({
+        'title': title,
+        'des': des,
+      });
+      return SuccessApiResult<void>(data: null);
+    } catch (e) {
+      return ErrorApiResult<void>(error: e.toString());
+    }
+  }
 }

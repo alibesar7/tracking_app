@@ -8,6 +8,7 @@ import 'package:tracking_app/app/core/ui_helper/color/colors.dart';
 import 'package:tracking_app/app/core/values/paths.dart';
 import 'package:tracking_app/app/core/widgets/custom_button.dart';
 import 'package:tracking_app/features/driver_orders_details/presentation/manager/order_details_cubit.dart';
+import 'package:tracking_app/features/driver_orders_details/presentation/manager/order_details_intents.dart';
 import 'package:tracking_app/features/driver_orders_details/presentation/manager/order_details_states.dart';
 import 'package:tracking_app/features/driver_orders_details/presentation/widgets/address_card.dart';
 import 'package:tracking_app/features/driver_orders_details/presentation/widgets/bottom_row_section.dart';
@@ -36,7 +37,8 @@ class DriversOrdersDetailsPage extends StatelessWidget {
         ),
       ),
       body: BlocProvider<OrderDetailsCubit>(
-        create: (context) => getIt<OrderDetailsCubit>()..getOrderDetails(),
+        create: (context) =>
+            getIt<OrderDetailsCubit>()..onIntent(GetOrderDetails()),
         child: BlocBuilder<OrderDetailsCubit, OrderDetailsStates>(
           builder: (context, state) {
             if (state.data?.status == Status.loading) {
@@ -150,8 +152,8 @@ class DriversOrdersDetailsPage extends StatelessWidget {
                         onPressed: () {
                           if (status != OrderStatus.delivered &&
                               order != null) {
-                            context.read<OrderDetailsCubit>().updateOrderState(
-                              order.orderDetails.status,
+                            context.read<OrderDetailsCubit>().onIntent(
+                              UpdateOrderState(order.orderDetails.status),
                             );
                           }
                         },
