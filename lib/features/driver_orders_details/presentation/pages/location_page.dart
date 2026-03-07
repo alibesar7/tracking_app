@@ -1,158 +1,260 @@
+import 'dart:typed_data';
+import 'package:flutter/services.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:google_maps_marker_widgets/google_maps_marker_widgets.dart';
+import 'package:tracking_app/app/config/di/di.dart';
+import 'package:tracking_app/app/core/ui_helper/assets/images.dart';
 import 'package:tracking_app/app/core/ui_helper/color/colors.dart';
-import 'package:tracking_app/features/driver_orders_details/presentation/widgets/custom_marker_widget.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:tracking_app/app/core/values/paths.dart';
+import 'package:tracking_app/features/driver_orders_details/presentation/manager/order_details_cubit.dart';
+import 'package:tracking_app/features/driver_orders_details/presentation/manager/order_details_states.dart';
+import 'package:tracking_app/features/driver_orders_details/presentation/widgets/address_card.dart';
+import 'package:tracking_app/features/driver_orders_details/presentation/widgets/section_title.dart';
+import 'package:tracking_app/generated/locale_keys.g.dart';
 
 class LocationPage extends StatefulWidget {
-  const LocationPage({super.key});
+  final String locationType;
+  const LocationPage({super.key, required this.locationType});
 
   @override
   State<LocationPage> createState() => _LocationPageState();
 }
 
 class _LocationPageState extends State<LocationPage> {
-  final MarkerWidgetsController _controller = MarkerWidgetsController();
+  late OrderDetailsCubit cubit;
 
-  final LatLng myLocation = LatLng(31.2515108, 29.9842777);
   LatLng? destination;
-  final String myAddress = "City Centre Alexandria";
-
   Set<Polyline> polylines = {};
+
+  Set<Marker> markers = {};
+  BitmapDescriptor? driverIcon;
+  BitmapDescriptor? destinationIcon;
 
   @override
   void initState() {
     super.initState();
-    _addMyMarker();
-    _setDestinationFromAddress();
+    cubit = getIt<OrderDetailsCubit>();
+    cubit.getOrderDetails();
+    loadMarkerIcons();
   }
 
-  void _addMyMarker() {
-    _controller.addMarkerWidget(
-      markerWidget: MarkerWidget(
+  Future<BitmapDescriptor> getMarkerIcon(String path) async {
+    final ByteData data = await DefaultAssetBundle.of(context).load(path);
+    final Uint8List bytes = data.buffer.asUint8List();
+    return BitmapDescriptor.fromBytes(bytes);
+  }
+
+  Future<void> loadMarkerIcons() async {
+    driverIcon = await getMarkerIcon(Assets.driverLocation);
+
+    destinationIcon = await getMarkerIcon(
+      widget.locationType == 'pickup'
+          ? Assets.floweryLocation
+          : Assets.userLocation,
+    );
+    setState(() {});
+  }
+
+  void driverMarker(LatLng driverLocation) {
+    markers.add(
+      Marker(
         markerId: const MarkerId("driver_location"),
-        child: customMarker(
-          "Your location",
-          const Icon(
-            Icons.location_on_outlined,
-            color: AppColors.pink,
-            size: 20,
-          ),
-        ),
-      ),
-      marker: Marker(
-        markerId: const MarkerId("driver_location"),
-        position: myLocation,
+        position: driverLocation,
+        icon: driverIcon ?? BitmapDescriptor.defaultMarker,
+        infoWindow: const InfoWindow(title: "Your location"),
       ),
     );
   }
 
-  Future<void> _setDestinationFromAddress() async {
-    LatLng? result = await getLatLngFromAddress(myAddress);
-    if (result != null) {
-      destination = result;
-      _controller.addMarkerWidget(
-        markerWidget: MarkerWidget(
-          markerId: const MarkerId("destination_location"),
-          child: customMarker(
-            "Destination",
-            const Icon(Icons.home_outlined, color: AppColors.pink, size: 20),
-          ),
-        ),
-        marker: Marker(
-          markerId: const MarkerId("destination_location"),
-          position: result,
-        ),
-      );
-      await _getRealRoute();
-    }
-  }
-
-  Future<LatLng?> getLatLngFromAddress(String address) async {
-    final url =
-        "https://nominatim.openstreetmap.org/search?q=${Uri.encodeComponent("$address, Egypt")}&format=json&limit=1&addressdetails=1";
-
-    final response = await http.get(
-      Uri.parse(url),
-      headers: {"User-Agent": "tracking_app"},
+  void destinationMarker(LatLng destinationLocation) {
+    markers.add(
+      Marker(
+        markerId: const MarkerId("destination_location"),
+        position: destinationLocation,
+        icon: destinationIcon ?? BitmapDescriptor.defaultMarker,
+        infoWindow: const InfoWindow(title: "Destination"),
+      ),
     );
-
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      print("<<<<<<<< Geocode response: $data");
-
-      if (data.isNotEmpty) {
-        double lat = double.parse(data[0]['lat']);
-        double lon = double.parse(data[0]['lon']);
-        return LatLng(lat, lon);
-      }
-    }
-
-    return null;
   }
-
-  Future<void> _getRealRoute() async {
-    if (destination == null) return;
-    final url =
-        'https://router.project-osrm.org/route/v1/driving/${myLocation.longitude},${myLocation.latitude};${destination!.longitude},${destination!.latitude}?overview=full&geometries=polyline';
-    final response = await http.get(Uri.parse(url));
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      print('<<<<<<<<< OSRM data: $data');
-      if (data['code'] == 'Ok') {
-        String encodedPolyline = data['routes'][0]['geometry'];
-        List<PointLatLng> result = PolylinePoints.decodePolyline(
-          encodedPolyline,
-        );
-        List<LatLng> polylineCoordinates = result
-            .map((point) => LatLng(point.latitude, point.longitude))
-            .toList();
-
-        setState(() {
-          polylines = {
-            Polyline(
-              polylineId: const PolylineId("real_route"),
-              color: Colors.pink,
-              width: 5,
-              points: polylineCoordinates,
-            ),
-          };
-        });
-      } else {
-        print("OSRM Error: ${data['code']}");
-      }
-    }
-  }
-
-  CameraPosition routeCameraPosition = const CameraPosition(
-    target: LatLng(31.2515108, 29.9842777),
-    zoom: 12,
-  );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Location')),
-      body: Scaffold(
-        body: Column(
-          children: [
-            Expanded(
-              child: MarkerWidgets(
-                markerWidgetsController: _controller,
-                builder: (BuildContext context, Set<Marker> markers) {
-                  return GoogleMap(
-                    initialCameraPosition: routeCameraPosition,
-                    mapType: MapType.normal,
-                    markers: markers,
-                    polylines: polylines,
-                  );
-                },
-              ),
-            ),
-          ],
+      body: BlocProvider<OrderDetailsCubit>(
+        create: (context) => cubit,
+        child: BlocConsumer<OrderDetailsCubit, OrderDetailsStates>(
+          listener: (context, state) {
+            final driver = state.driverData?.data;
+            final order = state.data?.data;
+            if (driver == null || order == null) return;
+
+            final driverLocation = LatLng(
+              driver.currentLocation.lat,
+              driver.currentLocation.lng,
+            );
+            String address;
+
+            if (widget.locationType == 'pickup') {
+              address = order.orderDetails.pickupAddress.address;
+            } else {
+              address = order.userAddress.address;
+            }
+
+            print(
+              '<<<<<<< driver $driver, order $order, ${state.destination}, ${state.polylines}',
+            );
+
+            cubit.setDestinationFromAddress(address, driverLocation);
+
+            driverMarker(driverLocation);
+
+            if (state.destination == null || state.polylines == null) return;
+            destinationMarker(state.destination!);
+
+            if (state.polylines != null) {
+              polylines = {
+                Polyline(
+                  polylineId: const PolylineId("real_route"),
+                  color: AppColors.pink,
+                  width: 5,
+                  points: state.polylines ?? [],
+                ),
+              };
+            }
+            setState(() {});
+
+            print(
+              '<<<<<<<<< driverLocation ${driverLocation.latitude}, ${driverLocation.longitude}',
+            );
+            print(
+              '<<<<<<<<< pickupAddress ${state.data?.data?.orderDetails.pickupAddress.address}',
+            );
+            print(
+              '<<<<<<<<< userAddress ${state.data?.data?.userAddress.address.toString()}',
+            );
+          },
+
+          builder: (context, state) {
+            final driver = state.driverData?.data;
+            if (driver == null) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            final driverLocation = LatLng(
+              driver.currentLocation.lat,
+              driver.currentLocation.lng,
+            );
+
+            return Stack(
+              alignment: Alignment.topLeft,
+
+              children: [
+                Column(
+                  children: [
+                    Expanded(
+                      child: GoogleMap(
+                        initialCameraPosition: CameraPosition(
+                          target: driverLocation,
+                          zoom: 18,
+                        ),
+                        mapType: MapType.normal,
+                        markers: markers,
+                        polylines: polylines,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (widget.locationType == 'pickup') ...[
+                            SectionTitle(title: LocaleKeys.pickupAddress.tr()),
+                            AddressCard(
+                              title:
+                                  state
+                                      .data
+                                      ?.data
+                                      ?.orderDetails
+                                      .pickupAddress
+                                      .name ??
+                                  '',
+                              address:
+                                  state
+                                      .data
+                                      ?.data
+                                      ?.orderDetails
+                                      .pickupAddress
+                                      .address ??
+                                  '',
+                              imagePath: AppPaths.flowerLogo,
+                            ),
+                            const SizedBox(height: 16),
+                            SectionTitle(title: LocaleKeys.userAddress.tr()),
+
+                            AddressCard(
+                              title: state.data?.data?.userAddress.name ?? '',
+                              address:
+                                  state.data?.data?.userAddress.address ?? '',
+                              imagePath: AppPaths.flowerLogo,
+                            ),
+                          ] else ...[
+                            SectionTitle(title: LocaleKeys.userAddress.tr()),
+                            AddressCard(
+                              title: state.data?.data?.userAddress.name ?? '',
+                              address:
+                                  state.data?.data?.userAddress.address ?? '',
+                              imagePath: AppPaths.flowerLogo,
+                            ),
+                            const SizedBox(height: 16),
+                            SectionTitle(title: LocaleKeys.pickupAddress.tr()),
+                            AddressCard(
+                              title:
+                                  state
+                                      .data
+                                      ?.data
+                                      ?.orderDetails
+                                      .pickupAddress
+                                      .name ??
+                                  '',
+                              address:
+                                  state
+                                      .data
+                                      ?.data
+                                      ?.orderDetails
+                                      .pickupAddress
+                                      .address ??
+                                  '',
+                              imagePath: AppPaths.flowerLogo,
+                            ),
+                          ],
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+
+                Positioned(
+                  top: 40,
+                  left: 16,
+                  child: InkWell(
+                    onTap: () => context.pop(),
+                    child: CircleAvatar(
+                      backgroundColor: AppColors.pink,
+                      child: Center(
+                        child: Icon(
+                          Icons.arrow_back_ios_new,
+                          color: AppColors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );

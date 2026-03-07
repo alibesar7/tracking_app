@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tracking_app/app/config/base_state/base_state.dart';
 import 'package:tracking_app/app/config/di/di.dart';
+import 'package:tracking_app/app/core/router/route_names.dart';
 import 'package:tracking_app/app/core/ui_helper/color/colors.dart';
 import 'package:tracking_app/app/core/values/paths.dart';
 import 'package:tracking_app/app/core/widgets/custom_button.dart';
@@ -111,18 +112,28 @@ class DriversOrdersDetailsPage extends StatelessWidget {
                     const SizedBox(height: 24),
 
                     SectionTitle(title: LocaleKeys.pickupAddress.tr()),
-                    AddressCard(
-                      title: order?.orderDetails.pickupAddress.name ?? '',
-                      address: order?.orderDetails.pickupAddress.address ?? '',
-                      imagePath: AppPaths.flowerLogo,
+                    InkWell(
+                      onTap: () => context.push(
+                        RouteNames.locationPage,
+                        extra: 'pickup',
+                      ),
+                      child: AddressCard(
+                        title: order?.orderDetails.pickupAddress.name ?? '',
+                        address:
+                            order?.orderDetails.pickupAddress.address ?? '',
+                        imagePath: AppPaths.flowerLogo,
+                      ),
                     ),
                     const SizedBox(height: 16),
                     SectionTitle(title: LocaleKeys.userAddress.tr()),
-
-                    AddressCard(
-                      title: order?.userAddress.name ?? '',
-                      address: order?.userAddress.address ?? '',
-                      imagePath: AppPaths.flowerLogo,
+                    InkWell(
+                      onTap: () =>
+                          context.push(RouteNames.locationPage, extra: 'user'),
+                      child: AddressCard(
+                        title: order?.userAddress.name ?? '',
+                        address: order?.userAddress.address ?? '',
+                        imagePath: AppPaths.flowerLogo,
+                      ),
                     ),
                     const SizedBox(height: 24),
 

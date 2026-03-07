@@ -23,7 +23,7 @@ import 'package:tracking_app/features/auth/presentation/verify_reset/manger/cubi
 import 'package:tracking_app/features/auth/presentation/verify_reset/pages/verify_reset_page.dart';
 
 final GoRouter appRouter = GoRouter(
-  initialLocation: RouteNames.onboarding,
+  initialLocation: RouteNames.ordersDetailsPage,
   routes: [
     GoRoute(
       path: RouteNames.changePassword,
@@ -114,7 +114,10 @@ final GoRouter appRouter = GoRouter(
 
     GoRoute(
       path: RouteNames.locationPage,
-      builder: (context, state) => LocationPage(),
+      builder: (context, state) {
+        final locationType = state.extra as String;
+        return LocationPage(locationType: locationType);
+      },
     ),
   ],
 );
