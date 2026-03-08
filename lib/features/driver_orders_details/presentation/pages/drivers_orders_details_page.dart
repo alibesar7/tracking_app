@@ -122,6 +122,7 @@ class DriversOrdersDetailsPage extends StatelessWidget {
                         address:
                             order?.orderDetails.pickupAddress.address ?? '',
                         imagePath: AppPaths.flowerLogo,
+                        phoneNumber: (state.driverData?.data?.phone).toString(),
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -133,6 +134,7 @@ class DriversOrdersDetailsPage extends StatelessWidget {
                         title: order?.userAddress.name ?? '',
                         address: order?.userAddress.address ?? '',
                         imagePath: AppPaths.flowerLogo,
+                        phoneNumber: (state.driverData?.data?.phone).toString(),
                       ),
                     ),
                     const SizedBox(height: 24),

@@ -190,6 +190,8 @@ class _LocationPageState extends State<LocationPage> {
                                       .address ??
                                   '',
                               imagePath: AppPaths.flowerLogo,
+                              phoneNumber: (state.driverData?.data?.phone)
+                                  .toString(),
                             ),
                             const SizedBox(height: 16),
                             SectionTitle(title: LocaleKeys.userAddress.tr()),
@@ -199,6 +201,8 @@ class _LocationPageState extends State<LocationPage> {
                               address:
                                   state.data?.data?.userAddress.address ?? '',
                               imagePath: AppPaths.flowerLogo,
+                              phoneNumber: (state.driverData?.data?.phone)
+                                  .toString(),
                             ),
                           ] else ...[
                             SectionTitle(title: LocaleKeys.userAddress.tr()),
@@ -207,6 +211,8 @@ class _LocationPageState extends State<LocationPage> {
                               address:
                                   state.data?.data?.userAddress.address ?? '',
                               imagePath: AppPaths.flowerLogo,
+                              phoneNumber: (state.driverData?.data?.phone)
+                                  .toString(),
                             ),
                             const SizedBox(height: 16),
                             SectionTitle(title: LocaleKeys.pickupAddress.tr()),
@@ -228,6 +234,8 @@ class _LocationPageState extends State<LocationPage> {
                                       .address ??
                                   '',
                               imagePath: AppPaths.flowerLogo,
+                              phoneNumber: (state.driverData?.data?.phone)
+                                  .toString(),
                             ),
                           ],
                         ],
