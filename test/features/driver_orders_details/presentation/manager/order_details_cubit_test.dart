@@ -1,34 +1,53 @@
 import 'dart:async';
-
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:tracking_app/app/config/auth_storage/auth_storage.dart';
 import 'package:tracking_app/app/config/base_state/base_state.dart';
+import 'package:tracking_app/app/config/di/di.dart';
 import 'package:tracking_app/app/core/network/api_result.dart';
 import 'package:tracking_app/features/driver_orders_details/domain/models/drivers_model.dart';
 import 'package:tracking_app/features/driver_orders_details/domain/models/orders_model.dart';
 import 'package:tracking_app/features/driver_orders_details/domain/usecases/get_driver_data_usecase.dart';
 import 'package:tracking_app/features/driver_orders_details/domain/usecases/get_order_details_usecase.dart';
 import 'package:tracking_app/features/driver_orders_details/domain/usecases/location_usecase.dart';
+import 'package:tracking_app/features/driver_orders_details/domain/usecases/push_notification_usecase.dart';
+import 'package:tracking_app/features/driver_orders_details/domain/usecases/send_device_notification_usecase.dart';
+import 'package:tracking_app/features/driver_orders_details/domain/usecases/update_order_state_usecase.dart';
 import 'package:tracking_app/features/driver_orders_details/presentation/manager/order_details_cubit.dart';
 import 'package:tracking_app/features/driver_orders_details/presentation/manager/order_details_states.dart';
 
 import 'order_details_cubit_test.mocks.dart';
 
-@GenerateMocks([GetOrderDetailsUsecase, GetDriverDataUsecase, LocationUsecase])
+@GenerateMocks([
+  GetOrderDetailsUsecase,
+  GetDriverDataUsecase,
+  LocationUsecase,
+  PushNotificationUsecase,
+  UpdateOrderStateUsecase,
+  SendDeviceNotificationUsecase,
+  AuthStorage,
+])
 void main() {
   late OrderDetailsCubit cubit;
-
   late MockGetOrderDetailsUsecase mockGetOrderDetailsUsecase;
   late MockGetDriverDataUsecase mockGetDriverDataUsecase;
   late MockLocationUsecase mockLocationUsecase;
+  late MockUpdateOrderStateUsecase _updateOrderStateUsecase;
+  late MockPushNotificationUsecase _pushNotificationUsecase;
+  late MockSendDeviceNotificationUsecase _sendDeviceNotificationUsecase;
+  late MockAuthStorage authStorage;
 
   setUpAll(() {
     mockGetOrderDetailsUsecase = MockGetOrderDetailsUsecase();
     mockGetDriverDataUsecase = MockGetDriverDataUsecase();
     mockLocationUsecase = MockLocationUsecase();
+    _updateOrderStateUsecase = MockUpdateOrderStateUsecase();
+    _pushNotificationUsecase = MockPushNotificationUsecase();
+    _sendDeviceNotificationUsecase = MockSendDeviceNotificationUsecase();
+    authStorage = MockAuthStorage();
 
     provideDummy<ApiResult<Stream<OrderModel>>>(
       SuccessApiResult(data: Stream.empty()),
@@ -41,15 +60,21 @@ void main() {
   });
 
   setUp(() {
+    getIt.registerSingleton<AuthStorage>(authStorage);
+
     cubit = OrderDetailsCubit(
       mockGetOrderDetailsUsecase,
       mockGetDriverDataUsecase,
       mockLocationUsecase,
+      _updateOrderStateUsecase,
+      _pushNotificationUsecase,
+      _sendDeviceNotificationUsecase,
     );
   });
 
   tearDown(() {
     cubit.close();
+    getIt.reset();
   });
 
   final orderData = OrderModel(

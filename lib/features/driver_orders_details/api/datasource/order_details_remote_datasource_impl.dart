@@ -5,7 +5,6 @@ import 'package:injectable/injectable.dart';
 import 'package:tracking_app/app/core/network/api_result.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tracking_app/features/driver_orders_details/data/models/drivers_dto.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:googleapis_auth/auth_io.dart';
 import 'package:tracking_app/features/driver_orders_details/data/datasource/order_details_remote_datasource.dart';
@@ -18,8 +17,8 @@ class OrderDetailsRemoteDatasourceImpl implements OrderDetailsRemoteDatasource {
   OrderDetailsRemoteDatasourceImpl({
     required FirebaseFirestore firestore,
     required Dio dio,
-  }) : _firestore = firestore,
-       _dio = dio;
+  }) : _dio = dio,
+       _firestore = firestore;
 
   @override
   ApiResult<Stream<OrderDto>> getOrderStream(String orderId) {
@@ -57,34 +56,13 @@ class OrderDetailsRemoteDatasourceImpl implements OrderDetailsRemoteDatasource {
       return SuccessApiResult<Stream<DriverDataDto>>(data: stream);
     } catch (e) {
       return ErrorApiResult<Stream<DriverDataDto>>(error: e.toString());
-  Future<ApiResult<void>> updateOrderState({
-    required String orderId,
-    required String state,
-  }) async {
-    try {
-      final querySnapshot = await _firestore
-          .collection('orders')
-          .where('orderId', isEqualTo: orderId)
-          .get();
-      if (querySnapshot.docs.isNotEmpty) {
-        await querySnapshot.docs.first.reference.update({
-          'oder_dt.status': state,
-        });
-      } else {
-        await _firestore.collection('orders').doc(orderId).update({
-          'oder_dt.status': state,
-        });
-      }
-      return SuccessApiResult<void>(data: null);
-    } catch (e) {
-      return ErrorApiResult<void>(error: e.toString());
     }
   }
 
   @override
   Future<ApiResult<LatLng?>> getLatLngFromAddress(String address) async {
     try {
-      final response = await dio.get(
+      final response = await _dio.get(
         "https://nominatim.openstreetmap.org/search",
         queryParameters: {
           "q": "$address, Egypt",
@@ -108,18 +86,6 @@ class OrderDetailsRemoteDatasourceImpl implements OrderDetailsRemoteDatasource {
       return SuccessApiResult<LatLng?>(data: null);
     } catch (e) {
       return ErrorApiResult<LatLng?>(error: e.toString());
-  Future<ApiResult<void>> pushNotification({
-    required String title,
-    required String des,
-  }) async {
-    try {
-      await _firestore.collection('notification').add({
-        'title': title,
-        'des': des,
-      });
-      return SuccessApiResult<void>(data: null);
-    } catch (e) {
-      return ErrorApiResult<void>(error: e.toString());
     }
   }
 
@@ -129,7 +95,7 @@ class OrderDetailsRemoteDatasourceImpl implements OrderDetailsRemoteDatasource {
     LatLng destination,
   ) async {
     try {
-      final response = await dio.get(
+      final response = await _dio.get(
         "https://router.project-osrm.org/route/v1/driving/"
         "${myLocation.longitude},${myLocation.latitude};"
         "${destination.longitude},${destination.latitude}",
@@ -155,6 +121,24 @@ class OrderDetailsRemoteDatasourceImpl implements OrderDetailsRemoteDatasource {
       return ErrorApiResult<List<LatLng>>(error: 'No route found');
     } catch (e) {
       return ErrorApiResult<List<LatLng>>(error: e.toString());
+    }
+  }
+
+  Future<ApiResult<void>> pushNotification({
+    required String title,
+    required String des,
+  }) async {
+    try {
+      await _firestore.collection('notification').add({
+        'title': title,
+        'des': des,
+      });
+      return SuccessApiResult<void>(data: null);
+    } catch (e) {
+      return ErrorApiResult<void>(error: e.toString());
+    }
+  }
+
   Future<ApiResult<void>> sendDeviceNotification({
     required String userId,
     required String title,
@@ -228,6 +212,30 @@ class OrderDetailsRemoteDatasourceImpl implements OrderDetailsRemoteDatasource {
           error: 'FCM error: \${response.statusCode}',
         );
       }
+    } catch (e) {
+      return ErrorApiResult<void>(error: e.toString());
+    }
+  }
+
+  Future<ApiResult<void>> updateOrderState({
+    required String orderId,
+    required String state,
+  }) async {
+    try {
+      final querySnapshot = await _firestore
+          .collection('orders')
+          .where('orderId', isEqualTo: orderId)
+          .get();
+      if (querySnapshot.docs.isNotEmpty) {
+        await querySnapshot.docs.first.reference.update({
+          'oder_dt.status': state,
+        });
+      } else {
+        await _firestore.collection('orders').doc(orderId).update({
+          'oder_dt.status': state,
+        });
+      }
+      return SuccessApiResult<void>(data: null);
     } catch (e) {
       return ErrorApiResult<void>(error: e.toString());
     }

@@ -209,13 +209,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i708.AuthRemoteDataSource>(
       () => _i777.AuthRemoteDataSourceImpl(gh<_i890.ApiClient>()),
     );
-    gh.factory<_i375.OrderDetailsCubit>(
-      () => _i375.OrderDetailsCubit(
-        gh<_i1045.GetOrderDetailsUsecase>(),
-        gh<_i883.GetDriverDataUsecase>(),
-        gh<_i449.LocationUsecase>(),
-      ),
-    );
     gh.factory<_i712.AuthRepo>(
       () => _i566.AuthRepoImpl(gh<_i708.AuthRemoteDataSource>()),
     );
@@ -230,14 +223,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i112.VerifyResetCodeUsecase>(
       () => _i112.VerifyResetCodeUsecase(gh<_i712.AuthRepo>()),
-    );
-    gh.factory<_i375.OrderDetailsCubit>(
-      () => _i375.OrderDetailsCubit(
-        gh<_i1045.GetOrderDetailsUsecase>(),
-        gh<_i727.UpdateOrderStateUsecase>(),
-        gh<_i809.PushNotificationUsecase>(),
-        gh<_i44.SendDeviceNotificationUsecase>(),
-      ),
     );
     gh.factoryParam<_i466.VerifyResetCodeCubit, String, dynamic>(
       (email, _) => _i466.VerifyResetCodeCubit(
@@ -258,6 +243,16 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i499.DriverOrderRepo>(
       () => _i1020.DriverOrderRepositoryImpl(gh<_i743.DriverOrderDataSource>()),
+    );
+    gh.factory<_i375.OrderDetailsCubit>(
+      () => _i375.OrderDetailsCubit(
+        gh<_i1045.GetOrderDetailsUsecase>(),
+        gh<_i883.GetDriverDataUsecase>(),
+        gh<_i449.LocationUsecase>(),
+        gh<_i727.UpdateOrderStateUsecase>(),
+        gh<_i809.PushNotificationUsecase>(),
+        gh<_i44.SendDeviceNotificationUsecase>(),
+      ),
     );
     gh.factory<_i863.ProfileRepo>(
       () => _i1048.ProfileRepoImpl(
