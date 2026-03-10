@@ -79,12 +79,13 @@ abstract class ApiClient {
   @GET(AppEndpointString.mydriverOrders)
   Future<HttpResponse<MyOrderResponse>> getAllOrders({
     @Header("Authorization") required String token,
-    @Query("limit") int? limit,
+    @Query("limit") int? limit = 1000,
     @Query("page") int? page,
   });
 
   @GET(AppEndpointString.mydriverOrders)
   Future<HttpResponse<OrderResponse>> getPendingOrders(
-    @Header("Authorization") String token,
-  );
+    @Header("Authorization") String token, {
+    @Query("limit") int? limit = 1000,
+  });
 }

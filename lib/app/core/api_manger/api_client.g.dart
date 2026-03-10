@@ -378,7 +378,7 @@ class _ApiClient implements ApiClient {
   @override
   Future<HttpResponse<MyOrderResponse>> getAllOrders({
     required String token,
-    int? limit,
+    int? limit = 1000,
     int? page,
   }) async {
     final _extra = <String, dynamic>{};
@@ -410,9 +410,13 @@ class _ApiClient implements ApiClient {
   }
 
   @override
-  Future<HttpResponse<OrderResponse>> getPendingOrders(String token) async {
+  Future<HttpResponse<OrderResponse>> getPendingOrders(
+    String token, {
+    int? limit = 1000,
+  }) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'limit': limit};
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{r'Authorization': token};
     _headers.removeWhere((k, v) => v == null);
     const Map<String, dynamic>? _data = null;

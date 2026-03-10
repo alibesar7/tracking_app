@@ -14,7 +14,9 @@ class DriverOrderDataSourceImpl implements DriverOrderDataSource {
 
   @override
   Future<ApiResult<OrderResponse>> getPendingOrders(String token) {
-    return safeApiCall(call: () => _apiClient.getPendingOrders(token));
+    return safeApiCall(
+      call: () => _apiClient.getPendingOrders(token, limit: 1000),
+    );
   }
 
   @override

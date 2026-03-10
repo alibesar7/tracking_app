@@ -176,9 +176,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i1045.GetOrderDetailsUsecase>(
       () => _i1045.GetOrderDetailsUsecase(repo: gh<_i313.OrderDetailsRepo>()),
     );
-    gh.factory<_i727.UpdateOrderStateUsecase>(
-      () => _i727.UpdateOrderStateUsecase(repo: gh<_i313.OrderDetailsRepo>()),
-    );
     gh.factory<_i809.PushNotificationUsecase>(
       () => _i809.PushNotificationUsecase(repo: gh<_i313.OrderDetailsRepo>()),
     );
@@ -186,6 +183,9 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i44.SendDeviceNotificationUsecase(
         repo: gh<_i313.OrderDetailsRepo>(),
       ),
+    );
+    gh.factory<_i727.UpdateOrderStateUsecase>(
+      () => _i727.UpdateOrderStateUsecase(repo: gh<_i313.OrderDetailsRepo>()),
     );
     gh.factory<_i743.DriverOrderDataSource>(
       () => _i495.DriverOrderDataSourceImpl(gh<_i890.ApiClient>()),

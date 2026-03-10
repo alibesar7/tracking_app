@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/services.dart';
+import 'package:googleapis_auth/auth_io.dart';
 import 'package:injectable/injectable.dart';
 import 'package:tracking_app/app/core/network/api_result.dart';
-import 'package:tracking_app/app/core/values/api_constants.dart';
 import 'package:tracking_app/features/driver_orders_details/data/datasource/order_details_remote_datasource.dart';
 import 'package:tracking_app/features/driver_orders_details/data/models/orders_dto.dart';
 
@@ -10,7 +11,6 @@ import 'package:tracking_app/features/driver_orders_details/data/models/orders_d
 class OrderDetailsRemoteDatasourceImpl implements OrderDetailsRemoteDatasource {
   final FirebaseFirestore _firestore;
   final Dio _dio;
-
   OrderDetailsRemoteDatasourceImpl({
     required FirebaseFirestore firestore,
     required Dio dio,
@@ -102,19 +102,45 @@ class OrderDetailsRemoteDatasourceImpl implements OrderDetailsRemoteDatasource {
         return ErrorApiResult<void>(error: 'Device token not found');
       }
 
-      // 2. Send FCM push notification via legacy HTTP API
+      // 2. Send FCM push notification via HTTP v1 API
+      // Using service account credentials to generate an OAuth2 token
+      final String jsonString = await rootBundle.loadString(
+        'assets/data/elevate-flower-app-firebase-adminsdk-fbsvc-2d287e3f4c.json',
+      );
+      final credentials = ServiceAccountCredentials.fromJson(jsonString);
+      final client = await clientViaServiceAccount(credentials, [
+        'https://www.googleapis.com/auth/firebase.messaging',
+      ]);
+      final String oauthToken = client.credentials.accessToken.data;
+      client.close();
+
       final response = await _dio.post(
-        'https://fcm.googleapis.com/fcm/send',
+        'https://fcm.googleapis.com/v1/projects/elevate-flower-app/messages:send',
         options: Options(
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'key=${ApiConstants.fcmServerKey}',
+            'Authorization': 'Bearer \$oauthToken',
           },
         ),
         data: {
-          'to': deviceToken,
-          'notification': {'title': title, 'body': body, 'sound': 'default'},
-          'data': {'click_action': 'FLUTTER_NOTIFICATION_CLICK'},
+          'message': {
+            'token': deviceToken,
+            'notification': {'title': title, 'body': body},
+            'android': {
+              'notification': {
+                'sound': 'default',
+                'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+              },
+            },
+            'apns': {
+              'payload': {
+                'aps': {
+                  'sound': 'default',
+                  'category': 'FLUTTER_NOTIFICATION_CLICK',
+                },
+              },
+            },
+          },
         },
       );
 
@@ -122,7 +148,9 @@ class OrderDetailsRemoteDatasourceImpl implements OrderDetailsRemoteDatasource {
         print('Notification sent successfully to user mvc');
         return SuccessApiResult<void>(data: null);
       } else {
-        return ErrorApiResult<void>(error: 'FCM error: ${response.statusCode}');
+        return ErrorApiResult<void>(
+          error: 'FCM error: \${response.statusCode}',
+        );
       }
     } catch (e) {
       return ErrorApiResult<void>(error: e.toString());
