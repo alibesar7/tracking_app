@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tracking_app/features/auth/data/mappers/change_password_dto_mapper.dart';
+import 'package:tracking_app/features/auth/data/mapper/change_password_dto_mapper.dart';
 import 'package:tracking_app/features/auth/data/model/response/change_password_dto.dart';
 import 'package:tracking_app/features/auth/domain/models/change_password_model.dart';
 
