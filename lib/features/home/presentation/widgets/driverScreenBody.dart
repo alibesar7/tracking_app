@@ -40,7 +40,7 @@ class _DriverOrderBodyState extends State<DriverOrderBody> {
         }
 
         if (resource.status == Status.success) {
-          final orders = resource.data?.orders ?? [];
+          final orders = resource.data!.orders?.reversed.toList() ?? [];
           if (orders.isEmpty) {
             return Center(child: Text(LocaleKeys.noPendingOrders.tr()));
           }

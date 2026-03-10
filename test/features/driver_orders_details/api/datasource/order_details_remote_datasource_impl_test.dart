@@ -4,6 +4,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dio/dio.dart';
 import 'package:tracking_app/app/core/network/api_result.dart';
 import 'package:tracking_app/features/driver_orders_details/api/datasource/order_details_remote_datasource_impl.dart';
 import 'package:tracking_app/features/driver_orders_details/data/models/drivers_dto.dart';
@@ -24,6 +25,7 @@ void main() {
   late MockCollectionReference<Map<String, dynamic>> mockCollection;
   late MockDocumentReference<Map<String, dynamic>> mockDocument;
   late MockDocumentSnapshot<Map<String, dynamic>> mockSnapshot;
+  late MockDio mockDio;
 
   const String tOrderId = 'pxkMaEmWYVuvV5jkW0JK';
   const String driverId = '6989f35de364ef61405211a0';
@@ -34,6 +36,7 @@ void main() {
     mockCollection = MockCollectionReference();
     mockDocument = MockDocumentReference();
     mockSnapshot = MockDocumentSnapshot();
+    mockDio = MockDio();
 
     dataSource = OrderDetailsRemoteDatasourceImpl(
       firestore: mockFirestore,

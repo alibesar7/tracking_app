@@ -13,4 +13,17 @@ abstract class OrderDetailsRemoteDatasource {
     LatLng myLocation,
     LatLng destination,
   );
+  Future<ApiResult<void>> updateOrderState({
+    required String orderId,
+    required String state,
+  });
+  Future<ApiResult<void>> pushNotification({
+    required String title,
+    required String des,
+  });
+  Future<ApiResult<void>> sendDeviceNotification({
+    required String userId,
+    required String title,
+    required String body,
+  });
 }

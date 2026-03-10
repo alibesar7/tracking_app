@@ -3,19 +3,23 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:injectable/injectable.dart';
 import 'package:tracking_app/app/core/network/api_result.dart';
-import 'package:tracking_app/features/driver_orders_details/data/datasource/order_details_remote_datasource.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tracking_app/features/driver_orders_details/data/models/drivers_dto.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
+import 'package:googleapis_auth/auth_io.dart';
+import 'package:tracking_app/features/driver_orders_details/data/datasource/order_details_remote_datasource.dart';
 import 'package:tracking_app/features/driver_orders_details/data/models/orders_dto.dart';
 
 @Injectable(as: OrderDetailsRemoteDatasource)
 class OrderDetailsRemoteDatasourceImpl implements OrderDetailsRemoteDatasource {
   final FirebaseFirestore _firestore;
-  final Dio dio;
+  final Dio _dio;
   OrderDetailsRemoteDatasourceImpl({
     required FirebaseFirestore firestore,
-    required this.dio,
-  }) : _firestore = firestore;
+    required Dio dio,
+  }) : _firestore = firestore,
+       _dio = dio;
 
   @override
   ApiResult<Stream<OrderDto>> getOrderStream(String orderId) {
@@ -53,6 +57,27 @@ class OrderDetailsRemoteDatasourceImpl implements OrderDetailsRemoteDatasource {
       return SuccessApiResult<Stream<DriverDataDto>>(data: stream);
     } catch (e) {
       return ErrorApiResult<Stream<DriverDataDto>>(error: e.toString());
+  Future<ApiResult<void>> updateOrderState({
+    required String orderId,
+    required String state,
+  }) async {
+    try {
+      final querySnapshot = await _firestore
+          .collection('orders')
+          .where('orderId', isEqualTo: orderId)
+          .get();
+      if (querySnapshot.docs.isNotEmpty) {
+        await querySnapshot.docs.first.reference.update({
+          'oder_dt.status': state,
+        });
+      } else {
+        await _firestore.collection('orders').doc(orderId).update({
+          'oder_dt.status': state,
+        });
+      }
+      return SuccessApiResult<void>(data: null);
+    } catch (e) {
+      return ErrorApiResult<void>(error: e.toString());
     }
   }
 
@@ -83,6 +108,18 @@ class OrderDetailsRemoteDatasourceImpl implements OrderDetailsRemoteDatasource {
       return SuccessApiResult<LatLng?>(data: null);
     } catch (e) {
       return ErrorApiResult<LatLng?>(error: e.toString());
+  Future<ApiResult<void>> pushNotification({
+    required String title,
+    required String des,
+  }) async {
+    try {
+      await _firestore.collection('notification').add({
+        'title': title,
+        'des': des,
+      });
+      return SuccessApiResult<void>(data: null);
+    } catch (e) {
+      return ErrorApiResult<void>(error: e.toString());
     }
   }
 
@@ -118,6 +155,81 @@ class OrderDetailsRemoteDatasourceImpl implements OrderDetailsRemoteDatasource {
       return ErrorApiResult<List<LatLng>>(error: 'No route found');
     } catch (e) {
       return ErrorApiResult<List<LatLng>>(error: e.toString());
+  Future<ApiResult<void>> sendDeviceNotification({
+    required String userId,
+    required String title,
+    required String body,
+  }) async {
+    try {
+      // 1. Get the user document from the u8sj29sk2k collection using id_user
+      final querySnapshot = await _firestore
+          .collection('u8sj29sk2k')
+          .where('id_user', isEqualTo: userId)
+          .get();
+
+      if (querySnapshot.docs.isEmpty) {
+        return ErrorApiResult<void>(error: 'User not found');
+      }
+
+      final userDoc = querySnapshot.docs.first;
+      final deviceToken = userDoc.data()['deviceToken'] as String?;
+
+      if (deviceToken == null || deviceToken.isEmpty) {
+        return ErrorApiResult<void>(error: 'Device token not found');
+      }
+
+      // 2. Send FCM push notification via HTTP v1 API
+      // Using service account credentials to generate an OAuth2 token
+      final String jsonString = await rootBundle.loadString(
+        'assets/data/elevate-flower-app-firebase-adminsdk-fbsvc-2d287e3f4c.json',
+      );
+      final credentials = ServiceAccountCredentials.fromJson(jsonString);
+      final client = await clientViaServiceAccount(credentials, [
+        'https://www.googleapis.com/auth/firebase.messaging',
+      ]);
+      final String oauthToken = client.credentials.accessToken.data;
+      client.close();
+
+      final response = await _dio.post(
+        'https://fcm.googleapis.com/v1/projects/elevate-flower-app/messages:send',
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer \$oauthToken',
+          },
+        ),
+        data: {
+          'message': {
+            'token': deviceToken,
+            'notification': {'title': title, 'body': body},
+            'android': {
+              'notification': {
+                'sound': 'default',
+                'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+              },
+            },
+            'apns': {
+              'payload': {
+                'aps': {
+                  'sound': 'default',
+                  'category': 'FLUTTER_NOTIFICATION_CLICK',
+                },
+              },
+            },
+          },
+        },
+      );
+
+      if (response.statusCode == 200) {
+        print('Notification sent successfully to user mvc');
+        return SuccessApiResult<void>(data: null);
+      } else {
+        return ErrorApiResult<void>(
+          error: 'FCM error: \${response.statusCode}',
+        );
+      }
+    } catch (e) {
+      return ErrorApiResult<void>(error: e.toString());
     }
   }
 }

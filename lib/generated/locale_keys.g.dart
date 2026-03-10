@@ -269,4 +269,8 @@ abstract class LocaleKeys {
   static const reject = 'reject';
   static const noPendingOrders = 'noPendingOrders';
   static const floweryRider = 'floweryRider';
+  static const btnArrivedAtPickupPoint = 'ArrivedAtPickupPoint';
+  static const btnStartDeliver = 'StartDeliver';
+  static const btnArrivedToUser = 'ArrivedToUser';
+  static const btnDeliveredToUser = 'DeliveredToUser';
 }

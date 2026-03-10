@@ -5,4 +5,6 @@ class ApiConstants {
   static const String id = "id";
   static const String authorization = "Authorization";
   static const String photo = "photo";
+  static const String fcmServerKey =
+      "BIAckRtVye1aHEqxHvno9fJIf7ebHJdB5ACPyNCGKIvfqUA5ozP3UWBQqNmEuAn17o-tFYytvgpMwwbPrjvrfFw";
 }

@@ -67,6 +67,12 @@ import '../../../features/driver_orders_details/domain/usecases/get_order_detail
     as _i1045;
 import '../../../features/driver_orders_details/domain/usecases/location_usecase.dart'
     as _i449;
+import '../../../features/driver_orders_details/domain/usecases/push_notification_usecase.dart'
+    as _i809;
+import '../../../features/driver_orders_details/domain/usecases/send_device_notification_usecase.dart'
+    as _i44;
+import '../../../features/driver_orders_details/domain/usecases/update_order_state_usecase.dart'
+    as _i727;
 import '../../../features/driver_orders_details/presentation/manager/order_details_cubit.dart'
     as _i375;
 import '../../../features/home/api/driverOrderDataS_imp.dart' as _i495;
@@ -183,6 +189,17 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i1045.GetOrderDetailsUsecase>(
       () => _i1045.GetOrderDetailsUsecase(repo: gh<_i313.OrderDetailsRepo>()),
     );
+    gh.factory<_i809.PushNotificationUsecase>(
+      () => _i809.PushNotificationUsecase(repo: gh<_i313.OrderDetailsRepo>()),
+    );
+    gh.factory<_i44.SendDeviceNotificationUsecase>(
+      () => _i44.SendDeviceNotificationUsecase(
+        repo: gh<_i313.OrderDetailsRepo>(),
+      ),
+    );
+    gh.factory<_i727.UpdateOrderStateUsecase>(
+      () => _i727.UpdateOrderStateUsecase(repo: gh<_i313.OrderDetailsRepo>()),
+    );
     gh.factory<_i743.DriverOrderDataSource>(
       () => _i495.DriverOrderDataSourceImpl(gh<_i890.ApiClient>()),
     );
@@ -213,6 +230,14 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i112.VerifyResetCodeUsecase>(
       () => _i112.VerifyResetCodeUsecase(gh<_i712.AuthRepo>()),
+    );
+    gh.factory<_i375.OrderDetailsCubit>(
+      () => _i375.OrderDetailsCubit(
+        gh<_i1045.GetOrderDetailsUsecase>(),
+        gh<_i727.UpdateOrderStateUsecase>(),
+        gh<_i809.PushNotificationUsecase>(),
+        gh<_i44.SendDeviceNotificationUsecase>(),
+      ),
     );
     gh.factoryParam<_i466.VerifyResetCodeCubit, String, dynamic>(
       (email, _) => _i466.VerifyResetCodeCubit(
