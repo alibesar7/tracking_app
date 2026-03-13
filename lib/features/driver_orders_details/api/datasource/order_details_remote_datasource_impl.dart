@@ -124,6 +124,17 @@ class OrderDetailsRemoteDatasourceImpl implements OrderDetailsRemoteDatasource {
     }
   }
 
+  @override
+  Future<void> updateDriverLocation(
+    String driverId,
+    double lat,
+    double lng,
+  ) async {
+    await FirebaseFirestore.instance.collection('drivers').doc(driverId).update(
+      {"currentLocation.lat": lat, "currentLocation.lng": lng},
+    );
+  }
+
   Future<ApiResult<void>> pushNotification({
     required String title,
     required String des,

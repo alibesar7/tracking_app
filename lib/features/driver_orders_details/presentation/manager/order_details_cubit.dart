@@ -30,6 +30,7 @@ class OrderDetailsCubit extends Cubit<OrderDetailsStates> {
   final LocationUsecase _locationUsecase;
   StreamSubscription? _orderSubscription;
   StreamSubscription? _driverSubscription;
+  Timer? _driverMoveTimer;
 
   OrderDetailsCubit(
     this._getOrderDetailsUsecase,
@@ -106,8 +107,45 @@ class OrderDetailsCubit extends Cubit<OrderDetailsStates> {
     final result = await _locationUsecase.getAddress(address);
     if (result is SuccessApiResult<LatLng?> && result.data != null) {
       emit(state.copyWith(destination: result.data));
+      startDriverSimulation();
       await getRoute(driverLocation);
     }
+  }
+
+  LatLng moveTowards(LatLng current, LatLng destination, double step) {
+    double latDiff = destination.latitude - current.latitude;
+    double lngDiff = destination.longitude - current.longitude;
+
+    double newLat = current.latitude + (latDiff * step);
+    double newLng = current.longitude + (lngDiff * step);
+
+    return LatLng(newLat, newLng);
+  }
+
+  void startDriverSimulation() {
+    _driverMoveTimer?.cancel();
+
+    _driverMoveTimer = Timer.periodic(const Duration(seconds: 10), (
+      timer,
+    ) async {
+      final driver = state.driverData?.data;
+      final destination = state.destination;
+
+      if (driver == null || destination == null) return;
+
+      LatLng current = LatLng(
+        driver.currentLocation.lat,
+        driver.currentLocation.lng,
+      );
+
+      LatLng newLocation = moveTowards(current, destination, 0.05);
+
+      await _locationUsecase.updateDriverLocation(
+        driver.id,
+        newLocation.latitude,
+        newLocation.longitude,
+      );
+    });
   }
 
   String? _nextStateFor(String currentStatus) {
@@ -162,6 +200,7 @@ class OrderDetailsCubit extends Cubit<OrderDetailsStates> {
   Future<void> close() {
     _orderSubscription?.cancel();
     _driverSubscription?.cancel();
+    _driverMoveTimer?.cancel();
     return super.close();
   }
 }

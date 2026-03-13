@@ -19,4 +19,8 @@ class LocationUsecase {
   ) {
     return _repo.getRealRoute(driverLocation, destination);
   }
+
+  Future<void> updateDriverLocation(String driverId, double lat, double lng) {
+    return _repo.updateDriverLocation(driverId, lat, lng);
+  }
 }

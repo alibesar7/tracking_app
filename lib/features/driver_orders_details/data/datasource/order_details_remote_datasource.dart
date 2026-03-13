@@ -6,9 +6,8 @@ import 'package:tracking_app/features/driver_orders_details/data/models/orders_d
 abstract class OrderDetailsRemoteDatasource {
   ApiResult<Stream<OrderDto>> getOrderStream(String orderId);
   ApiResult<Stream<DriverDataDto>> getDriverData(String driverId);
-
   Future<ApiResult<LatLng?>> getLatLngFromAddress(String address);
-
+  Future<void> updateDriverLocation(String driverId, double lat, double lng);
   Future<ApiResult<List<LatLng>>> getRealRoute(
     LatLng myLocation,
     LatLng destination,

@@ -9,9 +9,8 @@ import 'package:tracking_app/features/driver_orders_details/domain/models/orders
 abstract class OrderDetailsRepo {
   Future<ApiResult<Stream<OrderModel>>> getOrderDetails();
   ApiResult<Stream<DriverDataModel>> getDriverData(String driverId);
-
   Future<ApiResult<LatLng?>> getLatLngFromAddress(String address);
-
+  Future<void> updateDriverLocation(String driverId, double lat, double lng);
   Future<ApiResult<List<LatLng>>> getRealRoute(
     LatLng myLocation,
     LatLng destination,

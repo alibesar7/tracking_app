@@ -94,4 +94,13 @@ class OrderDetailsRepoImpl implements OrderDetailsRepo {
       body: params.body,
     );
   }
+
+  @override
+  Future<void> updateDriverLocation(
+    String driverId,
+    double lat,
+    double lng,
+  ) async {
+    return _remoteDataSource.updateDriverLocation(driverId, lat, lng);
+  }
 }
