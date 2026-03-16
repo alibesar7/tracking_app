@@ -2,7 +2,7 @@ import 'package:injectable/injectable.dart';
 import 'package:tracking_app/app/core/network/api_result.dart';
 import 'package:tracking_app/features/auth/data/datasource/auth_remote_datasource.dart';
 import 'package:tracking_app/features/auth/data/mapper/vehicles_mapper.dart';
-import 'package:tracking_app/features/auth/data/mappers/change_password_dto_mapper.dart';
+import 'package:tracking_app/features/auth/data/mapper/change_password_dto_mapper.dart';
 import 'package:tracking_app/features/auth/data/model/request/LoginRequest.dart';
 import 'package:tracking_app/features/auth/data/model/response/LoginResponse.dart';
 import 'package:tracking_app/features/auth/data/model/response/change_password_dto.dart';

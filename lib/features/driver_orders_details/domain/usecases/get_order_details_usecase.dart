@@ -8,6 +8,5 @@ class GetOrderDetailsUsecase {
   OrderDetailsRepo _repo;
   GetOrderDetailsUsecase({required OrderDetailsRepo repo}) : _repo = repo;
 
-  ApiResult<Stream<OrderModel>> call(String orderId) =>
-      _repo.getOrderDetails(orderId);
+  Future<ApiResult<Stream<OrderModel>>> call() => _repo.getOrderDetails();
 }

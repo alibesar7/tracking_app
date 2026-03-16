@@ -40,25 +40,25 @@ void main() {
     test(
       'should return SuccessApiResult containing the Stream from the repository',
       () async {
-        when(
-          mockRepo.getOrderDetails(any),
-        ).thenReturn(SuccessApiResult(data: Stream.value(tOrderModel)));
+        when(mockRepo.getOrderDetails()).thenAnswer(
+          (_) async => SuccessApiResult(data: Stream.value(tOrderModel)),
+        );
 
-        final result = usecase.call(tOrderId);
+        final result = await usecase.call();
 
         expect(result, isA<SuccessApiResult<Stream<OrderModel>>>());
         final stream = (result as SuccessApiResult<Stream<OrderModel>>).data;
         await expectLater(stream, emits(tOrderModel));
-        verify(mockRepo.getOrderDetails(tOrderId)).called(1);
+        verify(mockRepo.getOrderDetails()).called(1);
       },
     );
 
     test('should return ErrorApiResult when the repository fails', () async {
       when(
-        mockRepo.getOrderDetails(any),
-      ).thenReturn(ErrorApiResult(error: 'Error from Repository'));
+        mockRepo.getOrderDetails(),
+      ).thenAnswer((_) async => ErrorApiResult(error: 'Error from Repository'));
 
-      final result = usecase.call(tOrderId);
+      final result = await usecase.call();
 
       expect(result, isA<ErrorApiResult<Stream<OrderModel>>>());
       expect((result as ErrorApiResult).error, 'Error from Repository');

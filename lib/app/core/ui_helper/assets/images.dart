@@ -13,4 +13,7 @@ class Assets {
   static const String imagesFilter = "assets/images/filter.png";
   static const String imagesFlower = "assets/images/Flower.svg";
   static const String delete = "assets/images/delete.png";
+  static const String driverLocation = "assets/images/driver_location.png";
+  static const String userLocation = "assets/images/user_location.png";
+  static const String floweryLocation = "assets/images/flowery_location.png";
 }

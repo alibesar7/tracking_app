@@ -61,12 +61,20 @@ import '../../../features/driver_orders_details/data/repos/order_details_repo_im
     as _i55;
 import '../../../features/driver_orders_details/domain/repos/order_details_repo.dart'
     as _i313;
+import '../../../features/driver_orders_details/domain/usecases/get_address_usecase.dart'
+    as _i453;
+import '../../../features/driver_orders_details/domain/usecases/get_driver_data_usecase.dart'
+    as _i883;
 import '../../../features/driver_orders_details/domain/usecases/get_order_details_usecase.dart'
     as _i1045;
+import '../../../features/driver_orders_details/domain/usecases/get_real_route_usecase.dart'
+    as _i707;
 import '../../../features/driver_orders_details/domain/usecases/push_notification_usecase.dart'
     as _i809;
 import '../../../features/driver_orders_details/domain/usecases/send_device_notification_usecase.dart'
     as _i44;
+import '../../../features/driver_orders_details/domain/usecases/update_driver_location_usecase.dart'
+    as _i294;
 import '../../../features/driver_orders_details/domain/usecases/update_order_state_usecase.dart'
     as _i727;
 import '../../../features/driver_orders_details/presentation/manager/order_details_cubit.dart'
@@ -165,13 +173,28 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i583.MyOrdersRemoteDataSourceImp(gh<_i890.ApiClient>()),
     );
     gh.factory<_i313.OrderDetailsRepo>(
-      () => _i55.OrderDetailsRepoImpl(gh<_i114.OrderDetailsRemoteDatasource>()),
+      () => _i55.OrderDetailsRepoImpl(
+        gh<_i114.OrderDetailsRemoteDatasource>(),
+        gh<_i603.AuthStorage>(),
+      ),
+    );
+    gh.factory<_i453.GetAddressUsecase>(
+      () => _i453.GetAddressUsecase(gh<_i313.OrderDetailsRepo>()),
+    );
+    gh.factory<_i707.GetRealRouteUsecase>(
+      () => _i707.GetRealRouteUsecase(gh<_i313.OrderDetailsRepo>()),
+    );
+    gh.factory<_i294.UpdateDriverLocationUsecase>(
+      () => _i294.UpdateDriverLocationUsecase(gh<_i313.OrderDetailsRepo>()),
     );
     gh.factory<_i919.MyOrdersRepo>(
       () => _i754.MyOrdersRepoImpl(gh<_i466.MyOrdersRemoteDataSource>()),
     );
     gh.factory<_i335.GetOrderUseCase>(
       () => _i335.GetOrderUseCase(gh<_i919.MyOrdersRepo>()),
+    );
+    gh.factory<_i883.GetDriverDataUsecase>(
+      () => _i883.GetDriverDataUsecase(repo: gh<_i313.OrderDetailsRepo>()),
     );
     gh.factory<_i1045.GetOrderDetailsUsecase>(
       () => _i1045.GetOrderDetailsUsecase(repo: gh<_i313.OrderDetailsRepo>()),
@@ -199,6 +222,18 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i712.AuthRepo>(
       () => _i566.AuthRepoImpl(gh<_i708.AuthRemoteDataSource>()),
     );
+    gh.factory<_i375.OrderDetailsCubit>(
+      () => _i375.OrderDetailsCubit(
+        gh<_i1045.GetOrderDetailsUsecase>(),
+        gh<_i883.GetDriverDataUsecase>(),
+        gh<_i453.GetAddressUsecase>(),
+        gh<_i707.GetRealRouteUsecase>(),
+        gh<_i294.UpdateDriverLocationUsecase>(),
+        gh<_i727.UpdateOrderStateUsecase>(),
+        gh<_i809.PushNotificationUsecase>(),
+        gh<_i44.SendDeviceNotificationUsecase>(),
+      ),
+    );
     gh.factory<_i991.ChangePasswordUsecase>(
       () => _i991.ChangePasswordUsecase(gh<_i712.AuthRepo>()),
     );
@@ -210,14 +245,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i112.VerifyResetCodeUsecase>(
       () => _i112.VerifyResetCodeUsecase(gh<_i712.AuthRepo>()),
-    );
-    gh.factory<_i375.OrderDetailsCubit>(
-      () => _i375.OrderDetailsCubit(
-        gh<_i1045.GetOrderDetailsUsecase>(),
-        gh<_i727.UpdateOrderStateUsecase>(),
-        gh<_i809.PushNotificationUsecase>(),
-        gh<_i44.SendDeviceNotificationUsecase>(),
-      ),
     );
     gh.factoryParam<_i466.VerifyResetCodeCubit, String, dynamic>(
       (email, _) => _i466.VerifyResetCodeCubit(
