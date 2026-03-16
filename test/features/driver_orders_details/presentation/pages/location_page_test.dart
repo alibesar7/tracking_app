@@ -7,6 +7,7 @@ import 'package:mockito/mockito.dart';
 import 'package:tracking_app/app/config/base_state/base_state.dart';
 import 'package:tracking_app/app/config/di/di.dart';
 import 'package:tracking_app/features/driver_orders_details/domain/models/drivers_model.dart';
+import 'package:tracking_app/features/driver_orders_details/domain/models/location_type.dart';
 import 'package:tracking_app/features/driver_orders_details/domain/models/orders_model.dart';
 import 'package:tracking_app/features/driver_orders_details/presentation/manager/order_details_cubit.dart';
 import 'package:tracking_app/features/driver_orders_details/presentation/manager/order_details_states.dart';
@@ -46,7 +47,7 @@ void main() {
           return MaterialApp(
             home: BlocProvider<OrderDetailsCubit>.value(
               value: mockCubit,
-              child: const LocationPage(locationType: 'pickup'),
+              child: const LocationPage(locationType: LocationType.pickup),
             ),
           );
         },

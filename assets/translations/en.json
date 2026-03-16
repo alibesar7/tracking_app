@@ -268,5 +268,6 @@
   "btnArrivedAtPickupPoint": "Arrived at Pickup point",
   "btnStartDeliver": "Start deliver",
   "btnArrivedToUser": "Arrived to the user",
-  "btnDeliveredToUser": "Delivered to the user"
+  "btnDeliveredToUser": "Delivered to the user",
+  "finishYourOrder": "You must finish the order first"
 }

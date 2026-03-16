@@ -265,5 +265,7 @@
   "btnArrivedAtPickupPoint": "وصلت الى نقطة الالتقاء",
   "btnStartDeliver": "بدء التوصيل",
   "btnArrivedToUser": "وصلت إلى المستخدم",
-  "btnDeliveredToUser": "تم التوصيل للمستخدم"
+  "btnDeliveredToUser": "تم التوصيل للمستخدم",
+  "finishYourOrder": "عليك انهاء توصيل الطلب اولا"
+
 }

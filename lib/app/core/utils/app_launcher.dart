@@ -1,6 +1,6 @@
 import 'package:url_launcher/url_launcher.dart';
 
-class AppLauncher {
+abstract class AppLauncher {
   static void launchPhone(String phoneNumber) async {
     final Uri url = Uri(scheme: 'tel', path: phoneNumber);
     if (await canLaunchUrl(url)) {

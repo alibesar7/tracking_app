@@ -9,12 +9,14 @@ import 'package:tracking_app/app/core/network/api_result.dart';
 import 'package:tracking_app/features/driver_orders_details/domain/models/drivers_model.dart';
 import 'package:tracking_app/features/driver_orders_details/domain/models/orders_model.dart';
 import 'package:tracking_app/features/driver_orders_details/domain/usecases/get_driver_data_usecase.dart';
-import 'package:tracking_app/features/driver_orders_details/domain/usecases/location_usecase.dart';
+import 'package:tracking_app/features/driver_orders_details/domain/usecases/get_address_usecase.dart';
 import 'package:tracking_app/features/driver_orders_details/domain/models/notcicationModel.dart';
 import 'package:tracking_app/features/driver_orders_details/domain/models/notficationDevice.dart';
 import 'package:tracking_app/features/driver_orders_details/domain/models/orderStates.dart';
+import 'package:tracking_app/features/driver_orders_details/domain/usecases/get_real_route_usecase.dart';
 import 'package:tracking_app/features/driver_orders_details/domain/usecases/push_notification_usecase.dart';
 import 'package:tracking_app/features/driver_orders_details/domain/usecases/send_device_notification_usecase.dart';
+import 'package:tracking_app/features/driver_orders_details/domain/usecases/update_driver_location_usecase.dart';
 import '../../domain/usecases/get_order_details_usecase.dart';
 import '../../domain/usecases/update_order_state_usecase.dart';
 import 'order_details_intents.dart';
@@ -27,7 +29,9 @@ class OrderDetailsCubit extends Cubit<OrderDetailsStates> {
   final UpdateOrderStateUsecase _updateOrderStateUsecase;
   final PushNotificationUsecase _pushNotificationUsecase;
   final SendDeviceNotificationUsecase _sendDeviceNotificationUsecase;
-  final LocationUsecase _locationUsecase;
+  final GetAddressUsecase _getAddressUsecase;
+  final GetRealRouteUsecase _getRealRouteUsecase;
+  final UpdateDriverLocationUsecase _updateDriverLocationUsecase;
   StreamSubscription? _orderSubscription;
   StreamSubscription? _driverSubscription;
   Timer? _driverMoveTimer;
@@ -35,7 +39,9 @@ class OrderDetailsCubit extends Cubit<OrderDetailsStates> {
   OrderDetailsCubit(
     this._getOrderDetailsUsecase,
     this._getDriverDataUsecase,
-    this._locationUsecase,
+    this._getAddressUsecase,
+    this._getRealRouteUsecase,
+    this._updateDriverLocationUsecase,
     this._updateOrderStateUsecase,
     this._pushNotificationUsecase,
     this._sendDeviceNotificationUsecase,
@@ -91,12 +97,14 @@ class OrderDetailsCubit extends Cubit<OrderDetailsStates> {
   Future<void> getRoute(LatLng driverLocation) async {
     if (state.destination == null) return;
 
-    final result = await _locationUsecase.getRealRoute(
+    final result = await _getRealRouteUsecase.getRealRoute(
       driverLocation,
       state.destination!,
     );
+
     if (result is SuccessApiResult<List<LatLng>>) {
       emit(state.copyWith(polylines: result.data));
+      startDriverSimulation();
     }
   }
 
@@ -104,7 +112,7 @@ class OrderDetailsCubit extends Cubit<OrderDetailsStates> {
     String address,
     LatLng driverLocation,
   ) async {
-    final result = await _locationUsecase.getAddress(address);
+    final result = await _getAddressUsecase.getAddress(address);
     if (result is SuccessApiResult<LatLng?> && result.data != null) {
       emit(state.copyWith(destination: result.data));
       startDriverSimulation();
@@ -125,7 +133,7 @@ class OrderDetailsCubit extends Cubit<OrderDetailsStates> {
   void startDriverSimulation() {
     _driverMoveTimer?.cancel();
 
-    _driverMoveTimer = Timer.periodic(const Duration(seconds: 10), (
+    _driverMoveTimer = Timer.periodic(const Duration(seconds: 3), (
       timer,
     ) async {
       final driver = state.driverData?.data;
@@ -133,18 +141,31 @@ class OrderDetailsCubit extends Cubit<OrderDetailsStates> {
 
       if (driver == null || destination == null) return;
 
-      LatLng current = LatLng(
+      LatLng currentLocation = LatLng(
         driver.currentLocation.lat,
         driver.currentLocation.lng,
       );
 
-      LatLng newLocation = moveTowards(current, destination, 0.05);
-
-      await _locationUsecase.updateDriverLocation(
-        driver.id,
-        newLocation.latitude,
-        newLocation.longitude,
+      final result = await _getRealRouteUsecase.getRealRoute(
+        currentLocation,
+        destination,
       );
+
+      if (result is SuccessApiResult<List<LatLng>>) {
+        final route = result.data;
+
+        if (route.isEmpty) return;
+
+        final nextPoint = route.length > 2 ? route[1] : route.first;
+
+        await _updateDriverLocationUsecase.updateDriverLocation(
+          driver.id,
+          nextPoint.latitude,
+          nextPoint.longitude,
+        );
+
+        emit(state.copyWith(polylines: route));
+      }
     });
   }
 

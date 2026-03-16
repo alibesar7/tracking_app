@@ -9,6 +9,7 @@ import 'package:tracking_app/app/config/di/di.dart';
 import 'package:tracking_app/app/core/ui_helper/assets/images.dart';
 import 'package:tracking_app/app/core/ui_helper/color/colors.dart';
 import 'package:tracking_app/app/core/values/paths.dart';
+import 'package:tracking_app/features/driver_orders_details/domain/models/location_type.dart';
 import 'package:tracking_app/features/driver_orders_details/presentation/manager/order_details_cubit.dart';
 import 'package:tracking_app/features/driver_orders_details/presentation/manager/order_details_states.dart';
 import 'package:tracking_app/features/driver_orders_details/presentation/widgets/address_card.dart';
@@ -16,7 +17,7 @@ import 'package:tracking_app/features/driver_orders_details/presentation/widgets
 import 'package:tracking_app/generated/locale_keys.g.dart';
 
 class LocationPage extends StatefulWidget {
-  final String locationType;
+  final LocationType locationType;
   const LocationPage({super.key, required this.locationType});
 
   @override
@@ -51,7 +52,7 @@ class _LocationPageState extends State<LocationPage> {
     driverIcon = await getMarkerIcon(Assets.driverLocation);
 
     destinationIcon = await getMarkerIcon(
-      widget.locationType == 'pickup'
+      widget.locationType == LocationType.pickup
           ? Assets.floweryLocation
           : Assets.userLocation,
     );
@@ -97,7 +98,7 @@ class _LocationPageState extends State<LocationPage> {
             );
             String address;
 
-            if (widget.locationType == 'pickup') {
+            if (widget.locationType == LocationType.pickup) {
               address = order.orderDetails.pickupAddress.address;
             } else {
               address = order.userAddress.address;
@@ -125,16 +126,6 @@ class _LocationPageState extends State<LocationPage> {
               };
             }
             setState(() {});
-
-            print(
-              '<<<<<<<<< driverLocation ${driverLocation.latitude}, ${driverLocation.longitude}',
-            );
-            print(
-              '<<<<<<<<< pickupAddress ${state.data?.data?.orderDetails.pickupAddress.address}',
-            );
-            print(
-              '<<<<<<<<< userAddress ${state.data?.data?.userAddress.address.toString()}',
-            );
           },
 
           builder: (context, state) {
@@ -170,7 +161,7 @@ class _LocationPageState extends State<LocationPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          if (widget.locationType == 'pickup') ...[
+                          if (widget.locationType == LocationType.pickup) ...[
                             SectionTitle(title: LocaleKeys.pickupAddress.tr()),
                             AddressCard(
                               title:
