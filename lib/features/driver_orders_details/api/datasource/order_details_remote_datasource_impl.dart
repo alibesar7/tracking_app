@@ -176,7 +176,7 @@ class OrderDetailsRemoteDatasourceImpl implements OrderDetailsRemoteDatasource {
       // 2. Send FCM push notification via HTTP v1 API
       // Using service account credentials to generate an OAuth2 token
       final String jsonString = await rootBundle.loadString(
-        'assets/data/elevate-flower-app-firebase-adminsdk-fbsvc-2d287e3f4c.json',
+        'assets/data/elevate-flower-app-8c49aaa82a83.json',
       );
       final credentials = ServiceAccountCredentials.fromJson(jsonString);
       final client = await clientViaServiceAccount(credentials, [
@@ -190,7 +190,7 @@ class OrderDetailsRemoteDatasourceImpl implements OrderDetailsRemoteDatasource {
         options: Options(
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer \$oauthToken',
+            'Authorization': 'Bearer $oauthToken',
           },
         ),
         data: {
