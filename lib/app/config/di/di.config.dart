@@ -178,11 +178,11 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i603.AuthStorage>(),
       ),
     );
-    gh.factory<_i707.GetRealRouteUsecase>(
-      () => _i707.GetRealRouteUsecase(gh<_i313.OrderDetailsRepo>()),
-    );
     gh.factory<_i453.GetAddressUsecase>(
       () => _i453.GetAddressUsecase(gh<_i313.OrderDetailsRepo>()),
+    );
+    gh.factory<_i707.GetRealRouteUsecase>(
+      () => _i707.GetRealRouteUsecase(gh<_i313.OrderDetailsRepo>()),
     );
     gh.factory<_i294.UpdateDriverLocationUsecase>(
       () => _i294.UpdateDriverLocationUsecase(gh<_i313.OrderDetailsRepo>()),
@@ -193,22 +193,22 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i335.GetOrderUseCase>(
       () => _i335.GetOrderUseCase(gh<_i919.MyOrdersRepo>()),
     );
-    gh.factory<_i727.UpdateOrderStateUsecase>(
-      () => _i727.UpdateOrderStateUsecase(repo: gh<_i313.OrderDetailsRepo>()),
+    gh.factory<_i883.GetDriverDataUsecase>(
+      () => _i883.GetDriverDataUsecase(repo: gh<_i313.OrderDetailsRepo>()),
+    );
+    gh.factory<_i1045.GetOrderDetailsUsecase>(
+      () => _i1045.GetOrderDetailsUsecase(repo: gh<_i313.OrderDetailsRepo>()),
+    );
+    gh.factory<_i809.PushNotificationUsecase>(
+      () => _i809.PushNotificationUsecase(repo: gh<_i313.OrderDetailsRepo>()),
     );
     gh.factory<_i44.SendDeviceNotificationUsecase>(
       () => _i44.SendDeviceNotificationUsecase(
         repo: gh<_i313.OrderDetailsRepo>(),
       ),
     );
-    gh.factory<_i883.GetDriverDataUsecase>(
-      () => _i883.GetDriverDataUsecase(repo: gh<_i313.OrderDetailsRepo>()),
-    );
-    gh.factory<_i809.PushNotificationUsecase>(
-      () => _i809.PushNotificationUsecase(repo: gh<_i313.OrderDetailsRepo>()),
-    );
-    gh.factory<_i1045.GetOrderDetailsUsecase>(
-      () => _i1045.GetOrderDetailsUsecase(repo: gh<_i313.OrderDetailsRepo>()),
+    gh.factory<_i727.UpdateOrderStateUsecase>(
+      () => _i727.UpdateOrderStateUsecase(repo: gh<_i313.OrderDetailsRepo>()),
     );
     gh.factory<_i743.DriverOrderDataSource>(
       () => _i495.DriverOrderDataSourceImpl(gh<_i890.ApiClient>()),
@@ -234,17 +234,17 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i44.SendDeviceNotificationUsecase>(),
       ),
     );
-    gh.factory<_i112.VerifyResetCodeUsecase>(
-      () => _i112.VerifyResetCodeUsecase(gh<_i712.AuthRepo>()),
-    );
-    gh.factory<_i294.ResetPasswordUsecase>(
-      () => _i294.ResetPasswordUsecase(gh<_i712.AuthRepo>()),
+    gh.factory<_i991.ChangePasswordUsecase>(
+      () => _i991.ChangePasswordUsecase(gh<_i712.AuthRepo>()),
     );
     gh.factory<_i769.ForgetPasswordUsecase>(
       () => _i769.ForgetPasswordUsecase(gh<_i712.AuthRepo>()),
     );
-    gh.factory<_i991.ChangePasswordUsecase>(
-      () => _i991.ChangePasswordUsecase(gh<_i712.AuthRepo>()),
+    gh.factory<_i294.ResetPasswordUsecase>(
+      () => _i294.ResetPasswordUsecase(gh<_i712.AuthRepo>()),
+    );
+    gh.factory<_i112.VerifyResetCodeUsecase>(
+      () => _i112.VerifyResetCodeUsecase(gh<_i712.AuthRepo>()),
     );
     gh.factoryParam<_i466.VerifyResetCodeCubit, String, dynamic>(
       (email, _) => _i466.VerifyResetCodeCubit(
@@ -272,11 +272,11 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i697.ProfileLocalDataSource>(),
       ),
     );
-    gh.lazySingleton<_i1015.GetAllVehiclesUseCase>(
-      () => _i1015.GetAllVehiclesUseCase(gh<_i712.AuthRepo>()),
-    );
     gh.lazySingleton<_i412.ApplyUseCase>(
       () => _i412.ApplyUseCase(gh<_i712.AuthRepo>()),
+    );
+    gh.lazySingleton<_i1015.GetAllVehiclesUseCase>(
+      () => _i1015.GetAllVehiclesUseCase(gh<_i712.AuthRepo>()),
     );
     gh.factory<_i940.GetCountriesUseCase>(
       () => _i940.GetCountriesUseCase(gh<_i712.AuthRepo>()),
@@ -309,14 +309,14 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i412.ApplyUseCase>(),
       ),
     );
-    gh.factory<_i884.UploadProfilePhotoUseCase>(
-      () => _i884.UploadProfilePhotoUseCase(gh<_i863.ProfileRepo>()),
-    );
     gh.factory<_i221.EditProfileUseCase>(
       () => _i221.EditProfileUseCase(gh<_i863.ProfileRepo>()),
     );
     gh.factory<_i248.GetProfileUsecase>(
       () => _i248.GetProfileUsecase(gh<_i863.ProfileRepo>()),
+    );
+    gh.factory<_i884.UploadProfilePhotoUseCase>(
+      () => _i884.UploadProfilePhotoUseCase(gh<_i863.ProfileRepo>()),
     );
     gh.factory<_i1023.LogoutCubit>(
       () =>
