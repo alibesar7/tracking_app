@@ -60,6 +60,7 @@ class _LocationPageState extends State<LocationPage> {
   }
 
   void driverMarker(LatLng driverLocation) {
+    markers.removeWhere((m) => m.markerId.value == "driver_location");
     markers.add(
       Marker(
         markerId: const MarkerId("driver_location"),

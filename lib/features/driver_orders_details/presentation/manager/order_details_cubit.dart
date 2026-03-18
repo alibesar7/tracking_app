@@ -35,6 +35,8 @@ class OrderDetailsCubit extends Cubit<OrderDetailsStates> {
   StreamSubscription? _orderSubscription;
   StreamSubscription? _driverSubscription;
   Timer? _driverMoveTimer;
+  int _currentIndex = 0;
+  List<LatLng> _fullRoute = [];
 
   OrderDetailsCubit(
     this._getOrderDetailsUsecase,
@@ -103,8 +105,9 @@ class OrderDetailsCubit extends Cubit<OrderDetailsStates> {
     );
 
     if (result is SuccessApiResult<List<LatLng>>) {
-      emit(state.copyWith(polylines: result.data));
-      startDriverSimulation();
+      _fullRoute = result.data;
+      _currentIndex = 0;
+      emit(state.copyWith(polylines: _fullRoute));
     }
   }
 
@@ -112,11 +115,14 @@ class OrderDetailsCubit extends Cubit<OrderDetailsStates> {
     String address,
     LatLng driverLocation,
   ) async {
+    if (state.destination != null) return;
+
     final result = await _getAddressUsecase.getAddress(address);
+
     if (result is SuccessApiResult<LatLng?> && result.data != null) {
       emit(state.copyWith(destination: result.data));
-      startDriverSimulation();
       await getRoute(driverLocation);
+      startDriverSimulation();
     }
   }
 
@@ -132,40 +138,29 @@ class OrderDetailsCubit extends Cubit<OrderDetailsStates> {
 
   void startDriverSimulation() {
     _driverMoveTimer?.cancel();
-
-    _driverMoveTimer = Timer.periodic(const Duration(seconds: 3), (
+    _driverMoveTimer = Timer.periodic(const Duration(seconds: 10), (
       timer,
     ) async {
       final driver = state.driverData?.data;
-      final destination = state.destination;
 
-      if (driver == null || destination == null) return;
+      if (driver == null || _fullRoute.isEmpty) return;
 
-      LatLng currentLocation = LatLng(
-        driver.currentLocation.lat,
-        driver.currentLocation.lng,
-      );
-
-      final result = await _getRealRouteUsecase.getRealRoute(
-        currentLocation,
-        destination,
-      );
-
-      if (result is SuccessApiResult<List<LatLng>>) {
-        final route = result.data;
-
-        if (route.isEmpty) return;
-
-        final nextPoint = route.length > 2 ? route[1] : route.first;
-
-        await _updateDriverLocationUsecase.updateDriverLocation(
-          driver.id,
-          nextPoint.latitude,
-          nextPoint.longitude,
-        );
-
-        emit(state.copyWith(polylines: route));
+      if (_currentIndex >= _fullRoute.length) {
+        timer.cancel();
+        return;
       }
+
+      final nextPoint = _fullRoute[_currentIndex];
+      _currentIndex++;
+
+      await _updateDriverLocationUsecase.updateDriverLocation(
+        driver.id,
+        nextPoint.latitude,
+        nextPoint.longitude,
+      );
+      final remainingRoute = _fullRoute.sublist(_currentIndex);
+
+      emit(state.copyWith(polylines: remainingRoute));
     });
   }
 
