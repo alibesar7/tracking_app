@@ -8,6 +8,7 @@ import 'package:tracking_app/features/driver_orders_details/domain/models/locati
 import 'package:tracking_app/features/driver_orders_details/presentation/pages/drivers_orders_details_page.dart';
 import 'package:tracking_app/features/driver_orders_details/presentation/pages/location_page.dart';
 import 'package:tracking_app/features/home/presentation/pages/driverOrderScreen.dart';
+import 'package:tracking_app/features/auth/presentation/login/pages/loginScreen.dart';
 import 'package:tracking_app/features/profile/data/models/driver_model.dart';
 import 'package:tracking_app/features/profile/presentation/pages/edit_driver_profile_page.dart';
 import 'package:tracking_app/features/profile/presentation/pages/edit_vehicle_page.dart';
@@ -24,7 +25,7 @@ import 'package:tracking_app/features/auth/presentation/verify_reset/manger/cubi
 import 'package:tracking_app/features/auth/presentation/verify_reset/pages/verify_reset_page.dart';
 
 final GoRouter appRouter = GoRouter(
-  initialLocation: RouteNames.login,
+  initialLocation: RouteNames.onboarding,
   routes: [
     GoRoute(
       path: RouteNames.changePassword,
@@ -38,7 +39,7 @@ final GoRouter appRouter = GoRouter(
 
     GoRoute(
       path: RouteNames.login,
-      builder: (context, state) => const DriverOrderScreen(),
+      builder: (context, state) => const LoginScreen(),
     ),
 
     GoRoute(
