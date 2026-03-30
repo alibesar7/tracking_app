@@ -134,6 +134,7 @@ class _ApplyScreenState extends State<ApplyScreen> {
                       );
                     }
                     return DropdownButtonFormField<String>(
+                      isExpanded: true,
                       decoration: InputDecoration(
                         labelText: LocaleKeys.country.tr(),
                         border: const OutlineInputBorder(),
@@ -187,6 +188,7 @@ class _ApplyScreenState extends State<ApplyScreen> {
                       );
                     }
                     return DropdownButtonFormField<String>(
+                      isExpanded: true,
                       decoration: InputDecoration(
                         labelText: LocaleKeys.vehicleType.tr(),
                         border: const OutlineInputBorder(),
@@ -197,7 +199,10 @@ class _ApplyScreenState extends State<ApplyScreen> {
                           .map(
                             (e) => DropdownMenuItem(
                               value: e.id,
-                              child: Text(e.type ?? "Unknown"),
+                              child: Text(
+                                e.type ?? "Unknown",
+                                overflow: TextOverflow.ellipsis,
+                              ),
                             ),
                           )
                           .toList(),

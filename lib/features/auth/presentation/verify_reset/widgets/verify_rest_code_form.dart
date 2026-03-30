@@ -51,7 +51,7 @@ class VerifyResetCodeForm extends StatelessWidget {
                   enabledBorderColor: Theme.of(context).colorScheme.outline,
                   focusedBorderColor: Theme.of(context).colorScheme.primary,
                   showFieldAsBox: true,
-                  fieldWidth: 52,
+                  fieldWidth: 40,
                   fieldHeight: 64,
                   borderRadius: BorderRadius.circular(12),
                   textStyle: Theme.of(context).textTheme.headlineSmall
