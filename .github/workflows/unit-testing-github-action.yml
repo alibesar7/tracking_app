@@ -1,0 +1,39 @@
+name: Verify PR Unit Tests
+
+# هذا الجزء يحدد متى يعمل الـ Action
+# هنا سيعمل عند فتح أي Pull Request أو تعديله
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  unit-testing:
+    name: Flutter Unit Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Clean Generated Code
+        run: flutter pub run build_runner clean
+
+      - name: Generate Code (build_runner)
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      - name: Generate Localization Keys
+        run: flutter pub run easy_localization:generate -S assets/translations -f keys -o locale_keys.g.dart
+
+      - name: Generate Localization Keys
+        run: flutter pub run easy_localization:generate -S assets/translations -f keys -o locale_keys.g.dart
+      - name: Run unit tests
+        run: flutter test
