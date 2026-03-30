@@ -74,7 +74,7 @@ The project follows a **Clean Architecture** approach to ensure clear separation
   <img src="assets/screen_shots/Splash.png" width="150"/>
   <img src="assets/screen_shots/Login.png" width="150"/>
   <img src="assets/screen_shots/Forget Pass.png" width="150"/>
-  <img src="assets/screen_shots/Email Verify.png" width="150"/>
+  <img src="assets/screen_shots/Emal Verify.png" width="150"/>
   <img src="assets/screen_shots/New Pass.png" width="150"/>
   <img src="assets/screen_shots/Reset Pass.png" width="150"/>
 </div>
@@ -185,13 +185,6 @@ dart run build_runner build --delete-conflicting-outputs
 flutter run
 ```
 
-### Prerequisites
-- Flutter SDK `>=3.8.1 <4.0.0`
-- Firebase project configured (`firebase_options.dart`)
-- Google Maps API key in `AndroidManifest.xml` / `AppDelegate.swift`
-
----
-
 ## 🧪 Testing
 
 | Type | Packages |
@@ -239,6 +232,4 @@ assets/translations/
 | Change Password | `/changePassword` | Password update |
 | Apply | `/applyScreen` | Driver application |
 
----
 
-> **App Name:** Flowery Rider &nbsp;|&nbsp; **Version:** 1.0.0+1 &nbsp;|&nbsp; **Platform:** Android & iOS
